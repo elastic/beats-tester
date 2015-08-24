@@ -1,0 +1,10 @@
+[debian]
+tester-debian6-32
+tester-debian6-64
+
+[centos]
+tester-centos6-32
+tester-centos6-64
+
+[osx]
+localhost

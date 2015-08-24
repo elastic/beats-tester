@@ -1,0 +1,6 @@
+---
+- name: Test install on debian
+  hosts: all
+  sudo: yes
+  roles:
+    - common

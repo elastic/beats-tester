@@ -1,0 +1,36 @@
+- name: Compute URL and path (debian)
+  set_fact:
+    beat_url: "{{ url_base }}/{{beat_name}}/{{beat_name}}_{{version}}_{{deb_arch}}.deb"
+    beat_pkg: "{{beat_name}}_{{version}}_{{deb_arch}}.deb"
+    workdir: /root/
+  when: ansible_os_family == "Debian"
+
+- name: Compute URL and path (redhat)
+  set_fact:
+    beat_url: "{{url_base}}/{{beat_name}}/{{beat_name}}-{{version}}-{{rpm_arch}}.rpm"
+    beat_pkg: "{{beat_name}}-{{version}}-{{rpm_arch}}.rpm"
+    workdir: /root/
+  when: ansible_os_family == "RedHat"
+
+- name: Compute URL and path (darwin)
+  set_fact:
+    beat_url: "{{url_base}}/{{beat_name}}/{{beat_name}}-{{version}}-darwin.tgz"
+    beat_pkg: "{{beat_name}}-{{version}}-darwin.tgz"
+    workdir: /tmp/
+  when: ansible_os_family == "Darwin"
+
+- name: Download package sha1
+  get_url: url={{beat_url}}.sha1.txt dest={{workdir}} validate_certs=no
+  register: sha1_file
+
+- name: Download package
+  get_url: url={{beat_url}} dest={{workdir}} validate_certs=no
+  when: sha1_file.changed
+
+- name: Check file (linux)
+  shell: chdir={{workdir}} sha1sum -c {{beat_pkg}}.sha1.txt
+  when: ansible_os_family in ["RedHat", "Debian"] and sha1_file.changed
+
+- name: Check file (darwin)
+  shell: chdir={{workdir}} shasum -c {{beat_pkg}}.sha1.txt
+  when: ansible_os_family == "Darwin" and sha1_file.changed

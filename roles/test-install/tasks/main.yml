@@ -1,0 +1,7 @@
+- name: Install Debs
+  apt: deb=/root/{{item}}_{{version}}_{{deb_arch}}.deb state=present
+  when: ansible_os_family == "Debian"
+
+- name: Install RPMs
+  yum: name=/root/{{item}}-{{version}}-{{rpm_arch}}.rpm state=present
+  when: ansible_os_family == "Debian"

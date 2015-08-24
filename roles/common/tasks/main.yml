@@ -1,0 +1,4 @@
+- debug: var=hostvars[inventory_hostname]
+
+# download packages and sha1 files
+- include: download.yml
