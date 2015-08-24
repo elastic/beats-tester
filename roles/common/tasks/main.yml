@@ -1,4 +1,29 @@
-- debug: var=hostvars[inventory_hostname]
+- name: Compute vars (debian)
+  set_fact:
+    beat_url: "{{ url_base }}/{{beat_name}}/{{beat_name}}_{{version}}_{{deb_arch}}.deb"
+    beat_pkg: "{{beat_name}}_{{version}}_{{deb_arch}}.deb"
+    beat_cfg: "/etc/{{beat_name}}/{{beat_name}}.yml"
+    workdir: /root
+  when: ansible_os_family == "Debian"
+
+- name: Compute vars (redhat)
+  set_fact:
+    beat_url: "{{url_base}}/{{beat_name}}/{{beat_name}}-{{version}}-{{rpm_arch}}.rpm"
+    beat_pkg: "{{beat_name}}-{{version}}-{{rpm_arch}}.rpm"
+    beat_cfg: "/etc/{{beat_name}}/{{beat_name}}.yml"
+    workdir: /root
+  when: ansible_os_family == "RedHat"
+
+- name: Compute vars (darwin)
+  set_fact:
+    beat_url: "{{url_base}}/{{beat_name}}/{{beat_name}}-{{version}}-darwin.tgz"
+    beat_pkg: "{{beat_name}}-{{version}}-darwin.tgz"
+    beat_cfg: "/tmp/{{beat_name}}-{{version}}-darwin/{{beat_name}}.yml"
+    workdir: /tmp
+  when: ansible_os_family == "Darwin"
+
+
+- debug: var=beat_cfg
 
 # download packages and sha1 files
 - include: download.yml

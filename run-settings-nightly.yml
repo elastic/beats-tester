@@ -1,3 +1,2 @@
 url_base: https://s3.amazonaws.com/beats-nightlies
 version: 1.0.0-nightly.150824181108
-beat_name: topbeat

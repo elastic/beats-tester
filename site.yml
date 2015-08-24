@@ -1,6 +1,22 @@
 ---
-- name: Test install on debian
+- name: E2E tests Packetbeat
   hosts: all
   sudo: yes
+  tags:
+    - packetbeat
+  vars:
+    - beat_name: packetbeat
   roles:
     - common
+    - test-install
+
+- name: E2E tests Topbeat
+  hosts: all
+  sudo: yes
+  tags:
+    - topbeat
+  vars:
+    - beat_name: topbeat
+  roles:
+    - common
+    - test-install
