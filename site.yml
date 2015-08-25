@@ -29,6 +29,7 @@
     - test-packetbeat-file
     - test-uninstall
 
+
 - name: E2E tests Topbeat
   hosts:
     - debian
@@ -43,4 +44,18 @@
     - common
     - test-install
     - test-topbeat-file
+    - test-uninstall
+
+# windows
+- name: E2E windows tests Packetbeat
+  hosts:
+    - windows
+  tags:
+    - packetbeat
+  vars:
+    - beat_name: packetbeat
+  roles:
+    - common
+    - test-install
+    - test-packetbeat-file
     - test-uninstall

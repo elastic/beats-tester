@@ -23,8 +23,20 @@
     installdir: /tmp/{{beat_name}}-{{version}}-darwin
   when: ansible_os_family == "Darwin"
 
+- name: Compute vars (windows)
+  set_fact:
+    beat_url: "{{url_base}}/{{beat_name}}/{{beat_name}}-{{version}}-windows.zip"
+    beat_pkg: "{{beat_name}}-{{version}}-windows.zip"
+    beat_cfg: c:\\users\\vagrant\\{{beat_name}}-{{version}}-windows/{{beat_name}}.yml
+    workdir: c:\\users\\vagrant
+    installdir: c:\\users\vagrant\\{{beat_name}}-{{version}}-windows
+  when: ansible_os_family == "Windows"
 
 - debug: var=beat_cfg
 
 # download packages and sha1 files
 - include: download.yml
+
+- name: Install winpcap (windows)
+  win_chocolatey: name=winpcap state=present
+  when: ansible_os_family == "Windows"

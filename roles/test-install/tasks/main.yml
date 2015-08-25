@@ -11,3 +11,21 @@
 - name: Untar (darwin)
   shell: chdir={{workdir}} tar xzvf {{beat_pkg}}
   when: ansible_os_family == "Darwin"
+
+- name: Make sure installdir doesn't exist (windows)
+  win_file: path={{installdir}} state=absent
+
+- name: Unzip (windows)
+  script: unzip.ps1 -file {{workdir}}\\{{beat_pkg}} -destination {{workdir}}
+  when: ansible_os_family == "Windows"
+
+- name: Stat install directory (windows)
+  win_stat: path={{installdir}}
+  register: installdir_stat
+  when: ansible_os_family == "Windows"
+
+- name: Check that installdir was created (windows)
+  assert:
+    that:
+      - "installdir_stat.stat.exists"
+      - "installdir_stat.stat.isdir"
