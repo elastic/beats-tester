@@ -1,6 +1,23 @@
 ---
+- name: Elasticsearch instance
+  hosts: elasticsearch
+  sudo: yes
+  roles:
+    - elasticsearch
+  tags:
+    - elasticsearch
+  vars:
+    - es_major_version: 1.7
+    - es_start_service: true
+    - es_plugins:
+      - plugin: elasticsearch/marvel
+        version: latest
+
 - name: E2E tests Packetbeat
-  hosts: all
+  hosts:
+    - debian
+    - centos
+    - darwin
   sudo: yes
   tags:
     - packetbeat
@@ -13,7 +30,10 @@
     - test-uninstall
 
 - name: E2E tests Topbeat
-  hosts: all
+  hosts:
+    - debian
+    - centos
+    - darwin
   sudo: yes
   tags:
     - topbeat

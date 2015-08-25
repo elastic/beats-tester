@@ -20,6 +20,7 @@
     beat_pkg: "{{beat_name}}-{{version}}-darwin.tgz"
     beat_cfg: "/tmp/{{beat_name}}-{{version}}-darwin/{{beat_name}}.yml"
     workdir: /tmp
+    installdir: /tmp/{{beat_name}}-{{version}}-darwin
   when: ansible_os_family == "Darwin"
 
 

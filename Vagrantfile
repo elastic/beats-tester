@@ -9,8 +9,7 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     config.vm.define "tester-es" do |testvm|
-        testvm.vm.box = "debian64"
-        testvm.vm.box_url = "http://public.sphax3d.org/vagrant/squeeze64.box"
+        testvm.vm.box = "puphpet/debian75-x64"
 
         testvm.ssh.port = 2400
         testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port
@@ -35,9 +34,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         testvm.vm.network "private_network", ip: "192.168.33.71"
     end
 
-    config.vm.define "tester-debian6-32" do |testvm|
-        testvm.vm.box = "debian6_32"
-        testvm.vm.box_url = "http://dl.dropbox.com/u/40989391/vagrant-boxes/debian-squeeze-i386.box"
+    config.vm.define "tester-ubuntu1204-32" do |testvm|
+        testvm.vm.box = "hashicorp/precise32"
 
         testvm.ssh.port = 2403
         testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port
@@ -56,9 +54,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "tester-win12-64" do |testvm|
     testvm.vm.box = "mwrock/Windows2012R2"
     testvm.vm.communicator = "winrm"
-    #testvm.vm.network "forwarded_port", host: 3389, guest: 3389
+    testvm.vm.network "forwarded_port", host: 3389, guest: 3389
+    testvm.vm.network "forwarded_port", host: 5985, guest: 5985
 
     testvm.vm.provider "virtualbox" do |v|
+        v.gui = false
         v.cpus = 2
         v.memory = 2048
     end

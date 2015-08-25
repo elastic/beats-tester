@@ -15,3 +15,7 @@
 - name: Unistall rpm
   yum: name={{beat_name}} state=absent
   when: ansible_os_family == "RedHat"
+
+- name: Delete directory (darwin)
+  shell: rm -r {{installdir}}
+  when: ansible_os_family == "Darwin" and installdir != "" # safeguard

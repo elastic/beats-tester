@@ -1,10 +1,16 @@
+[elasticsearch]
+tester-es
+
 [debian]
-tester-debian6-32
+tester-ubuntu1204-32
 tester-debian6-64
 
 [centos]
 tester-centos6-32
 tester-centos6-64
 
-[osx]
+[darwin]
 localhost
+
+[windows]
+tester-win12-64 ansible_ssh_host=localhost ansible_ssh_user=administrator ansible_ssh_port=5985 ansible_connection=winrm ansible_ssh_pass=vagrant
