@@ -1,0 +1,40 @@
+- name: Disable ES output
+  replace: >
+    dest={{beat_cfg}}
+    regexp='elasticsearch:\n    enabled: true'
+    replace='elasticsearch:\n    enabled: false'
+
+- name: Enable file output
+  replace: >
+    dest={{beat_cfg}}
+    regexp='#file:\n  #  enabled: true\n  #  path: "/tmp/packetbeat'
+    replace='file:\n    enabled: true\n    path: "{{workdir}}/output'
+
+- name: Start Packetbeat (linux)
+  service: name=packetbeat state=restarted
+  when: ansible_os_family in ["Debian", "RedHat"]
+
+- name: Start Packetbeat (darwin)
+  shell: chdir={{workdir}}/{{beat_name}}-{{version}}-darwin ./{{beat_name}} -c {{beat_name}}.yml
+  when: ansible_os_family == "Darwin"
+  async: 45
+  poll: 0  # run in bg
+
+- name: Sleep a little for packetbeat to start
+  shell: sleep 1
+  always_run: true
+
+- name: Curl something (linux)
+  shell: wget google.com
+  when: ansible_os_family in ["Debian", "RedHat"]
+  always_run: true
+
+- name: Curl something (darwin)
+  shell: curl -L google.com
+  when: ansible_os_family == "Darwin"
+  always_run: true
+
+- name: Wait for the output file to be created, should contain type=http
+  wait_for: >
+    path={{workdir}}/output/packetbeat timeout=5
+    search_regex='"type":"http"'

@@ -9,6 +9,8 @@
   roles:
     - common
     - test-install
+    - test-packetbeat-file
+    - test-uninstall
 
 - name: E2E tests Topbeat
   hosts: all
@@ -20,3 +22,5 @@
   roles:
     - common
     - test-install
+    - test-topbeat-file
+    - test-uninstall

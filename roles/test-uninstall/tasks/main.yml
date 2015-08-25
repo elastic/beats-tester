@@ -1,0 +1,17 @@
+# Stops and uninstalls the packages
+
+- name: Stop (linux)
+  service: name={{beat_name}} state=stopped
+  when: ansible_os_family in ["Debian", "RedHat"]
+
+- name: Stop (darwin)
+  shell: pkill {{beat_name}}
+  when: ansible_os_family in ["Darwin"]
+
+- name: Unistall deb
+  apt: name={{beat_name}} state=absent purge=true
+  when: ansible_os_family == "Debian"
+
+- name: Unistall rpm
+  yum: name={{beat_name}} state=absent
+  when: ansible_os_family == "RedHat"

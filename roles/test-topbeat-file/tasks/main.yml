@@ -1,0 +1,38 @@
+- name: Disable ES output
+  replace: >
+    dest={{beat_cfg}}
+    regexp='elasticsearch:\n    enabled: true'
+    replace='elasticsearch:\n    enabled: false'
+
+- name: Enable file output
+  replace: >
+    dest={{beat_cfg}}
+    regexp='#file:\n  #  enabled: true\n  #  path: "/tmp/topbeat"\n  #  filename: topbeat'
+    replace='file:\n    enabled: true\n    path: "{{workdir}}/output"\n    filename: topbeat'
+
+- name: Set Period to 1 second
+  replace: >
+    dest="{{beat_cfg}}"
+    regexp='period: 10'
+    replace='period: 1'
+
+- name: Start Topbeat (linux)
+  service: name=topbeat state=restarted
+  when: ansible_os_family in ["Debian", "RedHat"]
+
+- name: Start Topbeat (darwin)
+  shell: chdir={{workdir}}/{{beat_name}}-{{version}}-darwin ./{{beat_name}} -c {{beat_name}}.yml
+  when: ansible_os_family == "Darwin"
+  async: 45
+  poll: 0  # run in bg
+
+- name: Wait for the output file to be created, should contain system load
+  wait_for: >
+    path={{workdir}}/output/topbeat timeout=5
+    search_regex='"load"'
+
+- name: On Darwin, it should contain launchd data
+  wait_for: >
+    path={{workdir}}/output/topbeat timeout=5
+    search_regex='"proc.name":"launchd"'
+  when: ansible_os_family == "Darwin"
