@@ -52,7 +52,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
   config.vm.define "tester-win12-64" do |testvm|
-    testvm.vm.box = "mwrock/Windows2012R2"
+    testvm.vm.box = "tudor_g/win2012"
     testvm.vm.communicator = "winrm"
     testvm.vm.network "forwarded_port", host: 3389, guest: 3389
     testvm.vm.network "forwarded_port", host: 5985, guest: 5985

@@ -3,13 +3,6 @@
     dest={{beat_cfg}}
     regexp='elasticsearch:\n    enabled: true'
     replace='elasticsearch:\n    enabled: false'
-  when: not ansible_os_family == "Windows"
-
-- name: Disable ES output (windows)
-  script: >
-    replace.ps1 -file {{beat_cfg}}
-      -regexp "'(elasticsearch:\r\n)    enabled: true'"
-      -replace "'$1    enabled: false'"
 
 - name: Enable file output
   replace: >

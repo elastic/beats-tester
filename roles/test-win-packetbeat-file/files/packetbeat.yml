@@ -1,0 +1,11 @@
+interfaces:
+  device: 0
+
+protocols:
+  http:
+    ports: [80]
+
+output:
+  file:
+    enabled: true
+    path: "c:/users/vagrant/output"

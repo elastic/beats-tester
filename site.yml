@@ -57,5 +57,5 @@
   roles:
     - common
     - test-install
-    - test-packetbeat-file
+    - test-win-packetbeat-file
     - test-uninstall
