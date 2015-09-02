@@ -1,27 +1,24 @@
 
 - name: Download package sha1
   get_url: url={{beat_url}}.sha1.txt dest={{workdir}} validate_certs=no
-  register: sha1_file
   when: not ansible_os_family == "Windows"
 
 - name: Download package sha1 (windows)
   win_get_url: url={{beat_url}}.sha1.txt dest={{workdir}}/{{beat_pkg}}.sha1.txt validate_certs=no
-  register: sha1_file
   when: ansible_os_family == "Windows"
 
 - name: Download package
   get_url: url={{beat_url}} dest={{workdir}} validate_certs=no
-  when: sha1_file.changed and not ansible_os_family == "Windows"
+  when: not ansible_os_family == "Windows"
 
 - name: Download package (windows)
-  win_get_url: url={{beat_url}} dest={{workdir}}/{{beat_pkg}} validate_certs=no
-  when: sha1_file.changed
+  win_get_url: url={{beat_url}} dest={{workdir}}/{{beat_pkg}} validate_certs=no force=no
   when: ansible_os_family == "Windows"
 
 - name: Check file (linux)
   shell: chdir={{workdir}} sha1sum -c {{beat_pkg}}.sha1.txt
-  when: ansible_os_family in ["RedHat", "Debian"] and sha1_file.changed
+  when: ansible_os_family in ["RedHat", "Debian"]
 
 - name: Check file (darwin)
   shell: chdir={{workdir}} shasum -c {{beat_pkg}}.sha1.txt
-  when: ansible_os_family == "Darwin" and sha1_file.changed
+  when: ansible_os_family == "Darwin"
