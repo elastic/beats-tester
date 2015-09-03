@@ -39,4 +39,4 @@
 
 - name: Install winpcap (windows)
   win_chocolatey: name=winpcap state=present
-  when: ansible_os_family == "Windows"
+  when: ansible_os_family == "Windows" and beat_name == "packetbeat"

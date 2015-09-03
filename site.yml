@@ -52,10 +52,25 @@
     - windows
   tags:
     - packetbeat
+    - windows
   vars:
     - beat_name: packetbeat
   roles:
     - common
     - test-install
     - test-win-packetbeat-file
+    - test-uninstall
+
+- name: E2E windows tests Topbeat
+  hosts:
+    - windows
+  tags:
+    - topbeat
+    - windows
+  vars:
+    - beat_name: topbeat
+  roles:
+    - common
+    - test-install
+    - test-win-topbeat-file
     - test-uninstall

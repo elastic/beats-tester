@@ -14,6 +14,7 @@
 
 - name: Make sure installdir doesn't exist (windows)
   win_file: path={{installdir}} state=absent
+  when: ansible_os_family == "Windows"
 
 - name: Unzip (windows)
   script: unzip.ps1 -file {{workdir}}\\{{beat_pkg}} -destination {{workdir}}
@@ -29,3 +30,4 @@
     that:
       - "installdir_stat.stat.exists"
       - "installdir_stat.stat.isdir"
+  when: ansible_os_family == "Windows"

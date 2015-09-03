@@ -1,2 +1,32 @@
 - name: Replace configuration file (windows)
   win_copy: src=packetbeat.yml dest={{installdir}}
+
+- name: Install Packetbeat service
+  script: run_script.ps1 -script {{installdir}}\\install-service-packetbeat.ps1
+
+- name: Start packetbeat
+  win_service: name=packetbeat state=started
+
+- name: Curl something
+  win_get_url: url=http://google.com dest=c:\\test-temp.file
+
+- name: Sleep a little
+  script: sleep.ps1 -duration 3
+
+- name: Stat output file
+  win_stat: path={{workdir}}\\output\\packetbeat
+  register: output_stat
+
+- debug: var=output_stat
+
+- name: Check output file
+  assert:
+    that:
+      - "output_stat.stat.exists"
+      - "output_stat.stat.size > 800"
+
+- name: Stop packetbeat
+  win_service: name=packetbeat state=stopped
+
+- name: Uninstall service
+  script: run_script.ps1 -script {{installdir}}\\uninstall-service-packetbeat.ps1
