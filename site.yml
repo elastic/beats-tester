@@ -28,6 +28,7 @@
     - test-install
     - test-packetbeat-file
     - test-uninstall
+    - {role: test-linux-binary, when: ansible_system == "Linux"}
 
 
 - name: E2E tests Topbeat
@@ -45,6 +46,8 @@
     - test-install
     - test-topbeat-file
     - test-uninstall
+    - {role: test-linux-binary, when: ansible_system == "Linux"}
+
 
 # windows
 - name: E2E windows tests Packetbeat
