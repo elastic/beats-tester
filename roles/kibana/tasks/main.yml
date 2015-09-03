@@ -1,0 +1,17 @@
+- name: Download Kibana
+  get_url: url={{ kibana.url }}/{{ kibana.archive }} dest=/tmp/
+  register: kibana_archive
+
+- name: Install Kibana
+  script: install-kibana.sh {{kibana.archive}} {{kibana.installdir}} vagrant
+  when: kibana_archive.changed
+
+- name: Install Kibana init script
+  copy: src=kibana.init.debian dest=/etc/init.d/kibana mode=0755 owner=root
+
+- name: Enable and start Kibana
+  service: name=kibana enabled=yes state=started
+
+- name: Kibana configuration
+  copy: src=kibana.yml dest={{kibana.installdir}}/config/kibana.yml mode=644
+  notify: restart kibana
