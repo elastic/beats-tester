@@ -4,6 +4,7 @@
   sudo: yes
   roles:
     - elasticsearch
+    - kibana
   tags:
     - elasticsearch
   vars:
@@ -12,6 +13,7 @@
     - es_plugins:
       - plugin: elasticsearch/marvel
         version: latest
+    - kibana_version: 4.1.1
 
 - name: E2E tests Packetbeat
   hosts:

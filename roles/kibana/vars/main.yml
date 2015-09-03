@@ -1,0 +1,4 @@
+kibana:
+  url: "https://download.elastic.co/kibana/kibana"
+  archive: "kibana-{{kibana_version}}-linux-x64.tar.gz"
+  installdir: "/home/vagrant/kibana"
