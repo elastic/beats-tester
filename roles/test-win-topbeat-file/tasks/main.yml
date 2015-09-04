@@ -1,3 +1,6 @@
+- name: Ensure empty output directory
+  win_file: path={{workdir}}\\output state=absent
+
 - name: Replace configuration file (windows)
   win_copy: src=topbeat.yml dest={{installdir}}
 

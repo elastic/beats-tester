@@ -8,6 +8,7 @@ tester-debian6-64
 [centos]
 tester-centos6-32
 tester-centos6-64
+tester-centos7-64
 
 [darwin]
 localhost

@@ -6,6 +6,9 @@
     workdir: /tmp
     installdir: /tmp/{{beat_name}}-{{version}}-{{rpm_arch}}
 
+- name: Ensure empty output directory
+  file: path={{workdir}}/output state=absent
+
 - name: Download package sha1
   get_url: url={{beat_url}}.sha1.txt dest={{workdir}} validate_certs=no
 
