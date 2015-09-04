@@ -1,3 +1,6 @@
+- name: Ensure empty output directory
+  file: path={{workdir}}/output state=absent
+
 - name: Disable ES output
   replace: >
     dest={{beat_cfg}}

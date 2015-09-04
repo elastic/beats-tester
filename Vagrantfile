@@ -51,6 +51,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         testvm.vm.network "private_network", ip: "192.168.33.73"
     end
 
+    config.vm.define "tester-centos7-64" do |testvm|
+        testvm.vm.box = "relativkreativ/centos-7-minimal"
+
+        testvm.ssh.port = 2405
+        testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port
+        testvm.vm.network "private_network", ip: "192.168.33.74"
+    end
+
   config.vm.define "tester-win12-64" do |testvm|
     testvm.vm.box = "tudor_g/win2012"
     testvm.vm.communicator = "winrm"
