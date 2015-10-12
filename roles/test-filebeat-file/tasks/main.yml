@@ -1,0 +1,33 @@
+- name: Ensure empty output directory
+  file: path={{workdir}}/output state=absent
+
+- name: Disable ES output
+  replace: >
+    dest={{beat_cfg}}
+    regexp='elasticsearch:\n    enabled: true'
+    replace='elasticsearch:\n    enabled: false'
+
+- name: Enable file output
+  replace: >
+    dest={{beat_cfg}}
+    regexp='#file:\n  #  enabled: true\n  #  path: "/tmp/filebeat'
+    replace='file:\n    enabled: true\n    path: "{{workdir}}/output'
+
+- name: Start Filebeat (linux)
+  service: name={{beat_name}} state=restarted
+  when: ansible_os_family in ["Debian", "RedHat"]
+
+- name: Start Filebeat (darwin)
+  shell: chdir={{workdir}}/{{beat_name}}-{{version}}-darwin ./{{beat_name}} -c {{beat_name}}.yml
+  when: ansible_os_family == "Darwin"
+  async: 45
+  poll: 0  # run in bg
+
+- name: Create a log line
+  shell: >
+    echo "log line" >> /var/log/test.log
+
+- name: Wait for the output file to be created, should contain the log line
+  wait_for: >
+    path={{workdir}}/output/{{beat_name}} timeout=20
+    search_regex='text":"log line"'

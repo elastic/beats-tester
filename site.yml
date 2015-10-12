@@ -15,7 +15,7 @@
         version: latest
     - kibana_version: 4.1.1
 
-- name: E2E tests Packetbeat
+- name: Packaging tests Packetbeat
   hosts:
     - debian
     - centos
@@ -33,7 +33,7 @@
     - {role: test-linux-binary, when: ansible_system == "Linux"}
 
 
-- name: E2E tests Topbeat
+- name: Packaging tests Topbeat
   hosts:
     - debian
     - centos
@@ -50,9 +50,25 @@
     - test-uninstall
     - {role: test-linux-binary, when: ansible_system == "Linux"}
 
+- name: Packaging tests Filebeat
+  hosts:
+    - debian
+    - centos
+    - darwin
+  sudo: yes
+  tags:
+    - filebeat
+  vars:
+    - beat_name: filebeat
+  roles:
+    - common
+    - test-install
+    - test-filebeat-file
+    - test-uninstall
+    - {role: test-linux-binary, when: ansible_system == "Linux"}
 
 # windows
-- name: E2E windows tests Packetbeat
+- name: Packaging windows tests Packetbeat
   hosts:
     - windows
   tags:
@@ -66,7 +82,7 @@
     - test-win-packetbeat-file
     - test-uninstall
 
-- name: E2E windows tests Topbeat
+- name: Packaging windows tests Topbeat
   hosts:
     - windows
   tags:
