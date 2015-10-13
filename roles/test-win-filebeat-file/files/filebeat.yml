@@ -1,0 +1,123 @@
+################### Filebeat Configuration Example #########################
+
+############################# Filbeat ######################################
+filebeat:
+  # List of prospectors to fetch data.
+  prospectors:
+    # Each - is a prospector. Below are the prospector specific configurations
+    -
+      # Paths that should be crawled and fetched. Glob based paths.
+      # For each file found under this path, a harvester is started.
+      paths:
+       - c:\logs\*.log
+
+      # Type of the files. Based on this the way the file is read is decided.
+      # The different types cannot be mixed in one prospector
+      #
+      # Possible options are:
+      # * log: Reads every line of the log file (default)
+      # * stdin: Reads the standard in
+      type: log
+
+      # Optional additional fields. These field can be freely picked
+      # to add additional information to the crawled log files for filtering
+      #fields:
+      #  level: debug
+      #  review: 1
+
+      # Ignore files which were modified more then the defined timespan in the past
+      # Time strings like 2h (2 hours), 5m (5 minutes) can be used.
+      #ignoreOlder:
+
+      # Scan frequency in seconds.
+      # How often these files should be checked for changes. In case it is set
+      # to 0s, it is done as often as possible. Default: 10s
+      #scanFrequency: 10s
+
+      # Defines the buffer size every harvester uses when fetching the file
+      #harvesterBufferSize: 16384
+
+      # Always tail on log rotation. Disabled by default
+      # Note: This may skip entries
+      #tailOnRotate: false
+
+    #-
+    #  paths:
+    #    - /var/log/apache/*.log
+    #  type: log
+    #
+    #  # Ignore files which are older then 24 hours
+    #  ignoreOlder: 24h
+    #
+    #  # Additional fields which can be freely defined
+    #  fields:
+    #    type: apache
+    #    server: localhost
+    #-
+    #  type: stdin
+    #  paths:
+    #    - "-"
+  # General filebeat configuration options
+  #
+  # Event count spool threshold - forces network flush if exceeded
+  #spoolSize: 1024
+
+  # Defines how often the spooler is flushed. After idleTimeout the spooler is
+  # Flush even though spoolSize is not reached.
+  #idleTimeout: 5s
+
+  # Name of the registry file. Per default it is put in the current working
+  # directory. In case the working directory is changed after when running
+  # filebeat again, indexing starts from the beginning again.
+  #registryfile: .filebeat
+
+
+############################# Shipper ############################################
+shipper:
+
+ # The name of the shipper that publishes the network data. It can be used to group
+ # all the transactions sent by a single shipper in the web interface.
+ # If this options is not defined, the hostname is used.
+ name:
+
+ # The tags of the shipper are included in their own field with each
+ # transaction published. Tags make it easy to group transactions by different
+ # logical properties.
+ #tags: ["service1"]
+
+ # Uncomment the following if you want to ignore transactions created
+ # by the server on which the shipper is installed. This option is useful
+ # to remove duplicates if shippers are installed on multiple servers.
+ # ignore_outgoing: true
+
+############################# Output ############################################
+
+# Configure what outputs to use when sending the data collected by filebeat.
+# You can enable one or multiple outputs by setting enabled option to true.
+output:
+
+  # Elasticsearch as output
+  # Options:
+  # host, port: where Elasticsearch is listening on
+  #elasticsearch:
+  #  enabled: true
+  #  hosts: ["localhost:9200"]
+
+  # Redis as output
+  # Options:
+  # host, port: where Redis is listening on
+  #redis:
+  #  enabled: true
+  #  host: localhost
+  #  port: 6379
+
+  # File as output
+  # Options:
+  # path: where to save the files
+  # filename: name of the files
+  # rotate_every_kb: maximum size of the files in path
+  # number of files: maximum number of files in path
+  file:
+    enabled: true
+    path: "c:/users/vagrant/output"
+    filename: filebeat

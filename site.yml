@@ -68,7 +68,7 @@
     - {role: test-linux-binary, when: ansible_system == "Linux"}
 
 # windows
-- name: Packaging windows tests Packetbeat
+- name: Packaging windows tests for Packetbeat
   hosts:
     - windows
   tags:
@@ -82,7 +82,7 @@
     - test-win-packetbeat-file
     - test-uninstall
 
-- name: Packaging windows tests Topbeat
+- name: Packaging windows tests for Topbeat
   hosts:
     - windows
   tags:
@@ -94,4 +94,18 @@
     - common
     - test-install
     - test-win-topbeat-file
+    - test-uninstall
+
+- name: Packaging windows tests for Filebeat
+  hosts:
+    - windows
+  tags:
+    - filebeat
+    - windows
+  vars:
+    - beat_name: filebeat
+  roles:
+    - common
+    - test-install
+    - test-win-filebeat-file
     - test-uninstall
