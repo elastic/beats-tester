@@ -1,0 +1,11 @@
+protocols:
+  http:
+    ports: [80]
+
+interfaces:
+  device: {{ "en0" if ansible_os_family == "Darwin" else "any" }}
+
+output:
+  file:
+    enabled: true
+    path: {{workdir}}/output

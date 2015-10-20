@@ -1,0 +1,11 @@
+filebeat:
+  prospectors:
+    -
+      paths:
+        - /var/log/*.log
+
+output:
+  file:
+    enabled: true
+    path: {{workdir}}/output
+    filename: filebeat

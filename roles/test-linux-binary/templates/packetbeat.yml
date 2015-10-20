@@ -1,0 +1,8 @@
+protocols:
+  http:
+    ports: [80]
+
+output:
+  file:
+    enabled: true
+    path: {{workdir}}/output

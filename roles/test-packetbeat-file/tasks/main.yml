@@ -1,17 +1,8 @@
 - name: Ensure empty output directory
   file: path={{workdir}}/output state=absent
 
-- name: Disable ES output
-  replace: >
-    dest={{beat_cfg}}
-    regexp='elasticsearch:\n    enabled: true'
-    replace='elasticsearch:\n    enabled: false'
-
-- name: Enable file output
-  replace: >
-    dest={{beat_cfg}}
-    regexp='#file:\n  #  enabled: true\n  #  path: "/tmp/packetbeat'
-    replace='file:\n    enabled: true\n    path: "{{workdir}}/output'
+- name: Minimal configuration file
+  template: src={{beat_name}}.yml dest={{beat_cfg}}
 
 - name: Start Packetbeat (linux)
   service: name=packetbeat state=restarted
