@@ -21,14 +21,18 @@ use different Ansible commands to execute only a subset.
 
 Here are some execution examples:
 
+* Test the most recent nightly builds (excluding OS X):
+
+        make nightlies
+
 * All tests, all platforms, a particular release:
 
-        ansible-playbook -i hosts site.yml -e @run-settings-1.0.0-beta3.yml
+        ansible-playbook -i hosts -e @run-settings-1.0.0-beta3.yml site.yml
 
 * Only a particular Beat, Packetbeat in the example:
 
-        ansible-playbook -i hosts site.yml -e @run-settings-nightly.yml --tags packetbeat
+        ansible-playbook -i hosts -e @run-settings-nightly.yml --tags packetbeat site.yml
 
 * Only a particular OS, Debian 6 amd64 in the example:
 
-        ansible-playbook -i hosts site.yml -e @run-settings-nightly.yml --limit tester-debian6-64
+        ansible-playbook -i hosts -e @run-settings-nightly.yml --limit tester-debian6-64 site.yml
