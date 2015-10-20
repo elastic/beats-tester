@@ -1,0 +1,8 @@
+input:
+  period: 1
+
+output:
+  file:
+    enabled: true
+    path: {{workdir}}/output
+    filename: topbeat

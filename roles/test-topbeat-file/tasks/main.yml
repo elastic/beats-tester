@@ -7,17 +7,8 @@
     regexp='elasticsearch:\n    enabled: true'
     replace='elasticsearch:\n    enabled: false'
 
-- name: Enable file output
-  replace: >
-    dest={{beat_cfg}}
-    regexp='#file:\n  #  enabled: true\n  #  path: "/tmp/topbeat"\n  #  filename: topbeat'
-    replace='file:\n    enabled: true\n    path: "{{workdir}}/output"\n    filename: topbeat'
-
-- name: Set Period to 1 second
-  replace: >
-    dest="{{beat_cfg}}"
-    regexp='period: 10'
-    replace='period: 1'
+- name: Minimal configuration file
+  template: src={{beat_name}}.yml dest={{beat_cfg}}
 
 - name: Start Topbeat (linux)
   service: name=topbeat state=restarted
