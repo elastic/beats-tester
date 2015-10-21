@@ -20,5 +20,5 @@
 
 - name: Wait for the output file to be created, should contain the log line
   wait_for: >
-    path={{workdir}}/output/{{beat_name}} timeout=20
-    search_regex='text":"log line"'
+    path={{workdir}}/output/{{beat_name}} timeout=30
+    search_regex='"message":"log line"'
