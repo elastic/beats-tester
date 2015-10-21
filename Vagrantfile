@@ -60,7 +60,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
   config.vm.define "tester-win12-64" do |testvm|
-    testvm.vm.box = "tudor_g/win2012"
+    testvm.vm.box = "http://files.ruflin.com/vagrant/windows-wincap-20151021.box"
     testvm.vm.communicator = "winrm"
     testvm.vm.network "forwarded_port", host: 3389, guest: 3389
     testvm.vm.network "forwarded_port", host: 5985, guest: 5985
