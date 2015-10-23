@@ -9,3 +9,8 @@ nightlies: setup
 
 beta4: setup
 	ansible-playbook -i hosts -e @run-settings-1.0.0-beta4.yml --limit 'all:!localhost' site.yml
+
+# This destroys all vagrant machines and removes the vagrant related data
+clean:
+	-vagrant destroy -f
+	-rm -r .vagrant
