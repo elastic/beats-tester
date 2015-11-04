@@ -28,5 +28,5 @@
 - name: On Darwin, it should contain launchd data
   wait_for: >
     path={{workdir}}/output/topbeat timeout=5
-    search_regex='"proc.name":"launchd"'
+    search_regex='"name":"launchd"'
   when: ansible_os_family == "Darwin"
