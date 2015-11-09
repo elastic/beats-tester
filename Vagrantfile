@@ -8,14 +8,6 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-    config.vm.define "tester-es" do |testvm|
-        testvm.vm.box = "puphpet/debian75-x64"
-
-        testvm.ssh.port = 2400
-        testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port
-        testvm.vm.network "private_network", ip: "192.168.33.60"
-    end
-
     config.vm.define "tester-centos6-32" do |testvm|
         testvm.vm.box = "centos32"
         testvm.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-i386-virtualbox-puppet.box"
