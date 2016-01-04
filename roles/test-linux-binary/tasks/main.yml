@@ -18,14 +18,11 @@
 - name: Check file (linux)
   shell: chdir={{workdir}} sha1sum -c {{beat_pkg}}.sha1.txt
 
-- name: Untar
-  shell: chdir={{workdir}} tar xzvf {{beat_pkg}}
+- name: Create install directory
+  file: path={{installdir}} state=directory
 
-- name: Disable ES output
-  replace: >
-    dest={{beat_cfg}}
-    regexp='elasticsearch:\n    enabled: true'
-    replace='elasticsearch:\n    enabled: false'
+- name: Untar
+  shell: chdir={{installdir}} tar xzvf {{workdir}}/{{beat_pkg}} --strip 1 
 
 - name: Minimal configuration file
   template: src={{beat_name}}.yml dest={{beat_cfg}}

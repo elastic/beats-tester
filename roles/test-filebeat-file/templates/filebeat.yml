@@ -6,6 +6,5 @@ filebeat:
 
 output:
   file:
-    enabled: true
     path: {{workdir}}/output
     filename: filebeat

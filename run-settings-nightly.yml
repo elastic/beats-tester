@@ -1,2 +1,2 @@
 url_base: https://s3.amazonaws.com/beats-nightlies
-version: nightly.latest
+version: 1.2.0-nightlylatest
