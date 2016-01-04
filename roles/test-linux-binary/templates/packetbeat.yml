@@ -4,5 +4,4 @@ protocols:
 
 output:
   file:
-    enabled: true
     path: {{workdir}}/output

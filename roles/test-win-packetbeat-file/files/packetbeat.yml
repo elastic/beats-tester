@@ -7,5 +7,4 @@ protocols:
 
 output:
   file:
-    enabled: true
     path: "c:/users/vagrant/output"

@@ -93,21 +93,18 @@ shipper:
 ############################# Output ############################################
 
 # Configure what outputs to use when sending the data collected by filebeat.
-# You can enable one or multiple outputs by setting enabled option to true.
 output:
 
   # Elasticsearch as output
   # Options:
   # host, port: where Elasticsearch is listening on
   #elasticsearch:
-  #  enabled: true
   #  hosts: ["localhost:9200"]
 
   # Redis as output
   # Options:
   # host, port: where Redis is listening on
   #redis:
-  #  enabled: true
   #  host: localhost
   #  port: 6379
 
@@ -118,6 +115,5 @@ output:
   # rotate_every_kb: maximum size of the files in path
   # number of files: maximum number of files in path
   file:
-    enabled: true
     path: "c:/users/vagrant/output"
     filename: filebeat
