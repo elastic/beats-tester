@@ -36,7 +36,3 @@
 
 # download packages and sha1 files
 - include: download.yml
-
-- name: Install winpcap (windows)
-  win_chocolatey: name=winpcap state=present
-  when: ansible_os_family == "Windows" and beat_name == "packetbeat"
