@@ -1,2 +1,3 @@
+# Build based on download binary of 1.0.1
 url_base: https://download.elastic.co/beats
 version: 1.0.1
