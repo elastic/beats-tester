@@ -93,3 +93,17 @@
     - test-install
     - test-win-filebeat-file
     - test-uninstall
+
+- name: Packaging windows tests for Winlogbeat
+  hosts:
+    - windows
+  tags:
+    - winlogbeat
+    - windows
+  vars:
+    - beat_name: winlogbeat
+  roles:
+    - common
+    - test-install
+    - test-win-winlogbeat-file
+    - test-uninstall

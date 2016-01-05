@@ -22,7 +22,7 @@
   file: path={{installdir}} state=directory
 
 - name: Untar
-  shell: chdir={{installdir}} tar xzvf {{workdir}}/{{beat_pkg}} --strip 1 
+  shell: chdir={{installdir}} tar xzvf {{workdir}}/{{beat_pkg}} --strip 1
 
 - name: Minimal configuration file
   template: src={{beat_name}}.yml dest={{beat_cfg}}
