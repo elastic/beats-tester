@@ -1,4 +1,9 @@
 *.swp
 *.swo
+
+# Directories
 /.vagrant
+/.idea
+
+# Files
 .DS_Store

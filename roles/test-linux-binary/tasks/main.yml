@@ -51,3 +51,6 @@
     path={{workdir}}/output/topbeat timeout=5
     search_regex='"load"'
   when: beat_name == "topbeat"
+
+- name: Check if version number is correct
+  shell: chdir={{installdir}} ./{{beat_name}} -version | grep {{ version[0:5] }}
