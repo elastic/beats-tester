@@ -47,13 +47,13 @@
 - assert:
     that:
       - "'@timestamp' in event"
-      - "'eventLogName' in event"
-      - "'sourceName' in event"
+      - "'log_name' in event"
+      - "'source_name' in event"
       - "'count' in event"
-      - "'computerName' in event"
+      - "'computer_name' in event"
       - "'type' in event"
-      - "'recordNumber' in event"
-      - "'eventID' in event"
+      - "'record_number' in event"
+      - "'event_id' in event"
       - "'level' in event"
 
 - name: Stat log file
