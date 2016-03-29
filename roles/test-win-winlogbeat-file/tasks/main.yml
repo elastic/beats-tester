@@ -49,7 +49,6 @@
       - "'@timestamp' in event"
       - "'log_name' in event"
       - "'source_name' in event"
-      - "'count' in event"
       - "'computer_name' in event"
       - "'type' in event"
       - "'record_number' in event"
