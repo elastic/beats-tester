@@ -52,7 +52,7 @@
     - {role: test-linux-binary, when: ansible_system == "Linux"}
 
 # windows
-- name: Packaging windows tests for Packetbeat
+- name: Packaging windows 32 tests for Packetbeat
   hosts:
     - windows
   tags:
@@ -60,13 +60,29 @@
     - windows
   vars:
     - beat_name: packetbeat
+    - win_arch: 32
   roles:
     - common
     - test-install
     - test-win-packetbeat-file
     - test-uninstall
 
-- name: Packaging windows tests for Topbeat
+- name: Packaging windows 64 tests for Packetbeat
+  hosts:
+    - windows
+  tags:
+    - packetbeat
+    - windows
+  vars:
+    - beat_name: packetbeat
+    - win_arch: 64
+  roles:
+    - common
+    - test-install
+    - test-win-packetbeat-file
+    - test-uninstall
+
+- name: Packaging windows 32 tests for Topbeat
   hosts:
     - windows
   tags:
@@ -74,13 +90,29 @@
     - windows
   vars:
     - beat_name: topbeat
+    - win_arch: 32
   roles:
     - common
     - test-install
     - test-win-topbeat-file
     - test-uninstall
 
-- name: Packaging windows tests for Filebeat
+- name: Packaging windows 64 tests for Topbeat
+  hosts:
+    - windows
+  tags:
+    - topbeat
+    - windows
+  vars:
+    - beat_name: topbeat
+    - win_arch: 64
+  roles:
+    - common
+    - test-install
+    - test-win-topbeat-file
+    - test-uninstall
+
+- name: Packaging windows 32 tests for Filebeat
   hosts:
     - windows
   tags:
@@ -88,13 +120,29 @@
     - windows
   vars:
     - beat_name: filebeat
+    - win_arch: 32
   roles:
     - common
     - test-install
     - test-win-filebeat-file
     - test-uninstall
 
-- name: Packaging windows tests for Winlogbeat
+- name: Packaging windows 64 tests for Filebeat
+  hosts:
+    - windows
+  tags:
+    - filebeat
+    - windows
+  vars:
+    - beat_name: filebeat
+    - win_arch: 64
+  roles:
+    - common
+    - test-install
+    - test-win-filebeat-file
+    - test-uninstall
+
+- name: Packaging windows 32 tests for Winlogbeat
   hosts:
     - windows
   tags:
@@ -102,6 +150,22 @@
     - windows
   vars:
     - beat_name: winlogbeat
+    - win_arch: 32
+  roles:
+    - common
+    - test-install
+    - test-win-winlogbeat-file
+    - test-uninstall
+
+- name: Packaging windows 64 tests for Winlogbeat
+  hosts:
+    - windows
+  tags:
+    - winlogbeat
+    - windows
+  vars:
+    - beat_name: winlogbeat
+    - win_arch: 64
   roles:
     - common
     - test-install
