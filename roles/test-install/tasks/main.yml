@@ -22,7 +22,7 @@
 
 - name: Rename install dir for nightlies
   script: mv.ps1 -path "{{ workdir }}\\{{ beat_name }}-*-windows" -dest "{{ installdir }}"
-  when: ansible_os_family == "Windows" and version | match(".*nightly.*")
+  when: ansible_os_family == "Windows"
 
 - name: Stat install directory (windows)
   win_stat: path={{installdir}}

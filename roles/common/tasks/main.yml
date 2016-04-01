@@ -25,11 +25,11 @@
 
 - name: Compute vars (windows)
   set_fact:
-    beat_url: "{{url_base}}/{{beat_name}}/{{beat_name}}-{{version}}-windows-32.zip"
-    beat_pkg: "{{beat_name}}-{{version}}-windows-32.zip"
+    beat_url: "{{url_base}}/{{beat_name}}/{{beat_name}}-{{version}}-windows-{{win_arch}}.zip"
+    beat_pkg: "{{beat_name}}-{{version}}-windows-{{win_arch}}.zip"
     beat_cfg: c:\\users\\vagrant\\{{beat_name}}-{{version}}-windows\\{{beat_name}}.yml
     workdir: c:\\users\\vagrant
-    installdir: c:\\users\\vagrant\\{{beat_name}}-{{version}}-windows
+    installdir: c:\\users\\vagrant\\{{beat_name}}-{{version}}-windows-{{win_arch}}
   when: ansible_os_family == "Windows"
 
 - debug: var=beat_cfg
