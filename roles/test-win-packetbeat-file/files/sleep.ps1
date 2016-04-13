@@ -1,3 +1,3 @@
-Params($duration)
+Param($duration)
 
 Start-Sleep -s $duration

@@ -4,13 +4,8 @@
 - name: Install Winlogbeat service
   script: run_script.ps1 -script {{ installdir }}\\install-service-{{ beat_name }}.ps1
 
-- name: Disable elasticsearch output and enable file output
-  script: replace.ps1 -file {{ installdir }}\\winlogbeat.yml -find "{{ item.find | quote }}" -replace "{{ item.replace | quote }}"
-  with_items:
-    - {find: '(?m)(^\s*)(elasticsearch:)', replace: '$1#$2'}
-    - {find: '(?m)(^\s*)(hosts:.*)', replace: '$1#$2'}
-    - {find: '(?m)(^\s*)#(file:.*)', replace: '$1$2'}
-    - {find: '(?s)(\s+file:.*)#(path:)[^\n]*', replace: '$1$2 {{ winlogbeat_data_dir }}/output'}
+- name: Replace configuration file with template (windows)
+  win_template: src={{beat_name}}.yml dest={{installdir}}
 
 - name: Start Winlogbeat
   win_service: name={{ beat_name }} state=started
@@ -37,7 +32,7 @@
       - "output_stat.stat.size > 0"
 
 - name: Verify output contents
-  script: run_script.ps1 -script "'cat {{ winlogbeat_data_dir }}\output\{{ beat_name }} | select -First 1'"
+  script: run_script.ps1 -script "'cat -Encoding UTF8 {{ winlogbeat_data_dir }}\output\{{ beat_name }} | select -First 1'"
   register: json_output
 
 - set_fact: event="{{ json_output.stdout | from_json }}"

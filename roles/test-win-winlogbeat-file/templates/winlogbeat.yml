@@ -1,0 +1,12 @@
+winlogbeat:
+  registry_file: {{ winlogbeat_data_dir }}/.winlogbeat.yml
+  event_logs:
+    - name: Application
+output:
+  file:
+    path: {{ winlogbeat_data_dir }}/output
+logging:
+  to_files: true
+  files:
+    path: {{ winlogbeat_data_dir }}/Logs
+  level: info
