@@ -1,8 +1,8 @@
-protocols:
+packetbeat.protocols:
   http:
     ports: [80]
 
-interfaces:
+packetbeat.interfaces:
   device: {{ "en0" if ansible_os_family == "Darwin" else "any" }}
 
 output:
