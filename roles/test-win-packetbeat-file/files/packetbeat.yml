@@ -1,7 +1,7 @@
-interfaces:
+packetbeat.interfaces:
   device: 0
 
-protocols:
+packetbeat.protocols:
   http:
     ports: [80]
 
