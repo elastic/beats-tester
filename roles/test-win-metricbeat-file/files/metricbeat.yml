@@ -1,0 +1,8 @@
+metricbeat.modules:
+  - module: system
+    metricsets: ["cpu"]
+    period: 1s
+
+output:
+  file:
+    path: "c:/users/vagrant/output"

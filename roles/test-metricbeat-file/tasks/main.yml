@@ -1,0 +1,26 @@
+- name: Ensure empty output directory
+  file: path={{workdir}}/output state=absent
+
+- name: Minimal configuration file
+  template: src={{beat_name}}.yml dest={{beat_cfg}}
+
+- name: Start Metricbeat (linux)
+  service: name=metricbeat state=restarted
+  when: ansible_os_family in ["Debian", "RedHat"]
+
+- name: Start Metricbeat (darwin)
+  shell: chdir={{workdir}}/{{beat_name}}-{{version}}-darwin ./{{beat_name}} -c {{beat_name}}.yml
+  when: ansible_os_family == "Darwin"
+  async: 45
+  poll: 0  # run in bg
+
+- name: Wait for the output file to be created, should contain cpu stats
+  wait_for: >
+    path={{workdir}}/output/metricbeat timeout=5
+    search_regex='"load"'
+
+- name: On Darwin, it should contain launchd data
+  wait_for: >
+    path={{workdir}}/output/metricbeat timeout=5
+    search_regex='"name":"launchd"'
+  when: ansible_os_family == "Darwin"
