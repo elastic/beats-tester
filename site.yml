@@ -51,6 +51,23 @@
     - test-uninstall
     - {role: test-linux-binary, when: ansible_system == "Linux"}
 
+- name: Packaging tests Metricbeat
+  hosts:
+    - debian
+    - centos
+    - darwin
+  sudo: yes
+  tags:
+    - metricbeat
+  vars:
+    - beat_name: metricbeat
+  roles:
+    - common
+    - test-install
+    - test-metricbeat-file
+    - test-uninstall
+    - {role: test-linux-binary, when: ansible_system == "Linux"}
+
 # windows
 - name: Packaging windows 32 tests for Packetbeat
   hosts:
@@ -110,6 +127,36 @@
     - common
     - test-install
     - test-win-topbeat-file
+    - test-uninstall
+
+- name: Packaging windows 32 tests for Metricbeat
+  hosts:
+    - windows
+  tags:
+    - metricbeat
+    - windows
+  vars:
+    - beat_name: metricbeat
+    - win_arch: 32
+  roles:
+    - common
+    - test-install
+    - test-win-metricbeat-file
+    - test-uninstall
+
+- name: Packaging windows 64 tests for Metricbeat
+  hosts:
+    - windows
+  tags:
+    - metricbeat
+    - windows
+  vars:
+    - beat_name: metricbeat
+    - win_arch: 64
+  roles:
+    - common
+    - test-install
+    - test-win-metricbeat-file
     - test-uninstall
 
 - name: Packaging windows 32 tests for Filebeat
