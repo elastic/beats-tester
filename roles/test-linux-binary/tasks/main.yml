@@ -1,10 +1,10 @@
 - name: Compute vars (binary)
   set_fact:
-    beat_url: "{{url_base}}/{{beat_name}}/{{beat_name}}-{{version}}-{{rpm_arch}}.tar.gz"
-    beat_pkg: "{{beat_name}}-{{version}}-{{rpm_arch}}.tar.gz"
-    beat_cfg: "/tmp/{{beat_name}}-{{version}}-{{rpm_arch}}/{{beat_name}}.yml"
+    beat_url: "{{url_base}}/{{beat_name}}/{{beat_name}}-{{version}}-linux-{{bin_arch}}.tar.gz"
+    beat_pkg: "{{beat_name}}-{{version}}-linux-{{bin_arch}}.tar.gz"
+    beat_cfg: "/tmp/{{beat_name}}-{{version}}-linux-{{bin_arch}}/{{beat_name}}.yml"
     workdir: /tmp
-    installdir: /tmp/{{beat_name}}-{{version}}-{{rpm_arch}}
+    installdir: /tmp/{{beat_name}}-{{version}}-linux-{{bin_arch}}
 
 - name: Ensure empty output directory
   file: path={{workdir}}/output state=absent

@@ -69,7 +69,7 @@
     - {role: test-linux-binary, when: ansible_system == "Linux"}
 
 # windows
-- name: Packaging windows 32 tests for Packetbeat
+- name: Packaging windows x86 tests for Packetbeat
   hosts:
     - windows
   tags:
@@ -77,14 +77,14 @@
     - windows
   vars:
     - beat_name: packetbeat
-    - win_arch: 32
+    - win_arch: x86
   roles:
     - common
     - test-install
     - test-win-packetbeat-file
     - test-uninstall
 
-- name: Packaging windows 64 tests for Packetbeat
+- name: Packaging windows x64 tests for Packetbeat
   hosts:
     - windows
   tags:
@@ -92,14 +92,14 @@
     - windows
   vars:
     - beat_name: packetbeat
-    - win_arch: 64
+    - win_arch: x64
   roles:
     - common
     - test-install
     - test-win-packetbeat-file
     - test-uninstall
 
-- name: Packaging windows 32 tests for Topbeat
+- name: Packaging windows x86 tests for Topbeat
   hosts:
     - windows
   tags:
@@ -107,14 +107,14 @@
     - windows
   vars:
     - beat_name: topbeat
-    - win_arch: 32
+    - win_arch: x86
   roles:
     - common
     - test-install
     - test-win-topbeat-file
     - test-uninstall
 
-- name: Packaging windows 64 tests for Topbeat
+- name: Packaging windows x64 tests for Topbeat
   hosts:
     - windows
   tags:
@@ -122,14 +122,14 @@
     - windows
   vars:
     - beat_name: topbeat
-    - win_arch: 64
+    - win_arch: x64
   roles:
     - common
     - test-install
     - test-win-topbeat-file
     - test-uninstall
 
-- name: Packaging windows 32 tests for Metricbeat
+- name: Packaging windows x86 tests for Metricbeat
   hosts:
     - windows
   tags:
@@ -137,14 +137,14 @@
     - windows
   vars:
     - beat_name: metricbeat
-    - win_arch: 32
+    - win_arch: x86
   roles:
     - common
     - test-install
     - test-win-metricbeat-file
     - test-uninstall
 
-- name: Packaging windows 64 tests for Metricbeat
+- name: Packaging windows x64 tests for Metricbeat
   hosts:
     - windows
   tags:
@@ -152,14 +152,14 @@
     - windows
   vars:
     - beat_name: metricbeat
-    - win_arch: 64
+    - win_arch: x64
   roles:
     - common
     - test-install
     - test-win-metricbeat-file
     - test-uninstall
 
-- name: Packaging windows 32 tests for Filebeat
+- name: Packaging windows x86 tests for Filebeat
   hosts:
     - windows
   tags:
@@ -167,14 +167,14 @@
     - windows
   vars:
     - beat_name: filebeat
-    - win_arch: 32
+    - win_arch: x86
   roles:
     - common
     - test-install
     - test-win-filebeat-file
     - test-uninstall
 
-- name: Packaging windows 64 tests for Filebeat
+- name: Packaging windows x64 tests for Filebeat
   hosts:
     - windows
   tags:
@@ -182,14 +182,14 @@
     - windows
   vars:
     - beat_name: filebeat
-    - win_arch: 64
+    - win_arch: x64
   roles:
     - common
     - test-install
     - test-win-filebeat-file
     - test-uninstall
 
-- name: Packaging windows 32 tests for Winlogbeat
+- name: Packaging windows x86 tests for Winlogbeat
   hosts:
     - windows
   tags:
@@ -197,14 +197,14 @@
     - windows
   vars:
     - beat_name: winlogbeat
-    - win_arch: 32
+    - win_arch: x86
   roles:
     - common
     - test-install
     - test-win-winlogbeat-file
     - test-uninstall
 
-- name: Packaging windows 64 tests for Winlogbeat
+- name: Packaging windows x64 tests for Winlogbeat
   hosts:
     - windows
   tags:
@@ -212,7 +212,7 @@
     - windows
   vars:
     - beat_name: winlogbeat
-    - win_arch: 64
+    - win_arch: x64
   roles:
     - common
     - test-install

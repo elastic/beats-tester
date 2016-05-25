@@ -1,7 +1,7 @@
 - name: Compute vars (debian)
   set_fact:
-    beat_url: "{{ url_base }}/{{beat_name}}/{{beat_name}}_{{version}}_{{deb_arch}}.deb"
-    beat_pkg: "{{beat_name}}_{{version}}_{{deb_arch}}.deb"
+    beat_url: "{{ url_base }}/{{beat_name}}/{{beat_name}}-{{version}}-{{deb_arch}}.deb"
+    beat_pkg: "{{beat_name}}-{{version}}-{{deb_arch}}.deb"
     beat_cfg: "/etc/{{beat_name}}/{{beat_name}}.yml"
     workdir: /root
   when: ansible_os_family == "Debian"
@@ -16,11 +16,11 @@
 
 - name: Compute vars (darwin)
   set_fact:
-    beat_url: "{{url_base}}/{{beat_name}}/{{beat_name}}-{{version}}-darwin.tgz"
-    beat_pkg: "{{beat_name}}-{{version}}-darwin.tgz"
-    beat_cfg: "/tmp/{{beat_name}}-{{version}}-darwin/{{beat_name}}.yml"
+    beat_url: "{{url_base}}/{{beat_name}}/{{beat_name}}-{{version}}-darwin-x64.tar.gz"
+    beat_pkg: "{{beat_name}}-{{version}}-darwin-x64.tar.gz"
+    beat_cfg: "/tmp/{{beat_name}}-{{version}}-darwin-x64/{{beat_name}}.yml"
     workdir: /tmp
-    installdir: /tmp/{{beat_name}}-{{version}}-darwin
+    installdir: /tmp/{{beat_name}}-{{version}}-darwin-x64
   when: ansible_os_family == "Darwin"
 
 - name: Compute vars (windows)
