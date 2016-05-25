@@ -1,3 +1,0 @@
-# Build based on nightly snapshot of 1.1 branch
-url_base: https://s3.amazonaws.com/beats-nightlies
-version: 1.1.0-nightlylatest

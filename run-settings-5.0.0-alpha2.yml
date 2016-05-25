@@ -1,3 +1,0 @@
-# Build based on downloaded snapshot binary for 5.0.0-alpha2 release
-url_base: https://download.elastic.co/beats
-version: 5.0.0-alpha2
