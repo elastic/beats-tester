@@ -9,7 +9,7 @@
   when: ansible_os_family in ["Debian", "RedHat"]
 
 - name: Start Packetbeat (darwin)
-  shell: chdir={{workdir}}/{{beat_name}}-{{version}}-darwin ./{{beat_name}} -c {{beat_name}}.yml
+  shell: chdir={{installdir}} ./{{beat_name}} -c {{beat_name}}.yml
   when: ansible_os_family == "Darwin"
   async: 45
   poll: 0  # run in bg
@@ -30,5 +30,5 @@
 
 - name: Wait for the output file to be created, should contain type=http
   wait_for: >
-    path={{workdir}}/output/packetbeat timeout=5
+    path={{workdir}}/output/packetbeat timeout=15
     search_regex='"type":"http"'
