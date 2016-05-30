@@ -1,6 +1,6 @@
 metricbeat.modules:
   - module: system
-    metricsets: ["cpu"]
+    metricsets: ["cpu", "process"]
     period: 1s
 
 output:
