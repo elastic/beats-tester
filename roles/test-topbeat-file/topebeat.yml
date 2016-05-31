@@ -1,7 +1,0 @@
-input:
-  period: 1
-
-output:
-  file:
-    path: {{workdir}}/output
-    filename: topbeat

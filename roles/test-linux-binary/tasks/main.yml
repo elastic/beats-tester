@@ -50,7 +50,7 @@
   wait_for: >
     path={{workdir}}/output/{{beat_name}} timeout=5
     search_regex='"load"'
-  when: beat_name == "topbeat" or beat_name == "metricbeat"
+  when: beat_name == "metricbeat"
 
 - name: Check if version number is correct
   shell: chdir={{installdir}} ./{{beat_name}} -version | grep {{ version[0:5] }}

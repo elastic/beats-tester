@@ -9,7 +9,7 @@
   when: ansible_os_family in ["Debian", "RedHat"]
 
 - name: Start Metricbeat (darwin)
-  shell: chdir={{workdir}}/{{beat_name}}-{{version}}-darwin ./{{beat_name}} -c {{beat_name}}.yml
+  shell: chdir={{installdir}} ./{{beat_name}} -c {{beat_name}}.yml
   when: ansible_os_family == "Darwin"
   async: 45
   poll: 0  # run in bg
