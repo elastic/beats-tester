@@ -16,11 +16,11 @@
 
 - name: Compute vars (darwin)
   set_fact:
-    beat_url: "{{url_base}}/{{beat_name}}/{{beat_name}}-{{version}}-darwin-x64.tar.gz"
-    beat_pkg: "{{beat_name}}-{{version}}-darwin-x64.tar.gz"
-    beat_cfg: "/tmp/{{beat_name}}-{{version}}-darwin-x64/{{beat_name}}.yml"
+    beat_url: "{{url_base}}/{{beat_name}}/{{beat_name}}-{{version}}-darwin-x86_64.tar.gz"
+    beat_pkg: "{{beat_name}}-{{version}}-darwin-x86_64.tar.gz"
+    beat_cfg: "/tmp/{{beat_name}}-{{version}}-darwin-x86_64/{{beat_name}}.yml"
     workdir: /tmp
-    installdir: /tmp/{{beat_name}}-{{version}}-darwin-x64
+    installdir: /tmp/{{beat_name}}-{{version}}-darwin-x86_64
   when: ansible_os_family == "Darwin"
 
 - name: Compute vars (windows)
