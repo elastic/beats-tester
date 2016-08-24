@@ -10,13 +10,13 @@
   file: path={{workdir}}/output state=absent
 
 - name: Download package sha1
-  get_url: url={{beat_url}}.sha1.txt dest={{workdir}} validate_certs=no
+  get_url: url={{beat_url}}.sha1 dest={{workdir}} validate_certs=no
 
 - name: Download package
   get_url: url={{beat_url}} dest={{workdir}} validate_certs=no
 
 - name: Check file (linux)
-  shell: chdir={{workdir}} sha1sum -c {{beat_pkg}}.sha1.txt
+  shell: chdir={{workdir}} echo "`cat {{beat_pkg}}.sha1`  {{beat_pkg}}" | sha1sum -c
 
 - name: Create install directory
   file: path={{installdir}} state=directory
