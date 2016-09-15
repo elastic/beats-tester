@@ -13,6 +13,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         testvm.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-i386-virtualbox-puppet.box"
 
         testvm.ssh.port = 2401
+        testvm.ssh.insert_key = false
         testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port
         testvm.vm.network "private_network", ip: "192.168.33.70"
     end
@@ -22,6 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         testvm.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-puppet.box"
 
         testvm.ssh.port = 2402
+        testvm.ssh.insert_key = false
         testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port
         testvm.vm.network "private_network", ip: "192.168.33.71"
     end
@@ -31,7 +33,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
         testvm.ssh.port = 2403
         testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port
-        testvm.vm.network "private_network", ip: "192.168.33.72"
+        config.vm.network "private_network", ip: "192.168.33.72", type: "dhcp", auto_config: false
     end
 
     config.vm.define "tester-debian6-64" do |testvm|
@@ -47,6 +49,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         testvm.vm.box = "relativkreativ/centos-7-minimal"
 
         testvm.ssh.port = 2405
+        testvm.ssh.insert_key = false
         testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port
         testvm.vm.network "private_network", ip: "192.168.33.74"
     end
