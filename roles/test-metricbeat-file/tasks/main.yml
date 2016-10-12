@@ -3,13 +3,15 @@
 
 - name: Minimal configuration file
   template: src={{beat_name}}.yml dest={{beat_cfg}}
+  when: ansible_os_family != "Darwin"
 
 - name: Start Metricbeat (linux)
   service: name=metricbeat state=restarted
   when: ansible_os_family in ["Debian", "RedHat"]
 
 - name: Start Metricbeat (darwin)
-  shell: chdir={{installdir}} ./{{beat_name}} -c {{beat_name}}.yml
+  shell: chdir={{installdir}} ./{{beat_name}} -E output.elasticsearch.enabled=false -E output.file.path={{workdir}}/output -E metricbeat.modules.0.period=1s
+
   when: ansible_os_family == "Darwin"
   async: 45
   poll: 0  # run in bg

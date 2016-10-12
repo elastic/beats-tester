@@ -3,13 +3,14 @@
 
 - name: Minimal configuration file
   template: src={{beat_name}}.yml dest={{beat_cfg}}
+  when: ansible_os_family in ["Debian", "RedHat"]
 
 - name: Start Filebeat (linux)
   service: name={{beat_name}} state=restarted
   when: ansible_os_family in ["Debian", "RedHat"]
 
 - name: Start Filebeat (darwin)
-  shell: chdir={{installdir}} ./{{beat_name}} -c {{beat_name}}.yml
+  shell: chdir={{installdir}} ./{{beat_name}} -E output.elasticsearch.enabled=false -E output.file.path={{workdir}}/output
   when: ansible_os_family == "Darwin"
   async: 45
   poll: 0  # run in bg

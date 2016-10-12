@@ -24,11 +24,8 @@
 - name: Untar
   shell: chdir={{installdir}} tar xzvf {{workdir}}/{{beat_pkg}} --strip 1
 
-- name: Minimal configuration file
-  template: src={{beat_name}}.yml dest={{beat_cfg}}
-
 - name: Start in bg
-  shell: chdir={{installdir}} ./{{beat_name}} -c {{beat_name}}.yml
+  shell: chdir={{installdir}} ./{{beat_name}} -E output.elasticsearch.enabled=false -E output.file.path={{workdir}}/output -E metricbeat.modules.0.period=1s
   async: 45
   poll: 0  # run in bg
 
