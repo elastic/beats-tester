@@ -1,0 +1,9 @@
+heartbeat.monitors:
+- type: http
+  schedule: '@every 1s'
+  urls: ["http://localhost:12345"]
+
+output:
+  file:
+    path: "c:/users/vagrant/output"
+    filename: heartbeat
