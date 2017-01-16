@@ -49,5 +49,11 @@
     search_regex='"load"'
   when: beat_name == "metricbeat"
 
+- name: Wait for the output file to be created, should contain HTTP pinging
+  wait_for: >
+    path={{workdir}}/output/heartbeat timeout=5
+    search_regex='"scheme":"http"'
+  when: beat_name == "heartbeat`"
+
 - name: Check if version number is correct
   shell: chdir={{installdir}} ./{{beat_name}} -version | grep {{ version[0:5] }}

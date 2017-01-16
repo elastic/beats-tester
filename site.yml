@@ -51,6 +51,24 @@
     - test-uninstall
     - {role: test-linux-binary, when: ansible_system == "Linux"}
 
+- name: Packaging tests Heartbeat
+  hosts:
+    - debian
+    - centos
+    - darwin
+  sudo: yes
+  tags:
+    - heartbeat
+  vars:
+    - beat_name: heartbeat
+  roles:
+    - common
+    - test-install
+    - test-heartbeat-file
+    - test-uninstall
+    - {role: test-linux-binary, when: ansible_system == "Linux"}
+
+
 # windows
 - name: Packaging windows x86 tests for Packetbeat
   hosts:
@@ -141,6 +159,37 @@
     - test-install
     - test-win-filebeat-file
     - test-uninstall
+
+- name: Packaging windows x86 tests for Heartbeat
+  hosts:
+    - windows
+  tags:
+    - heartbeat
+    - windows
+  vars:
+    - beat_name: heartbeat
+    - win_arch: x86
+  roles:
+    - common
+    - test-install
+    - test-win-heartbeat-file
+    - test-uninstall
+
+- name: Packaging windows x86_64 tests for Heartbeat
+  hosts:
+    - windows
+  tags:
+    - heartbeat
+    - windows
+  vars:
+    - beat_name: heartbeat
+    - win_arch: x86_64
+  roles:
+    - common
+    - test-install
+    - test-win-heartbeat-file
+    - test-uninstall
+
 
 - name: Packaging windows x86 tests for Winlogbeat
   hosts:

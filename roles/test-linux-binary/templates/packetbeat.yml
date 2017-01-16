@@ -1,7 +1,0 @@
-packetbeat.protocols:
-  http:
-    ports: [80]
-
-output:
-  file:
-    path: {{workdir}}/output

@@ -1,2 +1,2 @@
-url_base: http://staging.elastic.co/5.0.0-rc1-9db751df/downloads/beats
-version: 5.0.0-rc1
+url_base: https://staging.elastic.co/5.2.0-9bd7a99c/downloads/beats
+version: 5.2.0
