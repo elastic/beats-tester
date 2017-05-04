@@ -18,7 +18,7 @@
 
 - name: Wait for the output file to be created, should contain cpu stats
   wait_for: >
-    path={{workdir}}/output/metricbeat timeout=5
+    path={{workdir}}/output/metricbeat timeout=15
     search_regex='"module":"system","name":"cpu"'
 
 - name: On Darwin, it should contain launchd data
