@@ -1,0 +1,2 @@
+ansible==1.9.6
+pywinrm>=0.2.2
