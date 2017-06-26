@@ -2,6 +2,7 @@ metricbeat.modules:
   - module: system
     metricsets: ["cpu", "process", "load"]
     period: 1s
+metricbeat.max_start_delay: 0
 
 output:
   file:

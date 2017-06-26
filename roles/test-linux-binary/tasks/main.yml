@@ -25,7 +25,7 @@
   shell: chdir={{installdir}} tar xzvf {{workdir}}/{{beat_pkg}} --strip 1
 
 - name: Start in bg
-  shell: chdir={{installdir}} ./{{beat_name}} -E output.elasticsearch.enabled=false -E output.file.path={{workdir}}/output -E metricbeat.modules.0.period=1s
+  shell: chdir={{installdir}} ./{{beat_name}} -E output.elasticsearch.enabled=false -E output.file.path={{workdir}}/output -E metricbeat.modules.0.period=1s -E metricbeat.max_start_delay=0
   async: 45
   poll: 0  # run in bg
 

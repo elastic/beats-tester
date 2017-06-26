@@ -11,7 +11,7 @@
   win_service: name=metricbeat state=started
 
 - name: Sleep a little
-  script: sleep.ps1 -duration 3
+  script: sleep.ps1 -duration 5
 
 - name: Stat output file
   win_stat: path={{workdir}}\\output\\metricbeat
