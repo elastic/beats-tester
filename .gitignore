@@ -4,6 +4,7 @@
 # Directories
 /.vagrant
 /.idea
+/ve
 
 # Files
 .DS_Store
