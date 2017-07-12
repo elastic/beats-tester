@@ -6,7 +6,7 @@
   when: ansible_os_family in ["Debian", "RedHat"]
 
 - name: Start Heartbeat (linux)
-  service: name={{beat_name}} state=restarted
+  service: name={{service_name}} state=restarted
   when: ansible_os_family in ["Debian", "RedHat"]
 
 - name: Start Heartbeat (darwin)

@@ -1,0 +1,1 @@
+service_name: "{{ beat_name }}"

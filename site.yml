@@ -61,6 +61,7 @@
     - heartbeat
   vars:
     - beat_name: heartbeat
+    - service_name: heartbeat-elastic
   roles:
     - common
     - test-install
