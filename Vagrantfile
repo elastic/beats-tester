@@ -13,7 +13,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         testvm.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-i386-virtualbox-puppet.box"
 
         testvm.ssh.port = 2401
-        testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port
+        testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
         testvm.vm.network "private_network", ip: "192.168.33.70"
     end
 
@@ -22,7 +22,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         testvm.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-puppet.box"
 
         testvm.ssh.port = 2402
-        testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port
+        testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
         testvm.vm.network "private_network", ip: "192.168.33.71"
     end
 
@@ -30,7 +30,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         testvm.vm.box = "hashicorp/precise32"
 
         testvm.ssh.port = 2403
-        testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port
+        testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
         testvm.vm.network "private_network", ip: "192.168.33.72"
     end
 
@@ -39,7 +39,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         testvm.vm.box_url = "http://public.sphax3d.org/vagrant/squeeze64.box"
 
         testvm.ssh.port = 2404
-        testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port
+        testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
         testvm.vm.network "private_network", ip: "192.168.33.73"
     end
 
@@ -47,7 +47,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         testvm.vm.box = "relativkreativ/centos-7-minimal"
 
         testvm.ssh.port = 2405
-        testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port
+        testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
         testvm.vm.network "private_network", ip: "192.168.33.74"
     end
 
@@ -55,12 +55,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	testvm.vm.box = "https://s3.amazonaws.com/beats-files/vagrant/beats-win2012-r2-virtualbox-2015-12-10_1222.box"
 
 	testvm.ssh.port = 2406
-	testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port
+	testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
 	testvm.vm.network "private_network", ip: "192.168.33.75"
 
 	testvm.vm.communicator = "winrm"
-	testvm.vm.network "forwarded_port", host: 3389, guest: 3389
-	testvm.vm.network "forwarded_port", host: 5985, guest: 5985
+	testvm.vm.network "forwarded_port", host: 3389, guest: 3389, host_ip: "127.0.0.1"
+	testvm.vm.network "forwarded_port", host: 5985, guest: 5985, host_ip: "127.0.0.1"
 
 	testvm.vm.provider "virtualbox" do |v|
 	    v.gui = false
