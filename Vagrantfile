@@ -36,7 +36,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     config.vm.define "tester-debian6-64" do |testvm|
         testvm.vm.box = "debian64"
-        testvm.vm.box_url = "http://public.sphax3d.org/vagrant/squeeze64.box"
+        testvm.vm.box_url = "https://s3.amazonaws.com/beats-files/vagrant/beats-debian6-virtualbox.box"
 
         testvm.ssh.port = 2404
         testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
