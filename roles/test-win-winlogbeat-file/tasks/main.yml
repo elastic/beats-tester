@@ -32,7 +32,7 @@
       - "output_stat.stat.size > 0"
 
 - name: Verify output contents
-  script: run_script.ps1 -script "'cat -Encoding UTF8 {{ winlogbeat_data_dir }}\output\{{ beat_name }} | select -First 1'"
+  win_shell: "cat -Encoding UTF8 {{ winlogbeat_data_dir }}\\output\\{{ beat_name }} | select -First 1"
   register: json_output
 
 - set_fact: event="{{ json_output.stdout | from_json }}"
@@ -75,7 +75,7 @@
       - "registry_stat.stat.size > 0"
 
 - name: Verify registry contents
-  script: run_script.ps1 -script "'cat {{ winlogbeat_data_dir }}\\.winlogbeat.yml'"
+  win_shell: "cat {{ winlogbeat_data_dir }}\\.winlogbeat.yml"
   register: registry_output
 
 - set_fact: registry="{{ registry_output.stdout | from_yaml }}"
