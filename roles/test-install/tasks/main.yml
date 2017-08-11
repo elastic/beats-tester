@@ -25,7 +25,9 @@
   when: ansible_os_family == "Windows"
 
 - name: Unzip (windows)
-  script: unzip.ps1 -file {{workdir}}\\{{beat_pkg}} -destination {{workdir}}
+  win_unzip:
+    src:  "{{workdir}}\\{{beat_pkg}}"
+    dest: "{{workdir}}"
   when: ansible_os_family == "Windows"
 
 - name: Rename install dir for nightlies
