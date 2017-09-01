@@ -10,7 +10,7 @@
   when: ansible_os_family in ["Debian", "RedHat"]
 
 - name: Start Filebeat (darwin)
-  shell: chdir={{installdir}} ./{{beat_name}} -E output.elasticsearch.enabled=false -E output.file.path={{workdir}}/output
+  shell: chdir={{installdir}} ./{{beat_name}} -E output.elasticsearch.enabled=false -E output.file.path={{workdir}}/output -E "filebeat.prospectors.0.enabled=true" -E "filebeat.prospectors.0.paths=[/var/log/test.log]"
   when: ansible_os_family == "Darwin"
   async: 45
   poll: 0  # run in bg
