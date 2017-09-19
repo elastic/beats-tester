@@ -7,7 +7,7 @@
 
 - name: Start Metricbeat (linux)
   service: name=metricbeat state=restarted
-  when: ansible_os_family in ["Debian", "RedHat"]
+  when: ansible_os_family in ["Debian", "RedHat", "Suse"]
 
 - name: Start Metricbeat (darwin)
   shell: chdir={{installdir}} ./{{beat_name}} -E output.elasticsearch.enabled=false -E output.file.path={{workdir}}/output -E metricbeat.max_start_delay=0s
