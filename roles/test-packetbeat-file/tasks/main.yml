@@ -7,7 +7,7 @@
 
 - name: Start Packetbeat (linux)
   service: name=packetbeat state=restarted
-  when: ansible_os_family in ["Debian", "RedHat"]
+  when: ansible_os_family in ["Debian", "RedHat", "Suse"]
 
 - name: Start Packetbeat (darwin)
   shell: chdir={{installdir}} ./{{beat_name}} -E output.elasticsearch.enabled=false -E output.file.path={{workdir}}/output
@@ -22,7 +22,7 @@
 
 - name: Curl something (linux)
   shell: wget google.com
-  when: ansible_os_family in ["Debian", "RedHat"]
+  when: ansible_os_family in ["Debian", "RedHat", "Suse"]
   always_run: true
 
 - name: Curl something (darwin)

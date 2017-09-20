@@ -3,11 +3,11 @@
 
 - name: Minimal configuration file
   template: src={{beat_name}}.yml dest={{beat_cfg}}
-  when: ansible_os_family in ["Debian", "RedHat"]
+  when: ansible_os_family in ["Debian", "RedHat", "Suse"]
 
 - name: Start Filebeat (linux)
   service: name={{beat_name}} state=restarted
-  when: ansible_os_family in ["Debian", "RedHat"]
+  when: ansible_os_family in ["Debian", "RedHat", "Suse"]
 
 - name: Start Filebeat (darwin)
   shell: chdir={{installdir}} ./{{beat_name}} -E output.elasticsearch.enabled=false -E output.file.path={{workdir}}/output -E "filebeat.prospectors.0.enabled=true" -E "filebeat.prospectors.0.paths=[/var/log/test.log]"

@@ -34,6 +34,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         testvm.vm.network "private_network", ip: "192.168.33.72"
     end
 
+
     config.vm.define "tester-debian6-64" do |testvm|
         testvm.vm.box = "debian64"
         testvm.vm.box_url = "https://s3.amazonaws.com/beats-files/vagrant/beats-debian6-virtualbox.box"
@@ -68,4 +69,30 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	    v.memory = 2048
 	end
     end
+
+
+    config.vm.define "tester-ubuntu1604-64" do |testvm|
+        testvm.vm.box = "ubuntu/xenial64"
+
+        testvm.ssh.port = 2407
+        testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
+        testvm.vm.network "private_network", ip: "192.168.33.76"
+		testvm.vm.provision "python", type: "shell", inline: ubuntu_provision_python()
+    end
+
+    config.vm.define "tester-opensuse42-64" do |testvm|
+        testvm.vm.box = "bento/opensuse-leap-42.2"
+
+        testvm.ssh.port = 2408
+        testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
+        testvm.vm.network "private_network", ip: "192.168.33.77"
+    end
+end
+
+def ubuntu_provision_python()
+	return <<-SHELL
+	set -e
+	apt-get update
+	apt-get install -y python-minimal python2.7
+	SHELL
 end

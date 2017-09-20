@@ -3,11 +3,11 @@
 
 - name: Minimal configuration file
   template: src={{beat_name}}.yml dest={{beat_cfg}}
-  when: ansible_os_family in ["Debian", "RedHat"]
+  when: ansible_os_family in ["Debian", "RedHat", "Suse"]
 
 - name: Start Heartbeat (linux)
   service: name={{service_name}} state=restarted
-  when: ansible_os_family in ["Debian", "RedHat"]
+  when: ansible_os_family in ["Debian", "RedHat", "Suse"]
 
 - name: Start Heartbeat (darwin)
   shell: chdir={{installdir}} ./{{beat_name}} -E output.elasticsearch.enabled=false -E output.file.path={{workdir}}/output
