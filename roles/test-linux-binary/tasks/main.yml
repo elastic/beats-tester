@@ -9,14 +9,14 @@
 - name: Ensure empty output directory
   file: path={{workdir}}/output state=absent
 
-- name: Download package sha1
-  get_url: url={{beat_url}}.sha1 dest={{workdir}} validate_certs=no
+- name: Download package sha512
+  get_url: url={{beat_url}}.sha512 dest={{workdir}} validate_certs=no
 
 - name: Download package
   get_url: url={{beat_url}} dest={{workdir}} validate_certs=no
 
 - name: Check file (linux)
-  shell: chdir={{workdir}} echo "`cat {{beat_pkg}}.sha1`  {{beat_pkg}}" | sha1sum -c
+  shell: chdir={{workdir}} echo "`cat {{beat_pkg}}.sha512`  {{beat_pkg}}" | sha512sum -c
 
 - name: Create install directory
   file: path={{installdir}} state=directory
