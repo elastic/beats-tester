@@ -16,7 +16,7 @@
   get_url: url={{beat_url}} dest={{workdir}} validate_certs=no
 
 - name: Check file (linux)
-  shell: chdir={{workdir}} echo "`cat {{beat_pkg}}.sha512`  {{beat_pkg}}" | sha512sum -c
+  shell: chdir={{workdir}} sha512sum -c {{beat_pkg}}.sha512
 
 - name: Create install directory
   file: path={{installdir}} state=directory
