@@ -16,9 +16,9 @@
   when: ansible_os_family == "Windows"
 
 - name: Check file (linux)
-  shell: chdir={{workdir}} echo "`cat {{beat_pkg}}.sha512`  {{beat_pkg}}" | sha512sum -c
+  shell: chdir={{workdir}} sha512sum -c {{beat_pkg}}.sha512
   when: ansible_os_family in ["RedHat", "Debian", "Suse"]
 
 - name: Check file (darwin)
-  shell: chdir={{workdir}} echo "`cat {{beat_pkg}}.sha512`  {{beat_pkg}}" | shasum -a 512 -c
+  shell: chdir={{workdir}} shasum -a 512 -c {{beat_pkg}}.sha512
   when: ansible_os_family == "Darwin"
