@@ -8,7 +8,7 @@ ANSIBLE_EXTRA_FLAGS?=
 
 # TODO (2018-01-22 andrewkroh): Remove this after Filebeat is fixed.
 # https://github.com/elastic/beats/issues/6145
-ANSIBLE_EXTRA_FLAGS=--skip-tags windows_filebeat
+ANSIBLE_EXTRA_FLAGS=--skip-tags filebeat
 
 # Create a virtualenv to run Ansible.
 ve: ve/bin/activate

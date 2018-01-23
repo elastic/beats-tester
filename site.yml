@@ -137,7 +137,6 @@
   tags:
     - filebeat
     - windows
-    - windows_filebeat
   vars:
     - beat_name: filebeat
     - win_arch: x86
@@ -153,7 +152,6 @@
   tags:
     - filebeat
     - windows
-    - windows_filebeat
   vars:
     - beat_name: filebeat
     - win_arch: x86_64
