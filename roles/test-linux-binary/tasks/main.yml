@@ -38,7 +38,7 @@
 
 - name: Sleep a little
   shell: sleep 1
-  always_run: true
+  check_mode: no
 
 - name: Curl something (linux)
   shell: wget google.com
