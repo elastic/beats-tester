@@ -32,7 +32,10 @@
     installdir: c:\\users\\vagrant\\{{beat_name}}-{{version}}-windows-{{win_arch}}
   when: ansible_os_family == "Windows"
 
-- debug: var=beat_cfg
+- name: Display all variables/facts known for a host
+  debug:
+    var: hostvars[inventory_hostname]
+    verbosity: 4
 
 # download packages and sha1 files
 - include: download.yml

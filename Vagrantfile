@@ -27,7 +27,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
     config.vm.define "tester-ubuntu1204-32" do |testvm|
-        testvm.vm.box = "hashicorp/precise32"
+        testvm.vm.box = "ubuntu/precise32"
 
         testvm.ssh.port = 2403
         testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
