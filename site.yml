@@ -4,7 +4,7 @@
     - debian
     - centos
     - darwin
-  sudo: yes
+  become: yes
   tags:
     - packetbeat
   vars:
@@ -22,7 +22,7 @@
     - debian
     - centos
     - darwin
-  sudo: yes
+  become: yes
   tags:
     - filebeat
   vars:
@@ -39,7 +39,7 @@
     - debian
     - centos
     - darwin
-  sudo: yes
+  become: yes
   tags:
     - metricbeat
   vars:
@@ -56,7 +56,7 @@
     - debian
     - centos
     - darwin
-  sudo: yes
+  become: yes
   tags:
     - heartbeat
   vars:
