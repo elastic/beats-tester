@@ -10,8 +10,9 @@
   when: ansible_os_family in ["Debian", "RedHat", "Suse"]
 
 - name: Start Metricbeat (darwin)
-  shell: chdir={{installdir}} ./{{beat_name}} -E output.elasticsearch.enabled=false -E output.file.path={{workdir}}/output -E metricbeat.max_start_delay=0s
-
+  shell: './{{ beat_name }} -E output.elasticsearch.enabled=false -E output.file.path={{ workdir }}/output -E metricbeat.max_start_delay=0s'
+  args:
+    chdir: '{{ installdir }}'
   when: ansible_os_family == "Darwin"
   async: 45
   poll: 0  # run in bg
@@ -19,4 +20,4 @@
 - name: Wait for the output file to be created, should contain cpu stats
   wait_for: >
     path={{workdir}}/output/metricbeat timeout=15
-    search_regex='"module":"system","name":"cpu"'
+    search_regex='"name":"cpu","module":"system"'

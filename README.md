@@ -1,38 +1,51 @@
 # The Beats Tester
 
 Vagrant + Ansible setup for testing the OS packages and basic e2e tests for all
-the [Beats](https://www.elastic.co/products/beats)
+the [Beats](https://www.elastic.co/products/beats).
 
 
 ## Execute
 
 First, you need to bring the machines up:
 
-    vagrant up
-
-and make them known by name to SSH:
-
-    vagrant ssh-config >> ~/.ssh/config
+    make setup
 
 Then you can use Ansible to run the tests. Because they involve lots of VMs and
 commands executed over SSH, these tests are slow (currently 15 minutes in
-total). However, while creating tests or checking something quickly, you can
-use different Ansible commands to execute only a subset.
+total). However, while creating tests or checking something quickly, you can use
+different Ansible commands to execute only a subset.
 
 Here are some execution examples:
 
-* Test the most recent nightly builds (excluding OS X):
+* Test the most recent [nightly builds](https://internal-ci.elastic.co/job/elastic+release-manager+master+unified-snapshot/) (excluding OS X):
 
-        make nightlies
+        RUN_SETTINGS=snapshot make run
 
 * All tests, all platforms, a particular release:
 
-        ansible-playbook -i hosts -e @run-settings-1.0.0-beta3.yml site.yml
+        # Edit version contained in run-settings-released.yml.
+        RUN_SETTINGS=released make run
 
 * Only a particular Beat, Packetbeat in the example:
 
-        ansible-playbook -i hosts -e @run-settings-nightly.yml --tags packetbeat site.yml
+        export ANSIBLE_EXTRA_FLAGS="--tags packetbeat"
+        make run
 
 * Only a particular OS, Debian 6 amd64 in the example:
 
-        ansible-playbook -i hosts -e @run-settings-nightly.yml --limit tester-debian6-64 site.yml
+        # Instead using 'make setup' launch vagrant machines manually.
+        vagrant up tester-debian6-64
+        vagrant ssh-config > ssh_config
+        export ANSIBLE_LIMIT="tester-debian9-64"
+        make run
+
+* Enable Ansible debug.
+
+        export ANSIBLE_VERBOSE="-vvv"
+        make run
+
+## Cleanup
+
+You need to tear down the VMs when you are finished.
+
+    make clean

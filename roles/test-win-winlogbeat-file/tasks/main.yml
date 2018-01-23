@@ -5,7 +5,7 @@
   script: run_script.ps1 -script {{ installdir }}\\install-service-{{ beat_name }}.ps1
 
 - name: Replace configuration file with template (windows)
-  win_template: src={{beat_name}}.yml dest={{installdir}}
+  win_template: src={{beat_name}}.yml dest='{{ beat_cfg }}'
 
 - name: Start Winlogbeat
   win_service: name={{ beat_name }} state=started
