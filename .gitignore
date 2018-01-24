@@ -5,6 +5,7 @@
 /.vagrant
 /.idea
 /ve
+/logs
 
 # Files
 .DS_Store

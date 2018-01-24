@@ -1,0 +1,41 @@
+# {{ ansible_managed }}
+
+auditbeat.max_start_delay: 0
+
+auditbeat.modules:
+
+- module: auditd
+  enabled: {{ ansible_system == "Linux" }}
+  audit_rules: |
+{% if ansible_userspace_bits is defined and ansible_userspace_bits == "32" %}
+    -a always,exit -F arch=b32 -S execve,execveat -k exec
+    -a always,exit -F arch=b32 -S accept4,bind,connect -F key=external-access
+    -w /etc/group -p wa -k identity
+    -w /etc/passwd -p wa -k identity
+    -w /etc/gshadow -p wa -k identity
+    -a always,exit -F arch=b32 -S open,creat,truncate,ftruncate,openat,open_by_handle_at -F exit=-EACCES -k access
+    -a always,exit -F arch=b32 -S open,creat,truncate,ftruncate,openat,open_by_handle_at -F exit=-EPERM -k access
+{% else %}
+    -a always,exit -F arch=b32 -S all -F key=32bit-abi
+    -a always,exit -F arch=b64 -S execve,execveat -k exec
+    -a always,exit -F arch=b64 -S accept,bind,connect -F key=external-access
+    -w /etc/group -p wa -k identity
+    -w /etc/passwd -p wa -k identity
+    -w /etc/gshadow -p wa -k identity
+    -a always,exit -F arch=b64 -S open,creat,truncate,ftruncate,openat,open_by_handle_at -F exit=-EACCES -k access
+    -a always,exit -F arch=b64 -S open,creat,truncate,ftruncate,openat,open_by_handle_at -F exit=-EPERM -k access
+{% endif %}
+
+- module: file_integrity
+  paths:
+  - '{{ ansible_user_dir }}'
+
+output.file:
+  path: '${path.logs}'
+  filename: output.json
+
+logging:
+  level: info
+  json: true
+  files:
+    name: {{ beat_name }}.json

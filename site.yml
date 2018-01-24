@@ -69,6 +69,22 @@
     - test-uninstall
     - {role: test-linux-binary, when: ansible_system == "Linux"}
 
+- name: Packaging tests Auditbeat
+  hosts:
+    - debian
+    - centos
+    - darwin
+  become: yes
+  tags:
+    - auditbeat
+  vars:
+    - beat_name: auditbeat
+  roles:
+    - common
+    - test-install
+    - test-beat
+    - test-uninstall
+    - {role: test-linux-binary, when: ansible_system == "Linux"}
 
 # windows
 - name: Packaging windows x86 tests for Packetbeat
@@ -191,7 +207,6 @@
     - test-win-heartbeat-file
     - test-uninstall
 
-
 - name: Packaging windows x86 tests for Winlogbeat
   hosts:
     - windows
@@ -220,4 +235,34 @@
     - common
     - test-install
     - test-win-winlogbeat-file
+    - test-uninstall
+
+- name: Packaging windows x86 tests for Auditbeat
+  hosts:
+    - windows
+  tags:
+    - auditbeat
+    - windows
+  vars:
+    - beat_name: auditbeat
+    - win_arch: x86
+  roles:
+    - common
+    - test-install
+    - test-beat
+    - test-uninstall
+
+- name: Packaging windows x86_64 tests for Auditbeat
+  hosts:
+    - windows
+  tags:
+    - auditbeat
+    - windows
+  vars:
+    - beat_name: auditbeat
+    - win_arch: x86_64
+  roles:
+    - common
+    - test-install
+    - test-beat
     - test-uninstall

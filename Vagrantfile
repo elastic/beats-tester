@@ -15,6 +15,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         testvm.ssh.port = 2401
         testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
         testvm.vm.network "private_network", ip: "192.168.33.70"
+        testvm.vm.provision "shell",
+            inline: "rm /etc/yum.repos.d/puppetlabs*.repo"
     end
 
     config.vm.define "tester-centos6-64" do |testvm|

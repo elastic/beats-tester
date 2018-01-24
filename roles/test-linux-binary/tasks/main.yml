@@ -63,4 +63,4 @@
   when: beat_name == "heartbeat`"
 
 - name: Check if version number is correct
-  shell: chdir={{installdir}} ./{{beat_name}} -version | grep {{ version[0:5] }}
+  shell: chdir={{installdir}} ./{{beat_name}} version | grep {{ version[0:5] }}
