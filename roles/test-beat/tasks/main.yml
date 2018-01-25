@@ -1,0 +1,62 @@
+---
+
+- name: "Include {{ beat_name }} vars"
+  include_vars: '{{ beat_name }}.yml'
+
+- name: "{{ beat_name }} - include OS vars"
+  include_vars: '{{ item }}'
+  with_first_found:
+  - files:
+    - 'vars/{{ ansible_distribution_id | lower }}.yml'
+    - 'vars/{{ ansible_distribution | lower }}.yml'
+    - 'vars/{{ ansible_os_family | lower }}.yml'
+    - 'vars/{{ ansible_system | lower }}.yml'
+    skip: true
+
+- name: Set config/output/log file vars
+  set_fact:
+    beat_config_file: '{{ beat_config_path}}/{{ beat_name }}.yml'
+    beat_output_file: '{{ beat_logs_path }}/output.json'
+    beat_log_file: '{{ beat_logs_path }}/{{ beat_name }}.json'
+
+- name: "{{ beat_name }} - include tasks"
+  include_tasks: '{{ system_item }}'
+  with_first_found:
+    - '{{ ansible_os_family | lower }}/main.yml'
+    - '{{ ansible_system | lower }}/main.yml'
+  loop_control:
+    loop_var: system_item
+
+- name: Save output to host
+  fetch:
+    src: '{{ beat_output_file }}'
+    dest: 'logs/{{ beat_name }}-{{ inventory_hostname }}/output.json'
+    flat: yes
+
+- name: Save log to host
+  fetch:
+    src: '{{ beat_log_file }}'
+    dest: 'logs/{{ beat_name }}-{{ inventory_hostname }}/log.json'
+    flat: yes
+
+- name: Save config to host
+  fetch:
+    src: '{{ beat_config_file }}'
+    dest: 'logs/{{ beat_name }}-{{ inventory_hostname }}/{{ beat_name }}.yml'
+    flat: yes
+
+- name: Run assertions on outputs
+  include: '{{ assert_item }}'
+  with_first_found:
+    - '{{ ansible_os_family | lower }}/assert.yml'
+    - '{{ ansible_system | lower }}/assert.yml'
+    - common/assert.yml
+  loop_control:
+    loop_var: assert_item
+
+- name: Run {{ beat_name }} assertions on outputs
+  include: '{{ beat_assert_item }}'
+  with_first_found:
+    - '{{ beat_name }}/assert.yml'
+  loop_control:
+    loop_var: beat_assert_item

@@ -1,0 +1,49 @@
+---
+
+- name: "Remove {{ beat_name }} data directory"
+  file:
+    path: '{{ beat_data_path }}'
+    state: absent
+
+- name: "Remove {{ beat_name }} logs directory"
+  file:
+    path: '{{ beat_logs_path }}'
+    state: absent
+
+- name: Replace configuration file with template
+  template:
+    src: '{{ beat_name }}.yml.j2'
+    dest: '{{ beat_cfg }}'
+    mode: 0600
+
+- name: "Pre-run setup for {{ beat_name }}"
+  include_tasks: '{{ pre_run_item }}'
+  with_first_found:
+  - files:
+      - 'tasks/{{ beat_name }}/pre-run.yml'
+    skip: true
+  loop_control:
+    loop_var: pre_run_item
+
+- name: 'Start {{ beat_service_name }} service'
+  command: './{{ beat_name }}'
+  args:
+    chdir: '{{ beat_home_path }}'
+  register: async_beat_cmd
+  async: 20
+  poll: 0
+
+- name: "Post-run setup for {{ beat_name }}"
+  include_tasks: '{{ post_run_item }}'
+  with_first_found:
+  - files:
+      - 'tasks/{{ beat_name }}/post-run.yml'
+    skip: true
+  loop_control:
+    loop_var: post_run_item
+    
+- name: 'Wait for {{ beat_service_name }} to produce output.json'
+  wait_for:
+    path: '{{ beat_output_file }}'
+    search_regex: '"version"'
+    timeout: 20

@@ -1,0 +1,6 @@
+---
+
+beat_home_path:   '/usr/share/{{ beat_name }}'
+beat_config_path: '/etc/{{ beat_name }}'
+beat_data_path:   '/var/lib/{{ beat_name }}'
+beat_logs_path:   '/var/log/{{ beat_name }}'

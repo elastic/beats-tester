@@ -1,0 +1,21 @@
+---
+
+# Cannot use Ansible service because of:
+# https://github.com/ansible/ansible/issues/22171
+- name: Disable auditd
+  command: service auditd stop
+  when:
+    - ansible_system == "Linux"
+  ignore_errors: yes
+
+- name: Create new file for Auditbeat to detect
+  win_file:
+    path: '{{ ansible_user_dir }}\auditbeat_hello.txt'
+    state: touch
+  when: ansible_system == "Win32NT"
+
+- name: Create new file for Auditbeat to detect
+  file:
+    path: '{{ ansible_user_dir }}/auditbeat_hello.txt'
+    state: touch
+  when: ansible_system != "Win32NT"

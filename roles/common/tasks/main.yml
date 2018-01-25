@@ -25,17 +25,17 @@
 
 - name: Compute vars (windows)
   set_fact:
-    beat_url: "{{url_base}}/{{beat_name}}/{{beat_name}}-{{version}}-windows-{{win_arch}}.zip"
-    beat_pkg: "{{beat_name}}-{{version}}-windows-{{win_arch}}.zip"
-    beat_cfg: 'c:\users\vagrant\{{beat_name}}-{{version}}-windows-{{win_arch}}\{{beat_name}}.yml'
-    workdir: c:\\users\\vagrant
-    installdir: c:\\users\\vagrant\\{{beat_name}}-{{version}}-windows-{{win_arch}}
+    beat_url: '{{url_base}}/{{beat_name}}/{{beat_name}}-{{version}}-windows-{{win_arch}}.zip'
+    beat_pkg: '{{beat_name}}-{{version}}-windows-{{win_arch}}.zip'
+    beat_cfg: '{{ ansible_user_dir }}\{{beat_name}}-{{version}}-windows-{{win_arch}}\{{beat_name}}.yml'
+    workdir: '{{ ansible_user_dir }}'
+    installdir: '{{ ansible_user_dir }}\{{beat_name}}-{{version}}-windows-{{win_arch}}'
   when: ansible_os_family == "Windows"
 
 - name: Display all variables/facts known for a host
   debug:
     var: hostvars[inventory_hostname]
-    verbosity: 4
+    verbosity: 2
 
-# download packages and sha1 files
-- include: download.yml
+- name: Download package and checksum
+  include_tasks: download.yml

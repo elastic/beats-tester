@@ -1,0 +1,8 @@
+---
+
+beat_home_path:   '{{ installdir }}'
+beat_config_path: '{{ installdir }}'
+beat_data_path:   '{{ installdir }}/data'
+beat_logs_path:   '{{ installdir }}/logs'
+
+beat_service_name: '{{ beat_name }}'

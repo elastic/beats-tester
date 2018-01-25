@@ -1,0 +1,6 @@
+---
+
+beat_home_path:   '{{ installdir }}'
+beat_config_path: '{{ installdir }}'
+beat_data_path:   'c:\ProgramData\{{ beat_name }}'
+beat_logs_path:   'c:\ProgramData\{{ beat_name }}\logs'
