@@ -1,0 +1,13 @@
+---
+
+- name: Download data over HTTP
+  get_url:
+    url: http://www.google.com/favicon.ico
+    dest: '{{ ansible_user_dir }}/favicon.ico'
+  when: ansible_system != "Win32NT"
+
+- name: Download data over HTTP
+  win_get_url:
+    url: http://www.google.com/favicon.ico
+    dest: '{{ ansible_user_dir }}/favicon.ico'
+  when: ansible_system == "Win32NT"

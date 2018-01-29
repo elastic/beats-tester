@@ -115,5 +115,5 @@ output:
   # rotate_every_kb: maximum size of the files in path
   # number of files: maximum number of files in path
   file:
-    path: "c:/users/vagrant/output"
+    path: '{{ workdir }}\output'
     filename: filebeat

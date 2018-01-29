@@ -1,0 +1,11 @@
+---
+
+- name: Set packetbeat_device
+  set_fact:
+    packetbeat_device: 0
+  when: ansible_system == "Win32NT"
+
+- name: Set packetbeat_device
+  set_fact:
+    packetbeat_device: en0
+  when: ansible_os_family == "Darwin"

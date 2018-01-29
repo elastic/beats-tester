@@ -10,12 +10,6 @@
     path: '{{ beat_logs_path }}'
     state: absent
 
-- name: Replace configuration file with template
-  template:
-    src: '{{ beat_name }}.yml.j2'
-    dest: '{{ beat_cfg }}'
-    mode: 0600
-
 - name: "Pre-run setup for {{ beat_name }}"
   include_tasks: '{{ pre_run_item }}'
   with_first_found:
@@ -25,10 +19,25 @@
   loop_control:
     loop_var: pre_run_item
 
+- name: Replace configuration file with template
+  template:
+    src: '{{ beat_name }}.yml.j2'
+    dest: '{{ beat_cfg }}'
+    mode: 0600
+
 - name: 'Start {{ beat_service_name }} service'
   service:
     name: '{{ beat_service_name }}'
     state: restarted
+
+- name: "Post-run setup for {{ beat_name }}"
+  include_tasks: '{{ post_run_item }}'
+  with_first_found:
+  - files:
+      - 'tasks/{{ beat_name }}/post-run.yml'
+    skip: true
+  loop_control:
+    loop_var: post_run_item
 
 - name: 'Wait for {{ beat_name }} to produce output.json'
   wait_for:

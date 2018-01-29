@@ -12,10 +12,9 @@
   roles:
     - common
     - test-install
-    - test-packetbeat-file
+    - test-beat
     - test-uninstall
     - {role: test-linux-binary, when: ansible_system == "Linux"}
-
 
 - name: Packaging tests Filebeat
   hosts:
@@ -99,7 +98,7 @@
   roles:
     - common
     - test-install
-    - test-win-packetbeat-file
+    - test-beat
     - test-uninstall
 
 - name: Packaging windows x86_64 tests for Packetbeat
@@ -114,7 +113,7 @@
   roles:
     - common
     - test-install
-    - test-win-packetbeat-file
+    - test-beat
     - test-uninstall
 
 - name: Packaging windows x86 tests for Metricbeat
