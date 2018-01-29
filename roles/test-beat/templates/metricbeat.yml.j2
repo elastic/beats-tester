@@ -1,10 +1,11 @@
 # {{ ansible_managed }}
 
-packetbeat.interfaces.device: {{ packetbeat_device }}
+metricbeat.max_start_delay: 0
 
-packetbeat.protocols:
-- type: http
-  ports: [80]
+metricbeat.modules:
+- module: system
+  metricsets: [cpu, process]
+  period: 1s
 
 output.file:
   path: '${path.logs}'

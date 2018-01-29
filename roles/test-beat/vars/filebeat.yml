@@ -1,0 +1,4 @@
+---
+
+registry_file: registry
+filebeat_logs_dir: '{{ ansible_user_dir }}/filebeat_logs'

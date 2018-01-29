@@ -2,4 +2,4 @@
 
 - name: Generate execve data for Auditbeat
   command: ls -la /etc/gshadow
-  when: ansible_system != "Win32NT"
+  when: ansible_system == "Linux"

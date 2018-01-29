@@ -29,7 +29,7 @@
   roles:
     - common
     - test-install
-    - test-filebeat-file
+    - test-beat
     - test-uninstall
     - {role: test-linux-binary, when: ansible_system == "Linux"}
 
@@ -46,7 +46,7 @@
   roles:
     - common
     - test-install
-    - test-metricbeat-file
+    - test-beat
     - test-uninstall
     - {role: test-linux-binary, when: ansible_system == "Linux"}
 
@@ -64,7 +64,7 @@
   roles:
     - common
     - test-install
-    - test-heartbeat-file
+    - test-beat
     - test-uninstall
     - {role: test-linux-binary, when: ansible_system == "Linux"}
 
@@ -128,7 +128,7 @@
   roles:
     - common
     - test-install
-    - test-win-metricbeat-file
+    - test-beat
     - test-uninstall
 
 - name: Packaging windows x86_64 tests for Metricbeat
@@ -143,7 +143,7 @@
   roles:
     - common
     - test-install
-    - test-win-metricbeat-file
+    - test-beat
     - test-uninstall
 
 - name: Packaging windows x86 tests for Filebeat
@@ -158,7 +158,7 @@
   roles:
     - common
     - test-install
-    - test-win-filebeat-file
+    - test-beat
     - test-uninstall
 
 - name: Packaging windows x86_64 tests for Filebeat
@@ -173,7 +173,7 @@
   roles:
     - common
     - test-install
-    - test-win-filebeat-file
+    - test-beat
     - test-uninstall
 
 - name: Packaging windows x86 tests for Heartbeat
@@ -188,7 +188,7 @@
   roles:
     - common
     - test-install
-    - test-win-heartbeat-file
+    - test-beat
     - test-uninstall
 
 - name: Packaging windows x86_64 tests for Heartbeat
@@ -203,7 +203,7 @@
   roles:
     - common
     - test-install
-    - test-win-heartbeat-file
+    - test-beat
     - test-uninstall
 
 - name: Packaging windows x86 tests for Winlogbeat
@@ -218,7 +218,7 @@
   roles:
     - common
     - test-install
-    - test-win-winlogbeat-file
+    - test-beat
     - test-uninstall
 
 - name: Packaging windows x86_64 tests for Winlogbeat
@@ -233,7 +233,7 @@
   roles:
     - common
     - test-install
-    - test-win-winlogbeat-file
+    - test-beat
     - test-uninstall
 
 - name: Packaging windows x86 tests for Auditbeat

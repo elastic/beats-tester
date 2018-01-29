@@ -25,13 +25,19 @@
     dest: '{{ beat_cfg }}'
     mode: 0600
 
+# TODO (andrewkroh on 2018-01-29): Remove -path.logs after resolving
+# https://github.com/elastic/beats/issues/6214.
 - name: 'Start {{ beat_service_name }} service'
-  command: './{{ beat_name }}'
+  command: './{{ beat_name }} -path.logs={{ beat_logs_path }}'
   args:
     chdir: '{{ beat_home_path }}'
   register: async_beat_cmd
-  async: 20
+  async: 60
   poll: 0
+
+- name: Sleep for 3 seconds and continue
+  wait_for: timeout=3
+  delegate_to: localhost
 
 - name: "Post-run setup for {{ beat_name }}"
   include_tasks: '{{ post_run_item }}'

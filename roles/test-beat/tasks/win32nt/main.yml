@@ -14,7 +14,7 @@
   loop_control:
     loop_var: pre_run_item
 
-- name: "Install {{ beat_service_name }} Windows service"
+- name: "Install {{ beat_name }} Windows service"
   win_shell: '.\install-service-{{ beat_name }}.ps1'
   args:
     chdir: '{{ beat_home_path }}'
@@ -24,9 +24,9 @@
     src: '{{ beat_name }}.yml.j2'
     dest: '{{ beat_config_file }}'
 
-- name: "Start {{ beat_service_name }} Windows service"
+- name: "Start {{ beat_name }} Windows service"
   win_service:
-    name: '{{ beat_service_name }}'
+    name: '{{ beat_name }}'
     state: started
 
 - name: "Post-run setup for {{ beat_name }}"
@@ -41,9 +41,9 @@
 - name: "Let {{ beat_name }} run for 10s"
   win_shell: Start-Sleep -s 10
 
-- name: "Stop {{ beat_service_name }} Windows service"
+- name: "Stop {{ beat_name }} Windows service"
   win_service:
-    name: '{{ beat_service_name }}'
+    name: '{{ beat_name }}'
     state: stopped
 
 - name: "Uninstall {{ beat_name }} service_name"

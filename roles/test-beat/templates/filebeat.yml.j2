@@ -1,10 +1,8 @@
 # {{ ansible_managed }}
 
-packetbeat.interfaces.device: {{ packetbeat_device }}
-
-packetbeat.protocols:
-- type: http
-  ports: [80]
+filebeat.prospectors:
+- paths:
+  - '{{ filebeat_logs_dir }}/*.log'
 
 output.file:
   path: '${path.logs}'

@@ -6,3 +6,4 @@ beat_data_path:   '{{ installdir }}/data'
 beat_logs_path:   '{{ installdir }}/logs'
 
 beat_service_name: '{{ beat_name }}'
+registry_file: ''

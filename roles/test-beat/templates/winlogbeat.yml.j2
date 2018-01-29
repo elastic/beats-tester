@@ -1,10 +1,5 @@
-# {{ ansible_managed }}
-
-packetbeat.interfaces.device: {{ packetbeat_device }}
-
-packetbeat.protocols:
-- type: http
-  ports: [80]
+winlogbeat.event_logs:
+- name: Application
 
 output.file:
   path: '${path.logs}'
