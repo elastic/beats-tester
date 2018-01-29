@@ -5,6 +5,15 @@
     path: '{{ beat_data_path }}'
     state: absent
 
+- name: "Pre-run setup for {{ beat_name }}"
+  include_tasks: '{{ pre_run_item }}'
+  with_first_found:
+  - files:
+      - 'tasks/{{ beat_name }}/pre-run.yml'
+    skip: true
+  loop_control:
+    loop_var: pre_run_item
+
 - name: "Install {{ beat_service_name }} Windows service"
   win_shell: '.\install-service-{{ beat_name }}.ps1'
   args:
@@ -14,15 +23,6 @@
   win_template:
     src: '{{ beat_name }}.yml.j2'
     dest: '{{ beat_config_file }}'
-
-- name: "Pre-run setup for {{ beat_name }}"
-  include_tasks: '{{ pre_run_item }}'
-  with_first_found:
-  - files:
-      - 'tasks/{{ beat_name }}/pre-run.yml'
-    skip: true
-  loop_control:
-    loop_var: pre_run_item
 
 - name: "Start {{ beat_service_name }} Windows service"
   win_service:

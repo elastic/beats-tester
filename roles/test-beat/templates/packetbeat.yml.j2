@@ -1,0 +1,15 @@
+packetbeat.interfaces.device: {{ packetbeat_device }}
+
+packetbeat.protocols:
+  http:
+    ports: [80]
+
+output.file:
+  path: '${path.logs}'
+  filename: output.json
+
+logging:
+  level: info
+  json: true
+  files:
+    name: {{ beat_name }}.json
