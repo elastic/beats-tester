@@ -6,4 +6,4 @@ metricbeat.max_start_delay: 0
 
 output:
   file:
-    path: "c:/users/vagrant/output"
+    path: '{{ workdir }}\output'

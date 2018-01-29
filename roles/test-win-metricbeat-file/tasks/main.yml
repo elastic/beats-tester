@@ -2,7 +2,7 @@
   win_file: path={{workdir}}\\output state=absent
 
 - name: Replace configuration file (windows)
-  win_copy: src=metricbeat.yml dest='{{ beat_cfg }}'
+  win_template: src=metricbeat.yml dest='{{ beat_cfg }}'
 
 - name: Install Metricbeat service
   script: run_script.ps1 -script {{installdir}}\\install-service-metricbeat.ps1
