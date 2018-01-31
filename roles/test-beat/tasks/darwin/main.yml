@@ -25,10 +25,8 @@
     dest: '{{ beat_cfg }}'
     mode: 0600
 
-# TODO (andrewkroh on 2018-01-29): Remove -path.logs after resolving
-# https://github.com/elastic/beats/issues/6214.
 - name: 'Start {{ beat_service_name }} service'
-  command: './{{ beat_name }} -path.logs={{ beat_logs_path }}'
+  command: './{{ beat_name }}'
   args:
     chdir: '{{ beat_home_path }}'
   register: async_beat_cmd
