@@ -3,10 +3,10 @@
 - name: Assert Packetbeat http event
   shell: 'grep "GET /favicon.ico" {{ beat_output_file }} | tail -1'
   register: http_json
-  when: ansible_system == "Linux"
+  when: ansible_system != "Win32NT"
 
 - set_fact: http_event="{{ http_json.stdout | from_json }}"
-  when: ansible_system == "Linux"
+  when: ansible_system != "Win32NT"
 
 - name: Assert Packetbeat http event (win)
   win_shell: 'cat -Encoding UTF8 {{ beat_output_file }} |

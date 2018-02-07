@@ -1,10 +1,9 @@
 # {{ ansible_managed }}
 
-packetbeat.interfaces.device: {{ packetbeat_device }}
-
-packetbeat.protocols:
+heartbeat.monitors:
 - type: http
-  ports: [80]
+  schedule: '@every 1s'
+  urls: ["http://localhost:12345"]
 
 output.file:
   path: '${path.logs}'

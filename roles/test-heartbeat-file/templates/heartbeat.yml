@@ -1,9 +1,0 @@
-heartbeat.monitors:
-- type: http
-  schedule: '@every 1s'
-  urls: ["http://localhost:12345"]
-
-output:
-  file:
-    path: {{workdir}}/output
-    filename: heartbeat

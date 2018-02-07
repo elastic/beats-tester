@@ -1,7 +1,16 @@
 ---
 
+- name: "Set defaults"
+  include_vars: 'defaults/main.yml'
+
 - name: "Include {{ beat_name }} vars"
-  include_vars: '{{ beat_name }}.yml'
+  include_vars: '{{ beat_vars_item }}'
+  with_first_found:
+  - files:
+    - 'vars/{{ beat_name }}.yml'
+    skip: true
+  loop_control:
+    loop_var: beat_vars_item
 
 - name: "{{ beat_name }} - include OS vars"
   include_vars: '{{ item }}'
@@ -18,32 +27,50 @@
     beat_config_file: '{{ beat_config_path}}/{{ beat_name }}.yml'
     beat_output_file: '{{ beat_logs_path }}/output.json'
     beat_log_file: '{{ beat_logs_path }}/{{ beat_name }}.json'
+    beat_registry_file: '{{ beat_data_path }}/{{ registry_file }}'
 
-- name: "{{ beat_name }} - include tasks"
-  include_tasks: '{{ system_item }}'
-  with_first_found:
-    - '{{ ansible_os_family | lower }}/main.yml'
-    - '{{ ansible_system | lower }}/main.yml'
-  loop_control:
-    loop_var: system_item
+- name: 'Display vars for testing {{ beat_name }}'
+  debug:
+    var: hostvars[inventory_hostname]
+    verbosity: 2
 
-- name: Save output to host
-  fetch:
-    src: '{{ beat_output_file }}'
-    dest: 'logs/{{ beat_name }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/output.json'
-    flat: yes
+##### BLOCK START
+- name: 'Run {{ beat_name }} tasks'
+  block:
+  - name: "{{ beat_name }} - include tasks"
+    include_tasks: '{{ system_item }}'
+    with_first_found:
+      - '{{ ansible_os_family | lower }}/main.yml'
+      - '{{ ansible_system | lower }}/main.yml'
+    loop_control:
+      loop_var: system_item
 
-- name: Save log to host
-  fetch:
-    src: '{{ beat_log_file }}'
-    dest: 'logs/{{ beat_name }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/log.json'
-    flat: yes
+  always:
+  - name: Save output to host
+    fetch:
+      src: '{{ beat_output_file }}'
+      dest: 'logs/{{ beat_name }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/output.json'
+      flat: yes
 
-- name: Save config to host
-  fetch:
-    src: '{{ beat_config_file }}'
-    dest: 'logs/{{ beat_name }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/{{ beat_name }}.yml'
-    flat: yes
+  - name: Save log to host
+    fetch:
+      src: '{{ beat_log_file }}'
+      dest: 'logs/{{ beat_name }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/log.json'
+      flat: yes
+
+  - name: Save config to host
+    fetch:
+      src: '{{ beat_config_file }}'
+      dest: 'logs/{{ beat_name }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/{{ beat_name }}.yml'
+      flat: yes
+
+  - name: Save registry to host
+    fetch:
+      src: '{{ beat_registry_file }}'
+      dest: 'logs/{{ beat_name }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/{{ registry_file }}'
+      flat: yes
+    when: registry_file != ''
+##### BLOCK END
 
 - name: Run assertions on outputs
   include: '{{ assert_item }}'
@@ -57,6 +84,8 @@
 - name: Run {{ beat_name }} assertions on outputs
   include: '{{ beat_assert_item }}'
   with_first_found:
+  - files:
     - '{{ beat_name }}/assert.yml'
+    skip: true
   loop_control:
     loop_var: beat_assert_item

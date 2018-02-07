@@ -32,18 +32,18 @@
 
 - name: 'Stat {{ beat_name }} registry file'
   stat:
-    path: '{{ beat_data_path }}/{{ registry_file }}'
+    path: '{{ beat_registry_file }}'
   register: registry_stat
-  when: registry_file is defined
+  when: registry_file != ''
 
 - name: '{{ beat_name }} registry file stats'
   debug:
     var: registry_stat
-  when: registry_file is defined
+  when: registry_file != ''
 
 - name: 'Check {{ beat_name }} registry file'
   assert:
     that:
       - "registry_stat.stat.exists"
       - "registry_stat.stat.size > 0"
-  when: registry_file is defined
+  when: registry_file != ''

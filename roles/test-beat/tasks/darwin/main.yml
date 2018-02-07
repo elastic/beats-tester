@@ -30,8 +30,12 @@
   args:
     chdir: '{{ beat_home_path }}'
   register: async_beat_cmd
-  async: 20
+  async: 60
   poll: 0
+
+- name: Sleep for 3 seconds and continue
+  wait_for: timeout=3
+  delegate_to: localhost
 
 - name: "Post-run setup for {{ beat_name }}"
   include_tasks: '{{ post_run_item }}'

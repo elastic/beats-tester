@@ -1,9 +1,0 @@
-metricbeat.modules:
-  - module: system
-    metricsets: ["cpu"]
-    period: 1s
-
-output:
-  file:
-    path: {{workdir}}/output
-    filename: metricbeat
