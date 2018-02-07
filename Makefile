@@ -18,8 +18,12 @@ setup:
 	vagrant up
 	vagrant ssh-config > ssh_config
 
+# XXX (andrewkroh on 2018-02-07): OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES is
+# added as a workaround to a MacOS 10.13 (High Sierra) issue with python and
+# Ansible. See https://github.com/ansible/ansible/issues/32499.
 # Run Ansible from the virtualenv.
 run: ve
+	OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES \
 	ve/bin/ansible-playbook \
 	${ANSIBLE_VERBOSE} \
 	-i hosts \
