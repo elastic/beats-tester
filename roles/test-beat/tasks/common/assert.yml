@@ -47,3 +47,15 @@
       - "registry_stat.stat.exists"
       - "registry_stat.stat.size > 0"
   when: registry_file != ''
+
+- name: 'Get {{ beat_name }} metrics from logs'
+  shell: 'grep "Total non-zero metrics" {{ beat_log_file }} | tail -1'
+  register: log_metrics
+  when: ansible_system != "Win32NT"
+
+- set_fact: log_metrics_event='{{ log_metrics.stdout | from_json }}'
+  when: ansible_system != "Win32NT"
+
+- name: 'Check {{ beat_name }} has ephemeral ID'
+  assert:
+      that: "log_metrics_event.monitoring.metrics.beat.info.ephemeral_id"
