@@ -47,3 +47,31 @@
       - "registry_stat.stat.exists"
       - "registry_stat.stat.size > 0"
   when: registry_file != ''
+
+- name: 'Get {{ beat_name }} metrics from logs (win)'
+  win_shell: 'cat -Encoding UTF8 {{ beat_log_file }} |
+      select-string -Encoding UTF8 "Total non-zero" |
+      Select -Expandproperty Line | select -First 1'
+  register: log_metrics_win
+
+- set_fact: log_metrics_event='{{ log_metrics_win.stdout | from_json }}'
+
+- name: 'Check {{ beat_name }} has monitoring metrics (win)'
+  assert:
+    that:
+      - "log_metrics_event.monitoring.metrics.beat.cpu.system.ticks >= 0"
+      - "log_metrics_event.monitoring.metrics.beat.cpu.system.time >= 0"
+      - "log_metrics_event.monitoring.metrics.beat.cpu.total.ticks >= 0"
+      - "log_metrics_event.monitoring.metrics.beat.cpu.total.time >= 0"
+      - "log_metrics_event.monitoring.metrics.beat.cpu.user.ticks >= 0"
+      - "log_metrics_event.monitoring.metrics.beat.cpu.user.time >= 0"
+      - "log_metrics_event.monitoring.metrics.beat.info.ephemeral_id"
+      - "log_metrics_event.monitoring.metrics.beat.info.uptime.ms"
+      - "log_metrics_event.monitoring.metrics.system.cpu.cores"
+    not:
+      - "log_metrics_event.monitoring.metrics.system.cpu.load.1"
+      - "log_metrics_event.monitoring.metrics.system.cpu.load.5"
+      - "log_metrics_event.monitoring.metrics.system.cpu.load.15"
+      - "log_metrics_event.monitoring.metrics.system.cpu.load.norm.1"
+      - "log_metrics_event.monitoring.metrics.system.cpu.load.norm.5"
+      - "log_metrics_event.monitoring.metrics.system.cpu.load.norm.15"
