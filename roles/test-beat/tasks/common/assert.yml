@@ -54,16 +54,20 @@
 
 - set_fact: log_metrics_event='{{ log_metrics.stdout | from_json }}'
 
+- name: '{{ beat_name }} monitoring metrics'
+  debug:
+    var: log_metrics_event
+
 - name: 'Check {{ beat_name }} has monitoring metrics'
   assert:
     that:
       - "log_metrics_event.monitoring.metrics.beat.cpu.system.ticks >= 0"
-      - "log_metrics_event.monitoring.metrics.beat.cpu.system.time >= 0"
+      - "log_metrics_event.monitoring.metrics.beat.cpu.system.time.ms >= 0"
       - "log_metrics_event.monitoring.metrics.beat.cpu.total.ticks >= 0"
-      - "log_metrics_event.monitoring.metrics.beat.cpu.total.time >= 0"
+      - "log_metrics_event.monitoring.metrics.beat.cpu.total.time.ms >= 0"
       - "log_metrics_event.monitoring.metrics.beat.cpu.total.value >= 0"
       - "log_metrics_event.monitoring.metrics.beat.cpu.user.ticks >= 0"
-      - "log_metrics_event.monitoring.metrics.beat.cpu.user.time >= 0"
+      - "log_metrics_event.monitoring.metrics.beat.cpu.user.time.ms >= 0"
       - "log_metrics_event.monitoring.metrics.beat.info.ephemeral_id"
       - "log_metrics_event.monitoring.metrics.beat.info.uptime.ms"
       - "log_metrics_event.monitoring.metrics.system.cpu.cores"
