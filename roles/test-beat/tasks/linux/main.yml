@@ -45,6 +45,12 @@
     search_regex: '"version"'
     timeout: 20
 
+- name: 'Fetch metrics from {{ beat_name }} over HTTP'
+  get_url:
+    url: http://localhost:5066/stats
+    dest: '{{ beat_metrics_file }}'
+    force: yes
+
 - name: "Stop {{ beat_service_name }} service"
   service:
     name: '{{ beat_service_name }}'

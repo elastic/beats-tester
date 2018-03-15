@@ -48,8 +48,8 @@
       - "registry_stat.stat.size > 0"
   when: registry_file != ''
 
-- name: 'Get {{ beat_name }} metrics from logs'
-  shell: 'grep "Total non-zero metrics" {{ beat_log_file }} | tail -1'
+- name: 'Get {{ beat_name }} metrics'
+  shell: 'head -1 {{ beat_metrics_file }}'
   register: log_metrics
 
 - set_fact: log_metrics_event='{{ log_metrics.stdout | from_json }}'
@@ -61,19 +61,19 @@
 - name: 'Check {{ beat_name }} has monitoring metrics'
   assert:
     that:
-      - "log_metrics_event.monitoring.metrics.beat.cpu.system.ticks >= 0"
-      - "log_metrics_event.monitoring.metrics.beat.cpu.system.time.ms >= 0"
-      - "log_metrics_event.monitoring.metrics.beat.cpu.total.ticks >= 0"
-      - "log_metrics_event.monitoring.metrics.beat.cpu.total.time.ms >= 0"
-      - "log_metrics_event.monitoring.metrics.beat.cpu.total.value >= 0"
-      - "log_metrics_event.monitoring.metrics.beat.cpu.user.ticks >= 0"
-      - "log_metrics_event.monitoring.metrics.beat.cpu.user.time.ms >= 0"
-      - "log_metrics_event.monitoring.metrics.beat.info.ephemeral_id"
-      - "log_metrics_event.monitoring.metrics.beat.info.uptime.ms"
-      - "log_metrics_event.monitoring.metrics.system.cpu.cores"
-      - "'1' in log_metrics_event.monitoring.metrics.system.load"
-      - "'15' in log_metrics_event.monitoring.metrics.system.load"
-      - "'5' in log_metrics_event.monitoring.metrics.system.load"
-      - "'1' in log_metrics_event.monitoring.metrics.system.load.norm"
-      - "'15' in log_metrics_event.monitoring.metrics.system.load.norm"
-      - "'5' in log_metrics_event.monitoring.metrics.system.load.norm"
+      - "log_metrics_event.beat.cpu.system.ticks >= 0"
+      - "log_metrics_event.beat.cpu.system.time.ms >= 0"
+      - "log_metrics_event.beat.cpu.total.ticks >= 0"
+      - "log_metrics_event.beat.cpu.total.time.ms >= 0"
+      - "log_metrics_event.beat.cpu.total.value >= 0"
+      - "log_metrics_event.beat.cpu.user.ticks >= 0"
+      - "log_metrics_event.beat.cpu.user.time.ms >= 0"
+      - "log_metrics_event.beat.info.ephemeral_id"
+      - "log_metrics_event.beat.info.uptime.ms"
+      - "log_metrics_event.system.cpu.cores"
+      - "'1' in log_metrics_event.system.load"
+      - "'15' in log_metrics_event.system.load"
+      - "'5' in log_metrics_event.system.load"
+      - "'1' in log_metrics_event.system.load.norm"
+      - "'15' in log_metrics_event.system.load.norm"
+      - "'5' in log_metrics_event.system.load.norm"
