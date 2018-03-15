@@ -79,11 +79,18 @@
   vars:
     - beat_name: auditbeat
   roles:
-    - common
-    - test-install
-    - test-beat
-    - test-uninstall
-    - {role: test-linux-binary, when: ansible_system == "Linux"}
+    # The tests are written for Auditbeat 6.2 GA.
+    - role: common
+      when: "version | version_compare('6.2', '>=')"
+    - role: test-install
+      when: "version | version_compare('6.2', '>=')"
+    - role: test-beat
+      when: "version | version_compare('6.2', '>=')"
+    - role: test-uninstall
+      when: "version | version_compare('6.2', '>=')"
+    - role: test-linux-binary
+      when: ansible_system == "Linux"
+
 
 # windows
 - name: Packaging windows x86 tests for Packetbeat
