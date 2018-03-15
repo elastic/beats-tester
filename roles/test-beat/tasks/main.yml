@@ -28,6 +28,7 @@
     beat_output_file: '{{ beat_logs_path }}/output.json'
     beat_log_file: '{{ beat_logs_path }}/{{ beat_name }}.json'
     beat_registry_file: '{{ beat_data_path }}/{{ registry_file }}'
+    beat_metrics_file: '{{ beat_logs_path }}/metrics.json'
 
 - name: 'Display vars for testing {{ beat_name }}'
   debug:
@@ -70,6 +71,12 @@
       dest: 'logs/{{ beat_name }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/{{ registry_file }}'
       flat: yes
     when: registry_file != ''
+
+  - name: Save metrics to host
+    fetch:
+      src: '{{ beat_metrics_file }}'
+      dest: 'logs/{{ beat_name }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/metrics.json'
+      flat: yes
 ##### BLOCK END
 
 - name: Run assertions on outputs

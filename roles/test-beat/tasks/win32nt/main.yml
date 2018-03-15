@@ -41,6 +41,12 @@
 - name: "Let {{ beat_name }} run for 10s"
   win_shell: Start-Sleep -s 10
 
+- name: 'Fetch metrics from {{ beat_name }} over HTTP'
+  win_get_url:
+    url: http://localhost:5066/stats
+    dest: '{{ beat_metrics_file }}'
+    force: yes
+
 - name: "Stop {{ beat_name }} Windows service"
   win_service:
     name: '{{ beat_name }}'
