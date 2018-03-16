@@ -272,7 +272,11 @@
     - beat_name: auditbeat
     - win_arch: x86_64
   roles:
-    - common
-    - test-install
-    - test-beat
-    - test-uninstall
+    - role: common
+      when: "version | version_compare('6.2', '>=')"
+    - role: test-install
+      when: "version | version_compare('6.2', '>=')"
+    - role: test-beat
+      when: "version | version_compare('6.2', '>=')"
+    - role: test-uninstall
+      when: "version | version_compare('6.2', '>=')"
