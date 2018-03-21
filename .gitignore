@@ -10,5 +10,5 @@
 # Files
 .DS_Store
 ssh_config
-site.retry
+*.retry
 *.log

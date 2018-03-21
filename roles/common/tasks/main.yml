@@ -1,23 +1,23 @@
 - name: Compute vars (debian)
   set_fact:
-    beat_url: "{{ url_base }}/{{beat_name}}/{{beat_name}}-{{version}}-{{deb_arch}}.deb"
-    beat_pkg: "{{beat_name}}-{{version}}-{{deb_arch}}.deb"
+    beat_url: "{{ url_base }}/{{beat_name}}/{{beat_name}}{{beat_pkg_suffix}}-{{version}}-{{deb_arch}}.deb"
+    beat_pkg: "{{beat_name}}{{beat_pkg_suffix}}-{{version}}-{{deb_arch}}.deb"
     beat_cfg: "/etc/{{beat_name}}/{{beat_name}}.yml"
     workdir: /root
   when: ansible_os_family == "Debian"
 
 - name: Compute vars (redhat)
   set_fact:
-    beat_url: "{{url_base}}/{{beat_name}}/{{beat_name}}-{{version}}-{{rpm_arch}}.rpm"
-    beat_pkg: "{{beat_name}}-{{version}}-{{rpm_arch}}.rpm"
+    beat_url: "{{url_base}}/{{beat_name}}/{{beat_name}}{{beat_pkg_suffix}}-{{version}}-{{rpm_arch}}.rpm"
+    beat_pkg: "{{beat_name}}{{beat_pkg_suffix}}-{{version}}-{{rpm_arch}}.rpm"
     beat_cfg: "/etc/{{beat_name}}/{{beat_name}}.yml"
     workdir: /root
   when: ansible_os_family in ["RedHat", "Suse"]
 
 - name: Compute vars (darwin)
   set_fact:
-    beat_url: "{{url_base}}/{{beat_name}}/{{beat_name}}-{{version}}-darwin-x86_64.tar.gz"
-    beat_pkg: "{{beat_name}}-{{version}}-darwin-x86_64.tar.gz"
+    beat_url: "{{url_base}}/{{beat_name}}/{{beat_name}}{{beat_pkg_suffix}}-{{version}}-darwin-x86_64.tar.gz"
+    beat_pkg: "{{beat_name}}{{beat_pkg_suffix}}-{{version}}-darwin-x86_64.tar.gz"
     beat_cfg: "/tmp/{{beat_name}}-{{version}}-darwin-x86_64/{{beat_name}}.yml"
     workdir: /tmp
     installdir: /tmp/{{beat_name}}-{{version}}-darwin-x86_64
@@ -25,9 +25,9 @@
 
 - name: Compute vars (windows)
   set_fact:
-    beat_url: '{{url_base}}/{{beat_name}}/{{beat_name}}-{{version}}-windows-{{win_arch}}.zip'
-    beat_pkg: '{{beat_name}}-{{version}}-windows-{{win_arch}}.zip'
     beat_cfg: '{{ ansible_user_dir }}\{{beat_name}}-{{version}}-windows-{{win_arch}}\{{beat_name}}.yml'
+    beat_url: '{{url_base}}/{{beat_name}}/{{beat_name}}{{ beat_pkg_suffix }}-{{version}}-windows-{{win_arch}}.zip'
+    beat_pkg: '{{beat_name}}{{ beat_pkg_suffix }}-{{version}}-windows-{{win_arch}}.zip'
     workdir: '{{ ansible_user_dir }}'
     installdir: '{{ ansible_user_dir }}\{{beat_name}}-{{version}}-windows-{{win_arch}}'
   when: ansible_os_family == "Windows"

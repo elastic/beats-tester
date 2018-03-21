@@ -1,1 +1,2 @@
-service_name: "{{ beat_name }}"
+service_name:  '{{ beat_name }}'
+beat_pkg_name: '{{ service_name }}{{ beat_pkg_suffix }}'

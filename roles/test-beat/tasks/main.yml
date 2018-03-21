@@ -50,32 +50,32 @@
   - name: Save output to host
     fetch:
       src: '{{ beat_output_file }}'
-      dest: 'logs/{{ beat_name }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/output.json'
+      dest: 'logs/{{ beat_name }}{{ beat_pkg_suffix }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/output.json'
       flat: yes
 
   - name: Save log to host
     fetch:
       src: '{{ beat_log_file }}'
-      dest: 'logs/{{ beat_name }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/log.json'
+      dest: 'logs/{{ beat_name }}{{ beat_pkg_suffix }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/log.json'
       flat: yes
 
   - name: Save config to host
     fetch:
       src: '{{ beat_config_file }}'
-      dest: 'logs/{{ beat_name }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/{{ beat_name }}.yml'
+      dest: 'logs/{{ beat_name }}{{ beat_pkg_suffix }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/{{ beat_name }}.yml'
       flat: yes
 
   - name: Save registry to host
     fetch:
       src: '{{ beat_registry_file }}'
-      dest: 'logs/{{ beat_name }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/{{ registry_file }}'
+      dest: 'logs/{{ beat_name }}{{ beat_pkg_suffix }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/{{ registry_file }}'
       flat: yes
     when: registry_file != ''
 
   - name: Save metrics to host
     fetch:
       src: '{{ beat_metrics_file }}'
-      dest: 'logs/{{ beat_name }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/metrics.json'
+      dest: 'logs/{{ beat_name }}{{ beat_pkg_suffix }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/metrics.json'
       flat: yes
 ##### BLOCK END
 

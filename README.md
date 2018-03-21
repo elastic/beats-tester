@@ -44,6 +44,14 @@ Here are some execution examples:
         export ANSIBLE_VERBOSE="-vvv"
         make run
 
+* Executing tests on your local macOS machine. In System Preferences -> Sharing
+  enable _Remote Login_ (SSH). Don't forget to disable _Remote Login_ when you
+  are done.
+
+        export ANSIBLE_EXTRA_FLAGS="--ask-sudo-pass"
+        export ANSIBLE_LIMIT="localhost"
+        make run
+
 ## Cleanup
 
 You need to tear down the VMs when you are finished.
