@@ -1,0 +1,5 @@
+---
+- import_playbook: packages.yml
+  vars:
+    beat_pkg_suffix: '-oss'
+  when: "version | version_compare('6.3', '>=')"

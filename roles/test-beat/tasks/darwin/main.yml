@@ -30,7 +30,7 @@
   args:
     chdir: '{{ beat_home_path }}'
   register: async_beat_cmd
-  async: 60
+  async: 240
   poll: 0
 
 - name: Sleep for 3 seconds and continue

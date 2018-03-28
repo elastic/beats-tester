@@ -22,7 +22,7 @@ setup:
 # added as a workaround to a MacOS 10.13 (High Sierra) issue with python and
 # Ansible. See https://github.com/ansible/ansible/issues/32499.
 # Run Ansible from the virtualenv.
-run: ve
+ansible-playbook-run-%: ve
 	OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES \
 	ve/bin/ansible-playbook \
 	${ANSIBLE_VERBOSE} \
@@ -31,7 +31,16 @@ run: ve
 	-e @run-settings-${RUN_SETTINGS}.yml \
 	--limit "${ANSIBLE_LIMIT}" \
 	${ANSIBLE_EXTRA_FLAGS} \
-	site.yml
+	$*.yml
+
+run-elastic: ansible-playbook-run-elastic
+
+run-oss: ansible-playbook-run-oss
+
+# TODO: (andrewkroh on 2018-03-21): Uncomment run-oss after the "-oss" packages
+# are available for 6.3 and 7.0 (master). This ensures that the "make run"
+# target that Jenkins executes continues to work.
+run: run-elastic # run-oss
 
 # This destroys all vagrant machines and removes the vagrant related data
 clean:
