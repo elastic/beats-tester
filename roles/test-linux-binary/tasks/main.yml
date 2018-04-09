@@ -31,6 +31,13 @@
     line: '  period: 1s'
   when: beat_name == "metricbeat"
 
+- name: Set heartbeat poll period to 1s
+  lineinfile:
+    dest: "{{installdir}}/heartbeat.yml"
+    regexp: '^  schedule: ''@every 10s'''
+    line: '  schedule: ''@every 1s'''
+  when: beat_name == "heartbeat"
+
 - name: Start in bg
   shell: chdir={{installdir}} ./{{beat_name}} -E output.elasticsearch.enabled=false -E output.file.path={{workdir}}/output -E metricbeat.max_start_delay=0
   async: 45
