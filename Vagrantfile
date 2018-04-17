@@ -55,7 +55,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
     config.vm.define "tester-win12-64" do |testvm|
-	testvm.vm.box = "https://s3.amazonaws.com/beats-files/vagrant/beats-win2012-r2-virtualbox-2015-12-10_1222.box"
+	     testvm.vm.box = "https://s3.amazonaws.com/beats-files/vagrant/beats-win2012-r2-virtualbox-2015-12-10_1222.box"
 
 	testvm.ssh.port = 2406
 	testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
@@ -96,6 +96,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         testvm.ssh.port = 2409
         testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
         testvm.vm.network "private_network", ip: "192.168.33.78"
+    end
+
+    config.vm.define "tester-debian9-64" do |testvm|
+        testvm.vm.box = "debian/stretch64"
+
+        testvm.ssh.port = 2410
+        testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
+        testvm.vm.network "private_network", ip: "192.168.33.79"
+        testvm.vm.provision "python", type: "shell", inline: ubuntu_provision_python()
     end
 end
 

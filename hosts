@@ -5,6 +5,7 @@ tester-es
 tester-ubuntu1204-32
 tester-debian6-64
 tester-ubuntu1604-64
+tester-debian9-64
 
 [centos]
 tester-centos6-32
