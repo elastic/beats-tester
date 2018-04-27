@@ -37,10 +37,7 @@ run-elastic: ansible-playbook-run-elastic
 
 run-oss: ansible-playbook-run-oss
 
-# TODO: (andrewkroh on 2018-03-21): Uncomment run-oss after the "-oss" packages
-# are available for 6.3 and 7.0 (master). This ensures that the "make run"
-# target that Jenkins executes continues to work.
-run: run-elastic # run-oss
+run: run-elastic run-oss
 
 # This destroys all vagrant machines and removes the vagrant related data
 clean:
