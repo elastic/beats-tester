@@ -14,6 +14,9 @@ tester-centos7-64
 tester-opensuse42-64
 tester-awslinux
 
+[sles]
+tester-sles12-64
+
 [darwin]
 localhost
 

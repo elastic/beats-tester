@@ -3,6 +3,7 @@
   hosts:
     - debian
     - centos
+    - sles
     - darwin
   become: yes
   tags:
@@ -20,6 +21,7 @@
   hosts:
     - debian
     - centos
+    - sles
     - darwin
   become: yes
   tags:
@@ -37,6 +39,7 @@
   hosts:
     - debian
     - centos
+    - sles
     - darwin
   become: yes
   tags:
@@ -54,6 +57,7 @@
   hosts:
     - debian
     - centos
+    - sles
     - darwin
   become: yes
   tags:
@@ -72,6 +76,7 @@
   hosts:
     - debian
     - centos
+    - sles
     - darwin
   become: yes
   tags:
