@@ -57,21 +57,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.define "tester-win12-64" do |testvm|
 	     testvm.vm.box = "https://s3.amazonaws.com/beats-files/vagrant/beats-win2012-r2-virtualbox-2015-12-10_1222.box"
 
-	testvm.ssh.port = 2406
-	testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
-	testvm.vm.network "private_network", ip: "192.168.33.75"
+	      testvm.ssh.port = 2406
+      	testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
+      	testvm.vm.network "private_network", ip: "192.168.33.75"
 
-	testvm.vm.communicator = "winrm"
-	testvm.vm.network "forwarded_port", host: 3389, guest: 3389, host_ip: "127.0.0.1"
-	testvm.vm.network "forwarded_port", host: 5985, guest: 5985, host_ip: "127.0.0.1"
+      	testvm.vm.communicator = "winrm"
+      	testvm.vm.network "forwarded_port", host: 3389, guest: 3389, host_ip: "127.0.0.1"
+      	testvm.vm.network "forwarded_port", host: 5985, guest: 5985, host_ip: "127.0.0.1"
 
-	testvm.vm.provider "virtualbox" do |v|
-	    v.gui = false
-	    v.cpus = 2
-	    v.memory = 2048
-	end
+      	testvm.vm.provider "virtualbox" do |v|
+      	    v.gui = false
+      	    v.cpus = 2
+      	    v.memory = 2048
+      	end
     end
-
 
     config.vm.define "tester-ubuntu1604-64" do |testvm|
         testvm.vm.box = "ubuntu/xenial64"
@@ -105,6 +104,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
         testvm.vm.network "private_network", ip: "192.168.33.79"
         testvm.vm.provision "python", type: "shell", inline: ubuntu_provision_python()
+    end
+
+    config.vm.define "tester-sles12-64" do |testvm|
+        testvm.vm.box = "elastic/sles-12-x86_64"
+
+        testvm.ssh.port = 2411
+        testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
+        testvm.vm.network "private_network", ip: "192.168.33.80"
     end
 end
 
