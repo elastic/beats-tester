@@ -34,9 +34,10 @@ Here are some execution examples:
 * Only a particular OS, Debian 6 amd64 in the example:
 
         # Instead using 'make setup' launch vagrant machines manually.
-        vagrant up tester-debian6-64
-        vagrant ssh-config tester-debian6-64 > ssh_config
-        export ANSIBLE_LIMIT="tester-debian6-64"
+        machine=tester-debian6-64
+        vagrant up $machine
+        vagrant ssh-config $machine > ssh_config
+        export ANSIBLE_LIMIT="$machine"
         make run
 
 * Enable Ansible debug.
