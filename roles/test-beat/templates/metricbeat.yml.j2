@@ -2,10 +2,8 @@
 
 metricbeat.max_start_delay: 0
 
-metricbeat.modules:
-- module: system
-  metricsets: [cpu, process]
-  period: 1s
+metricbeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
 
 output.file:
   path: '${path.logs}'

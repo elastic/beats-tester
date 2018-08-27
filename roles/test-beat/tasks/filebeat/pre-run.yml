@@ -35,3 +35,28 @@
     src: '{{ role_path }}/files/filebeat-test.log'
     dest: '{{ filebeat_logs_dir }}/test.log'
   when: ansible_system != "Win32NT"
+
+# Verify modules.d is working.
+- name: List filebeat modules
+  shell: filebeat modules list
+  register: filebeat_modules
+  when: ansible_system != "Win32NT"
+
+- name: List filebeat modules (win)
+  win_shell: .\filebeat modules list
+  args:
+    chdir: '{{ beat_home_path }}'
+  register: filebeat_modules_win
+  when: ansible_system == "Win32NT"
+
+- assert:
+    that:
+      - "'system' in filebeat_modules.stdout"
+    msg: filebeat modules list does not contain 'system'
+  when: ansible_system != "Win32NT"
+
+- assert:
+    that:
+      - "'system' in filebeat_modules_win.stdout"
+    msg: filebeat modules list does not contain 'system'
+  when: ansible_system == "Win32NT"

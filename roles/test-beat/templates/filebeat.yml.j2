@@ -1,5 +1,8 @@
 # {{ ansible_managed }}
 
+filebeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+
 filebeat.prospectors:
 - paths:
   - '{{ filebeat_logs_dir }}/*.log'
