@@ -1,0 +1,26 @@
+---
+
+# Verify modules.d is working.
+- name: List metricbeat modules
+  shell: metricbeat modules list
+  register: metricbeat_modules
+  when: ansible_system != "Win32NT"
+
+- name: List metricbeat modules (win)
+  win_shell: .\metricbeat modules list
+  args:
+    chdir: '{{ beat_home_path }}'
+  register: metricbeat_modules_win
+  when: ansible_system == "Win32NT"
+
+- assert:
+    that:
+      - "'system' in metricbeat_modules.stdout"
+    msg: Metricbeat modules list does not contain 'system'
+  when: ansible_system != "Win32NT"
+
+- assert:
+    that:
+      - "'system' in metricbeat_modules_win.stdout"
+    msg: Metricbeat modules list does not contain 'system'
+  when: ansible_system == "Win32NT"
