@@ -1,4 +1,4 @@
 # Beats "nightly" build artifacts.
 # Published by: https://beats-ci.elastic.co/job/elastic+beats+master+package/
-url_base: https://s3-us-west-2.amazonaws.com/beats-package-snapshots
+url_base: https://storage.cloud.google.com/beats-ci-artifacts/snapshots
 version: 7.0.0-alpha1-SNAPSHOT
