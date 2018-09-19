@@ -79,3 +79,10 @@
       - "'5' in log_metrics_event.system.load.norm"
   # These metric names were established in 6.3.
   when: "version | version_compare('6.3', '>=')"
+
+- name: 'Check {{ beat_name }} reports the number of open handles'
+  assert:
+    that:
+      - "log_metrics_event.beat.handles.open >= 0"
+  # These metric names were established in 6.5.
+  when: "version | version_compare('6.5', '>=')"
