@@ -1,7 +1,0 @@
-- name: 'Check {{ beat_name }} reports the limits of open handles'
-  assert:
-    that:
-      - "log_metrics_event.beat.handles.limit.hard >= 0"
-      - "log_metrics_event.beat.handles.limit.soft >= 0"
-  # These metric names were established in 6.5.
-  when: "version | version_compare('6.5', '>=')"
