@@ -25,4 +25,3 @@
       - "'@timestamp' in http_event"
       - "'@metadata' in http_event"
       - "'http' in http_event"
-      - "'beat' in http_event"
