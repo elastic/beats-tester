@@ -3,7 +3,7 @@
 filebeat.config.modules:
   path: ${path.config}/modules.d/*.yml
 
-filebeat.prospectors:
+filebeat.inputs:
 - paths:
   - '{{ filebeat_logs_dir }}/*.log'
 
