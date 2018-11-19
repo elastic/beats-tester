@@ -1,4 +1,4 @@
 # Snapshot builds.
 # Published by: https://internal-ci.elastic.co/job/elastic+release-manager+master+unified-snapshot/
 url_base: https://snapshots.elastic.co/downloads/beats
-version: 7.0.0-alpha1-SNAPSHOT
+version: 7.0.0-SNAPSHOT
