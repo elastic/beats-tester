@@ -38,6 +38,17 @@
     line: '  schedule: ''@every 1s'''
   when: beat_name == "heartbeat"
 
+# TODO (andrewkroh on 2018-11-21): Re-enable after go-sysinfo has been patched
+# to work on Debian 6. https://github.com/elastic/beats-tester/issues/97
+- name: Disable add_host_metadata on Debian 6
+  lineinfile:
+    dest: "{{installdir}}/{{beat_name}}.yml"
+    regexp: '- add_host_metadata: ~'
+    line: '#- add_host_metadata: ~'
+  when:
+    - ansible_os_family == "Debian"
+    - ansible_distribution_major_version == "6"
+
 - name: Start in bg
   shell: chdir={{installdir}} ./{{beat_name}} -E output.elasticsearch.enabled=false -E output.file.path={{workdir}}/output -E metricbeat.max_start_delay=0
   async: 45
