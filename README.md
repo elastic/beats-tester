@@ -45,3 +45,7 @@ Here are some execution examples:
 
 * Ansible = 2.3.1
 * pywinrm >= 0.2.2"
+* On High Sierra and above your might need to run the following command to not run into macOS X issues.
+
+      export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
