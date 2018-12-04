@@ -36,3 +36,12 @@ Here are some execution examples:
 * Only a particular OS, Debian 6 amd64 in the example:
 
         ansible-playbook -i hosts -e @run-settings-nightly.yml --limit tester-debian6-64 site.yml
+
+* On macOS X, Note that you need to enable remote SSH login.
+
+        ansible-playbook -i hosts -e @run-settings-staging.yml --limit darwin site.yml --ask-sudo-pass
+
+## Requirements
+
+* Ansible = 2.3.1
+* pywinrm >= 0.2.2"
