@@ -25,6 +25,18 @@
     dest: '{{ beat_cfg }}'
     mode: 0600
 
+- name: Create dir for systemd overrides
+  file:
+    path: '/etc/systemd/system/{{ beat_service_name }}.service.d'
+    state: directory
+    mode: 0755
+
+- name: Override log options for systemd to get a log file
+  template:
+    src: systemd.debug.conf
+    dest: '/etc/systemd/system/{{ beat_service_name }}.service.d/debug.conf'
+    mode: 0600
+
 - name: 'Start {{ beat_service_name }} service'
   service:
     name: '{{ beat_service_name }}'
