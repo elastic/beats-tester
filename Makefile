@@ -1,4 +1,4 @@
-RUN_SETTINGS?=staging
+RUN_SETTINGS?=nightlies
 # Control ansible's verbosity by setting this with -v or -vvvvv (more verbose).
 ANSIBLE_VERBOSE?=
 # Exluding localhost, as localhost is assumed to be Mac OS X with ssh enabled.
