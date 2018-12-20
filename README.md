@@ -31,10 +31,10 @@ Here are some execution examples:
         export ANSIBLE_EXTRA_FLAGS="--tags packetbeat"
         make run
 
-* Only a particular OS, Debian 6 amd64 in the example:
+* Only a particular OS, Debian 8 amd64 in the example:
 
         # Instead using 'make setup' launch vagrant machines manually.
-        machine=tester-debian6-64
+        machine=tester-debian8-64
         vagrant up $machine
         vagrant ssh-config $machine > ssh_config
         export ANSIBLE_LIMIT="$machine"

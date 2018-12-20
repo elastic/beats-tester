@@ -30,6 +30,20 @@ auditbeat.modules:
   paths:
   - '{{ ansible_user_dir }}'
 
+{% if "oss" not in beat_pkg_suffix %}
+{% if version is version_compare('7.0', '>=') %}
+- module: system
+  metricsets:
+    - host
+    - process
+{% if ansible_system == "Linux" %}
+    - socket
+    - user
+  user.detect_password_changes: true
+{% endif %}
+{% endif %}
+{% endif %}
+
 output.file:
   path: '${path.logs}'
   filename: output.json
