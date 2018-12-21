@@ -31,7 +31,7 @@ auditbeat.modules:
   - '{{ ansible_user_dir }}'
 
 {% if "oss" not in beat_pkg_suffix %}
-{% if version is version_compare('7.0', '>=') %}
+{% if version is version_compare('6.6', '>=') %}
 - module: system
   metricsets:
     - host
