@@ -119,7 +119,7 @@
       - "'Unknown help topic' not in xpack_cmd_result.stderr"
   when:
     - "version | version_compare('6.5', '>=')"
-    - 'beat_pkg_suffix == ""'
+    - "'oss' not in beat_pkg_suffix"
 
 - name: 'Check that {{ beat_name }} contains OSS features only'
   assert:
@@ -127,4 +127,4 @@
       - "'Unknown help topic [`enroll`]' in xpack_cmd_result.stderr"
   when:
     - "version | version_compare('6.5', '>=')"
-    - 'beat_pkg_suffix != ""'
+    - "'oss' in beat_pkg_suffix"
