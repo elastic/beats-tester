@@ -30,7 +30,7 @@
   when: ansible_os_family == "RedHat"
 
 - name: Install RPMs
-  zypper: name={{workdir}}/{{beat_pkg}} state=present disable_gpg_check=yes
+  command: rpm -i {{workdir}}/{{beat_pkg}}
   when: ansible_os_family == "Suse"
 
 - name: Untar (darwin)
