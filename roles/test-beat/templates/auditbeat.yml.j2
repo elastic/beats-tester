@@ -33,7 +33,7 @@ auditbeat.modules:
 {% if "oss" not in beat_pkg_suffix %}
 {% if version is version_compare('6.6', '>=') %}
 - module: system
-  metricsets:
+  datasets:
     - host
     - process
 {% if ansible_system == "Linux" %}
