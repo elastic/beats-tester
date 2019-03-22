@@ -1,4 +1,4 @@
 # Beats "nightly" build artifacts.
 # Published by: https://beats-ci.elastic.co/job/elastic+beats+master+package/
 url_base: https://storage.googleapis.com/beats-ci-artifacts/snapshots
-version: 7.0.0-SNAPSHOT
+version: 8.0.0-SNAPSHOT
