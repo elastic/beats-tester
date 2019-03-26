@@ -10,7 +10,8 @@
 - debug:
     var: wlb_event
 
-- assert:
+- name: Assert Winlogbeat event contents (<7.0)
+  assert:
     that:
       - "'@timestamp' in wlb_event"
       - "'log_name' in wlb_event"
@@ -22,7 +23,8 @@
       - "'level' in wlb_event"
   when: "version | version_compare('7.0', '<')"
 
-- assert:
+- name: Assert Winlogbeat event contents (>=7.0)
+  assert:
     that:
       - "'@timestamp' in wlb_event"
       - "'channel' in wlb_event['winlog']"
@@ -32,7 +34,7 @@
       - "'record_id' in wlb_event['winlog']"
       - "'event_id' in wlb_event['winlog']"
       - "'level' in wlb_event['log']"
-  when: "version | version_compare('7.0', '<=')"
+  when: "version | version_compare('7.0', '>=')"
 
 - name: Assert Winlogbeat registry contents
   win_shell: 'cat -Encoding UTF8 {{ beat_registry_file }}'
