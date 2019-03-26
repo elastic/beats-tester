@@ -42,6 +42,14 @@ auditbeat.modules:
   user.detect_password_changes: true
 {% endif %}
 {% endif %}
+
+{% if version is version_compare('6.7', '>=') and ansible_system == "Linux" %}
+- module: system
+  datasets:
+    - login
+    - package
+{% endif %}
+
 {% endif %}
 
 output.file:
