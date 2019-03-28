@@ -6,6 +6,8 @@ filebeat.config.modules:
 filebeat.inputs:
 - paths:
   - '{{ filebeat_logs_dir }}/*.log'
+  fields:
+    hello: ${ES_PWD}
 
 output.file:
   path: '${path.logs}'

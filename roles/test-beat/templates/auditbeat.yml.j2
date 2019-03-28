@@ -29,6 +29,8 @@ auditbeat.modules:
 - module: file_integrity
   paths:
   - '{{ ansible_user_dir }}'
+  fields:
+    hello: ${ES_PWD}
 
 {% if "oss" not in beat_pkg_suffix %}
 {% if version is version_compare('6.6', '>=') %}

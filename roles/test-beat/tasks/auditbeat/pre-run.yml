@@ -19,3 +19,19 @@
     path: '{{ ansible_user_dir }}/auditbeat_hello.txt'
     state: touch
   when: ansible_system != "Win32NT"
+
+# Verify that keystore works
+- name: Create a keystore
+  shell: auditbeat keystore add ES_PWD --stdin --force
+  args:
+    stdin: "hello"
+  register: auditbeat_keystore
+  when: ansible_system != "Win32NT"
+
+- name: Create a keystore (win)
+  win_shell: .\auditbeat keystore add ES_PWD --stdin --force --path.data "C:\\ProgramData\\auditbeat"
+  args:
+    chdir: '{{ beat_home_path }}'
+    stdin: "hello"
+  register: auditbeat_keystore_win
+  when: ansible_system == "Win32NT"

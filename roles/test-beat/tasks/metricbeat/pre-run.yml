@@ -24,3 +24,19 @@
       - "'system' in metricbeat_modules_win.stdout"
     msg: Metricbeat modules list does not contain 'system'
   when: ansible_system == "Win32NT"
+
+# Verify that keystore works
+- name: Create a keystore
+  shell: metricbeat keystore add ES_PWD --stdin --force
+  args:
+    stdin: "hello"
+  register: metricbeat_keystore
+  when: ansible_system != "Win32NT"
+
+- name: Create a keystore (win)
+  win_shell: .\metricbeat keystore add ES_PWD --stdin --force --path.data "C:\\ProgramData\\metricbeat"
+  args:
+    chdir: '{{ beat_home_path }}'
+    stdin: "hello"
+  register: metricbeat_keystore_win
+  when: ansible_system == "Win32NT"

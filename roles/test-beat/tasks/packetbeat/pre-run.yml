@@ -9,3 +9,19 @@
   set_fact:
     packetbeat_device: en0
   when: ansible_os_family == "Darwin"
+
+# Verify that keystore works
+- name: Create a keystore
+  shell: packetbeat keystore add ES_PWD --stdin --force
+  args:
+    stdin: "hello"
+  register: packetbeat_keystore
+  when: ansible_system != "Win32NT"
+
+- name: Create a keystore (win)
+  win_shell: .\packetbeat keystore add ES_PWD --stdin --force --path.data "C:\\ProgramData\\packetbeat"
+  args:
+    chdir: '{{ beat_home_path }}'
+    stdin: "hello"
+  register: packetbeat_keystore_win
+  when: ansible_system == "Win32NT"

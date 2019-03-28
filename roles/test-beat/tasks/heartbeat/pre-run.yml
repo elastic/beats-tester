@@ -1,0 +1,15 @@
+# Verify that keystore works
+- name: Create a keystore
+  shell: heartbeat keystore add ES_PWD --stdin --force
+  args:
+    stdin: "hello"
+  register: heartbeat_keystore
+  when: ansible_system != "Win32NT"
+
+- name: Create a keystore (win)
+  win_shell: .\heartbeat keystore add ES_PWD --stdin --force --path.data "C:\\ProgramData\\heartbeat"
+  args:
+    chdir: '{{ beat_home_path }}'
+    stdin: "hello"
+  register: heartbeat_keystore_win
+  when: ansible_system == "Win32NT"

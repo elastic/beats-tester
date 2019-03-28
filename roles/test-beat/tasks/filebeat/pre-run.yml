@@ -60,3 +60,19 @@
       - "'system' in filebeat_modules_win.stdout"
     msg: filebeat modules list does not contain 'system'
   when: ansible_system == "Win32NT"
+
+# Verify that keystore works
+- name: Create a keystore
+  shell: filebeat keystore add ES_PWD --stdin --force
+  args:
+    stdin: "hello"
+  register: filebeat_keystore
+  when: ansible_system != "Win32NT"
+
+- name: Create a keystore (win)
+  win_shell: .\filebeat keystore add ES_PWD --stdin --force --path.data "C:\\ProgramData\\filebeat"
+  args:
+    chdir: '{{ beat_home_path }}'
+    stdin: "hello"
+  register: filebeat_keystore_win
+  when: ansible_system == "Win32NT"
