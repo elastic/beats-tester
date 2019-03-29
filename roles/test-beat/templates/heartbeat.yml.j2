@@ -4,8 +4,9 @@ heartbeat.monitors:
 - type: http
   schedule: '@every 1s'
   urls: ["http://localhost:12345"]
-  fields:
-    hello: ${ES_PWD}
+
+fields:
+  hello: ${ES_PWD}
 
 output.file:
   path: '${path.logs}'
