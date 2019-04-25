@@ -111,6 +111,25 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.80"
   end
+
+  config.vm.define "tester-ubuntu1404-64" do |testvm|
+    testvm.vm.box = "ubuntu/trusty64"
+
+    testvm.ssh.port = 2412
+    testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
+    testvm.vm.network "private_network", ip: "192.168.33.81"
+    testvm.vm.provision "python", type: "shell", inline: ubuntu_provision_python()
+  end
+
+  config.vm.define "tester-ubuntu1804-64" do |testvm|
+    testvm.vm.box = "ubuntu/bionic64"
+
+    testvm.ssh.port = 2413
+    testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
+    testvm.vm.network "private_network", ip: "192.168.33.82"
+    testvm.vm.provision "python", type: "shell", inline: ubuntu_provision_python()
+  end
+
 end
 
 def ubuntu_provision_python()
