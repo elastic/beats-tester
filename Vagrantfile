@@ -130,6 +130,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.vm.provision "python", type: "shell", inline: ubuntu_provision_python()
   end
 
+  config.vm.define "tester-awslinux2" do |testvm|
+    testvm.vm.box = "gbailey/amzn2"
+
+    testvm.ssh.port = 2414
+    testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
+    testvm.vm.network "private_network", ip: "192.168.33.83"
+  end
+
 end
 
 def ubuntu_provision_python()
