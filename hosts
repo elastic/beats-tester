@@ -16,6 +16,7 @@ tester-centos6-32
 tester-centos6-64
 tester-centos7-64
 tester-opensuse42-64
+tester-rhel8-64
 
 [sles]
 tester-sles12-64
