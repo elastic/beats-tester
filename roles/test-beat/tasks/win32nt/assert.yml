@@ -70,8 +70,7 @@
       - "log_metrics_event.beat.info.ephemeral_id"
       - "log_metrics_event.beat.info.uptime.ms"
       - "log_metrics_event.system.cpu.cores"
-    not:
-      - "log_metrics_event.system.cpu.load"
+      - "'load' not in 'log_metrics_event.system.cpu'"
   # These metric names were established in 6.3.
   when: "version | version_compare('6.3', '>=')"
 
