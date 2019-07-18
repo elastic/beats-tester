@@ -146,6 +146,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.vm.network "private_network", ip: "192.168.33.84"
   end
 
+  config.vm.define "tester-debian10-64" do |testvm|
+    testvm.vm.box = "debian/buster64"
+
+    testvm.ssh.port = 2416
+    testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
+    testvm.vm.network "private_network", ip: "192.168.33.85"
+    testvm.vm.provision "python", type: "shell", inline: ubuntu_provision_python()
+  end
+
 end
 
 def ubuntu_provision_python()

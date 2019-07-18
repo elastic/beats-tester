@@ -4,6 +4,7 @@ tester-es
 [debian]
 tester-debian8-64
 tester-debian9-64
+tester-debian10-64
 tester-ubuntu1204-32
 tester-ubuntu1404-64
 tester-ubuntu1604-64
