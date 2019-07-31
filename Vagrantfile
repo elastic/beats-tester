@@ -139,11 +139,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "tester-win19-64" do |testvm|
-    testvm.vm.box = "StefanScherer/windows_2019"
+    testvm.vm.box = "mikemadden42/windows_2019"
+    testvm.vm.box_version = "2019.07.31"
 
-    testvm.ssh.port = 2415
+    testvm.ssh.port = 2417
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
-    testvm.vm.network "private_network", ip: "192.168.33.84"
+    testvm.vm.network "private_network", ip: "192.168.33.86"
 
     testvm.vm.communicator = "winrm"
     testvm.vm.network "forwarded_port", host: 3389, guest: 3389, host_ip: "127.0.0.1"
