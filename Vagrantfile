@@ -138,6 +138,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.vm.network "private_network", ip: "192.168.33.83"
   end
 
+  config.vm.define "tester-rhel8-64" do |testvm|
+    testvm.vm.box = "generic/rhel8"
+
+    testvm.ssh.port = 2415
+    testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
+    testvm.vm.network "private_network", ip: "192.168.33.84"
+  end
+
   config.vm.define "tester-win19-64" do |testvm|
     testvm.vm.box = "mikemadden42/windows_2019"
 
@@ -155,7 +163,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.memory = 2048
     end
   end
-
+  
 end
 
 def ubuntu_provision_python()

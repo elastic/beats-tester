@@ -1,7 +1,7 @@
 # Installs the packages
 
 - name: 'Remove {{ beat_pkg_name }} rpm if it exists'
-  yum: name={{ beat_pkg_name }} state=absent
+  yum: name={{ beat_pkg_name }} state=absent lock_timeout=900
   when: ansible_os_family == "RedHat"
 
 - name: 'Remove {{ beat_pkg_name }} rpm if it exists'
@@ -26,7 +26,7 @@
     - ansible_distribution_major_version == "6"
 
 - name: Install RPMs
-  yum: name={{workdir}}/{{beat_pkg}} state=present
+  yum: name={{workdir}}/{{beat_pkg}} state=present lock_timeout=900
   when: ansible_os_family == "RedHat"
 
 - name: Install RPMs
