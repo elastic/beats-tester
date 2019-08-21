@@ -1,0 +1,11 @@
+#!/bin/bash -ex
+
+GROUP=$1
+HOSTS=$(ansible ${GROUP} -i hosts --list-hosts | tail -n +2)
+
+vagrant up ${HOSTS}
+vagrant status ${HOSTS}
+vagrant ssh-config ${HOSTS} >ssh_config
+ANSIBLE_LIMIT=$1 make run
+vagrant halt ${HOSTS}
+vagrant destroy -f ${HOSTS}

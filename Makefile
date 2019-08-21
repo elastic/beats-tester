@@ -18,6 +18,14 @@ setup:
 	vagrant up
 	vagrant ssh-config > ssh_config
 
+
+GROUPS = centos debian sles
+batch:
+	for g in $(GROUPS); do	\
+		echo $$g;	\
+		./rungroup $$g;	\
+	done
+
 # XXX (andrewkroh on 2018-02-07): OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES is
 # added as a workaround to a MacOS 10.13 (High Sierra) issue with python and
 # Ansible. See https://github.com/ansible/ansible/issues/32499.
