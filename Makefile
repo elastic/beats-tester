@@ -19,7 +19,7 @@ setup:
 	vagrant ssh-config > ssh_config
 
 
-GROUPS = centos debian sles
+GROUPS = centos debian sles windows
 batch:
 	for g in $(GROUPS); do	\
 		echo $$g;	\
