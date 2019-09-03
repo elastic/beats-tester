@@ -4,6 +4,8 @@
 # https://github.com/ansible/ansible/issues/22171
 - name: Disable auditd
   command: service auditd stop
+  args:
+    warn: false
   when:
     - ansible_system == "Linux"
   ignore_errors: yes

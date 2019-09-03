@@ -8,7 +8,7 @@
   with_first_found:
   - files:
     - 'vars/{{ beat_name }}.yml'
-    skip: true
+    - default.yml
   loop_control:
     loop_var: beat_vars_item
 
@@ -20,7 +20,7 @@
     - 'vars/{{ ansible_distribution | lower }}.yml'
     - 'vars/{{ ansible_os_family | lower }}.yml'
     - 'vars/{{ ansible_system | lower }}.yml'
-    skip: true
+    - default.yml
 
 - name: Set config/output/log file vars
   set_fact:
@@ -94,6 +94,6 @@
   with_first_found:
   - files:
     - '{{ beat_name }}/assert.yml'
-    skip: true
+    - default.yml
   loop_control:
     loop_var: beat_assert_item

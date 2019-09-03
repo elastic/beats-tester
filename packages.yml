@@ -86,13 +86,13 @@
   roles:
     # The tests are written for Auditbeat 6.2 GA.
     - role: common
-      when: "version | version_compare('6.2', '>=')"
+      when: "version is version_compare('6.2', '>=')"
     - role: test-install
-      when: "version | version_compare('6.2', '>=')"
+      when: "version is version_compare('6.2', '>=')"
     - role: test-beat
-      when: "version | version_compare('6.2', '>=')"
+      when: "version is version_compare('6.2', '>=')"
     - role: test-uninstall
-      when: "version | version_compare('6.2', '>=')"
+      when: "version is version_compare('6.2', '>=')"
     - role: test-linux-binary
       when: ansible_system == "Linux"
 
@@ -259,13 +259,13 @@
     - win_arch: x86
   roles:
     - role: common
-      when: "version | version_compare('6.2', '>=')"
+      when: "version is version_compare('6.2', '>=')"
     - role: test-install
-      when: "version | version_compare('6.2', '>=')"
+      when: "version is version_compare('6.2', '>=')"
     - role: test-beat
-      when: "version | version_compare('6.2', '>=')"
+      when: "version is version_compare('6.2', '>=')"
     - role: test-uninstall
-      when: "version | version_compare('6.2', '>=')"
+      when: "version is version_compare('6.2', '>=')"
 
 - name: Packaging windows x86_64 tests for Auditbeat
   hosts:
@@ -278,10 +278,10 @@
     - win_arch: x86_64
   roles:
     - role: common
-      when: "version | version_compare('6.2', '>=')"
+      when: "version is version_compare('6.2', '>=')"
     - role: test-install
-      when: "version | version_compare('6.2', '>=')"
+      when: "version is version_compare('6.2', '>=')"
     - role: test-beat
-      when: "version | version_compare('6.2', '>=')"
+      when: "version is version_compare('6.2', '>=')"
     - role: test-uninstall
-      when: "version | version_compare('6.2', '>=')"
+      when: "version is version_compare('6.2', '>=')"
