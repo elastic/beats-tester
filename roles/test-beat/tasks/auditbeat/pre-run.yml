@@ -19,3 +19,26 @@
     path: '{{ ansible_user_dir }}/auditbeat_hello.txt'
     state: touch
   when: ansible_system != "Win32NT"
+
+- name: Test if tracefs is configured
+  stat:
+    path: /sys/kernel/tracing
+  register: tracefs
+
+# Use tracefs if it is configured in the kernel.
+- name: Mount tracefs for system/socket dataset
+  mount:
+    path: /sys/kernel/tracing
+    src: nodev
+    fstype: tracefs
+    state: mounted
+  when: tracefs.stat.isdir is defined and tracefs.stat.isdir
+
+# Otherwise if tracefs is not configured then try to use debugfs.
+- name: Mount debugfs for system/socket dataset
+  mount:
+    path: /sys/kernel/debug
+    src: nodev
+    fstype: debugfs
+    state: mounted
+  when: tracefs.stat.isdir is not defined
