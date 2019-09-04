@@ -21,7 +21,7 @@
       - "'record_number' in wlb_event"
       - "'event_id' in wlb_event"
       - "'level' in wlb_event"
-  when: "version | version_compare('7.0', '<')"
+  when: "version is version_compare('7.0', '<')"
 
 - name: Assert Winlogbeat event contents (>=7.0)
   assert:
@@ -34,7 +34,7 @@
       - "'record_id' in wlb_event['winlog']"
       - "'event_id' in wlb_event['winlog']"
       - "'level' in wlb_event['log']"
-  when: "version | version_compare('7.0', '>=')"
+  when: "version is version_compare('7.0', '>=')"
 
 - name: Assert Winlogbeat registry contents
   win_shell: 'cat -Encoding UTF8 {{ beat_registry_file }}'

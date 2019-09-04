@@ -15,7 +15,7 @@
   with_first_found:
   - files:
       - 'tasks/{{ beat_name }}/pre-run.yml'
-    skip: true
+      - tasks/default.yml
   loop_control:
     loop_var: pre_run_item
 
@@ -47,7 +47,7 @@
   with_first_found:
   - files:
       - 'tasks/{{ beat_name }}/post-run.yml'
-    skip: true
+      - tasks/default.yml
   loop_control:
     loop_var: post_run_item
 
