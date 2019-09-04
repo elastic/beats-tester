@@ -19,9 +19,8 @@ setup:
 	vagrant up
 	vagrant ssh-config > ssh_config
 
-
 batch:
-	$(foreach GROUP,$(GROUPS),GROUP=$(GROUP) $(MAKE) run-group || exit 1;)
+	$(foreach GROUP,${GROUPS},GROUP=${GROUP} ${MAKE} run-group || exit 1;)
 
 run-group: HOSTS=$(shell ansible ${GROUP} -i hosts --list-hosts | tail -n +2)
 run-group:
@@ -30,8 +29,6 @@ run-group:
 	vagrant ssh-config ${HOSTS} >ssh_config
 	ANSIBLE_LIMIT=${GROUP} make run
 	vagrant destroy -f ${HOSTS}
-
-.PHONY: batch clean run run-elastic run-group run-oss setup ve
 
 # XXX (andrewkroh on 2018-02-07): OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES is
 # added as a workaround to a MacOS 10.13 (High Sierra) issue with python and
@@ -58,3 +55,5 @@ run: run-elastic run-oss
 clean:
 	-vagrant destroy -f
 	-rm -r .vagrant
+
+.PHONY: batch clean run run-elastic run-group run-oss setup ve
