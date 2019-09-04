@@ -26,6 +26,7 @@
   stat:
     path: /sys/kernel/tracing
   register: tracefs
+  when: ansible_system == "Linux"
 
 # Use tracefs if it is configured in the kernel.
 - name: Mount tracefs for system/socket dataset
@@ -34,7 +35,9 @@
     src: nodev
     fstype: tracefs
     state: mounted
-  when: tracefs.stat.isdir is defined and tracefs.stat.isdir
+  when :
+    - ansible_system == "Linux"
+    - tracefs.stat.isdir is defined and tracefs.stat.isdir
 
 # Otherwise if tracefs is not configured then try to use debugfs.
 - name: Mount debugfs for system/socket dataset
@@ -43,4 +46,6 @@
     src: nodev
     fstype: debugfs
     state: mounted
-  when: tracefs.stat.isdir is not defined
+  when:
+    - ansible_system == "Linux"
+    - tracefs.stat.isdir is not defined
