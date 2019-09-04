@@ -9,22 +9,21 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "tester-centos6-32" do |testvm|
-    testvm.vm.box = "centos32"
-    testvm.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-i386-virtualbox-puppet.box"
+    testvm.vm.box = "bento/centos-6.9-i386"
 
     testvm.ssh.port = 2401
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.70"
-    testvm.vm.provision "shell", inline: "rm /etc/yum.repos.d/puppetlabs*.repo"
+    testvm.vm.provision "shell", inline: "yum install -y libselinux-python"
   end
 
   config.vm.define "tester-centos6-64" do |testvm|
-    testvm.vm.box = "centos64"
-    testvm.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-puppet.box"
+    testvm.vm.box = "bento/centos-6.9"
 
     testvm.ssh.port = 2402
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.71"
+    testvm.vm.provision "shell", inline: "yum install -y libselinux-python"
   end
 
   config.vm.define "tester-ubuntu1204-32" do |testvm|
@@ -163,7 +162,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.memory = 2048
     end
   end
-  
+
 end
 
 def ubuntu_provision_python()
