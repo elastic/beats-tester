@@ -5,6 +5,7 @@ ANSIBLE_VERBOSE?=
 ANSIBLE_LIMIT?=all:!localhost
 # Extra flags to pass to Ansible (e.g. --skip-tags filebeat).
 ANSIBLE_EXTRA_FLAGS?=
+# Ansible host groups declared in the hosts file.
 GROUPS?=centos debian sles windows
 
 # Create a virtualenv to run Ansible.
@@ -19,10 +20,15 @@ setup:
 	vagrant up
 	vagrant ssh-config > ssh_config
 
+# Execute the ansible playbook for each ansible group (GROUPS) in batches.
+# Since it processes each group sequentially, it uses less cpu and memory.
 batch:
 	$(foreach GROUP,${GROUPS},GROUP=${GROUP} ${MAKE} run-group || exit 1;)
 
+# Find the hosts that belong to a given ansible group.
 run-group: HOSTS=$(shell ansible ${GROUP} -i hosts --list-hosts | tail -n +2)
+# For each ansible group, start the vm, check the vm's status, configure
+# ssh, run the ansible playbook, and finally destroy the vm.
 run-group:
 	vagrant up ${HOSTS}
 	vagrant status ${HOSTS}

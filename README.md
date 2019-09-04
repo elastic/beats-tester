@@ -3,7 +3,6 @@
 Vagrant + Ansible setup for testing the OS packages and basic e2e tests for all
 the [Beats](https://www.elastic.co/products/beats).
 
-
 ## Execute
 
 First, you need to bring the machines up:
@@ -39,6 +38,20 @@ Here are some execution examples:
         vagrant ssh-config $machine > ssh_config
         export ANSIBLE_LIMIT="$machine"
         make run
+
+* Only a set of ansible groups in batches:
+
+        # Run tests in batches for all hosts
+        make batch
+
+        # Run tests in batches for all Linux hosts
+        GROUPS='centos debian sles' make batch
+
+        # Run tests in batches for all Debian hosts
+        GROUPS=debian make batch
+
+        # Run tests in batches for Windows hosts
+        GROUPS=windows make batch
 
 * Enable Ansible debug.
 
