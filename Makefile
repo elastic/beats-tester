@@ -5,6 +5,7 @@ ANSIBLE_VERBOSE?=
 ANSIBLE_LIMIT?=all:!localhost
 # Extra flags to pass to Ansible (e.g. --skip-tags filebeat).
 ANSIBLE_EXTRA_FLAGS?=
+GROUPS?=centos debian sles windows
 
 # Create a virtualenv to run Ansible.
 ve: ve/bin/activate
@@ -19,12 +20,18 @@ setup:
 	vagrant ssh-config > ssh_config
 
 
-GROUPS = centos debian sles windows
 batch:
-	for g in $(GROUPS); do	\
-		echo $$g;	\
-		./rungroup $$g;	\
-	done
+	$(foreach GROUP,$(GROUPS),GROUP=$(GROUP) $(MAKE) run-group || exit 1;)
+
+run-group: HOSTS=$(shell ansible ${GROUP} -i hosts --list-hosts | tail -n +2)
+run-group:
+	vagrant up ${HOSTS}
+	vagrant status ${HOSTS}
+	vagrant ssh-config ${HOSTS} >ssh_config
+	ANSIBLE_LIMIT=${GROUP} make run
+	vagrant destroy -f ${HOSTS}
+
+.PHONY: batch clean run run-elastic run-group run-oss setup ve
 
 # XXX (andrewkroh on 2018-02-07): OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES is
 # added as a workaround to a MacOS 10.13 (High Sierra) issue with python and
