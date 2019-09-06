@@ -36,6 +36,10 @@ run-group:
 	ANSIBLE_LIMIT=${GROUP} make run
 	vagrant destroy -f ${HOSTS}
 
+# Use this target for continuous integration tools like Jenkins or Travis.
+# This should allow for maintenance without updating the CI jobs directly.
+ci: batch
+
 # XXX (andrewkroh on 2018-02-07): OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES is
 # added as a workaround to a MacOS 10.13 (High Sierra) issue with python and
 # Ansible. See https://github.com/ansible/ansible/issues/32499.
