@@ -169,6 +169,6 @@ def ubuntu_provision_python()
   return <<-SHELL
   set -e
   apt-get update
-  apt-get install -y python-minimal python2.7
+  apt-get install -y aptitude python-apt python-minimal python2.7
   SHELL
 end
