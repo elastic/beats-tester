@@ -30,7 +30,9 @@
   when: ansible_os_family == "RedHat"
 
 - name: Install RPMs
-  zypper: name="{{ workdir }}/{{ beat_pkg }}" state=present
+  block:
+    - rpm_key: state=present key=https://packages.elastic.co/GPG-KEY-elasticsearch
+    - zypper: name="{{ workdir }}/{{ beat_pkg }}" state=present
   when: ansible_os_family == "Suse"
 
 - name: Untar (darwin)
