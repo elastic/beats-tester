@@ -37,7 +37,10 @@ auditbeat.modules:
     - host
     - process
 {% if ansible_system == "Linux" %}
+{# Ubuntu 12.04 and earlier do not have certain IOCTL features back-ported to their kernel. #}
+{% if ansible_distribution != "Ubuntu" or ansible_distribution_version is not version_compare('12.04', '<=') %}
     - socket
+{% endif %}
     - user
   user.detect_password_changes: true
 {% endif %}
