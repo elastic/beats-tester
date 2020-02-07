@@ -6,7 +6,10 @@ ANSIBLE_LIMIT?=all:!localhost
 # Extra flags to pass to Ansible (e.g. --skip-tags filebeat).
 ANSIBLE_EXTRA_FLAGS?=
 # Ansible host groups declared in the hosts file.
-GROUPS?=centos debian sles windows
+# centos is not in alphabetic order.  It was moved to the
+# end of the list since periodic failures were preventing
+# the other groups from running.
+GROUPS?=debian sles windows centos
 
 # Create a virtualenv to run Ansible.
 ve: ve/bin/activate
