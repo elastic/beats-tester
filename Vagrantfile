@@ -177,6 +177,7 @@ end
 def ubuntu_provision_python()
   return <<-SHELL
   set -e
+  export DEBIAN_FRONTEND=noninteractive
   apt-get update
   apt-get install -y aptitude python-apt python-minimal python2.7
   SHELL
