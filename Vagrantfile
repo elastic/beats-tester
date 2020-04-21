@@ -78,14 +78,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.vm.provision "python", type: "shell", inline: ubuntu_provision_python()
   end
 
-  config.vm.define "tester-opensuse42-64" do |testvm|
-    testvm.vm.box = "bento/opensuse-leap-42.2"
-
-    testvm.ssh.port = 2408
-    testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
-    testvm.vm.network "private_network", ip: "192.168.33.77"
-  end
-
   config.vm.define "tester-awslinux" do |testvm|
     testvm.vm.box = "mvbcoding/awslinux"
 
