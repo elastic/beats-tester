@@ -9,7 +9,7 @@ tester-ubuntu1204-32
 tester-ubuntu1404-64
 tester-ubuntu1604-64
 tester-ubuntu1804-64
-tester-ubuntu2004-64
+#tester-ubuntu2004-64
 
 [centos]
 tester-awslinux

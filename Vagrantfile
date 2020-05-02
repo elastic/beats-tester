@@ -164,14 +164,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.vm.provision "python", type: "shell", inline: ubuntu_provision_python()
   end
 
-  config.vm.define "tester-ubuntu2004-64" do |testvm|
-    testvm.vm.box = "ubuntu/focal64"
-
-    testvm.ssh.port = 2419
-    testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
-    testvm.vm.network "private_network", ip: "192.168.33.88"
-    testvm.vm.provision "python", type: "shell", inline: ubuntu_provision_python()
-  end
+#  config.vm.define "tester-ubuntu2004-64" do |testvm|
+#    testvm.vm.box = "ubuntu/focal64"
+#
+#    testvm.ssh.port = 2419
+#    testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
+#    testvm.vm.network "private_network", ip: "192.168.33.88"
+#    testvm.vm.provision "python", type: "shell", inline: ubuntu_provision_python()
+#  end
 
 end
 
