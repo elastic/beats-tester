@@ -3,7 +3,7 @@
 @Library('apm@current') _
 
 pipeline {
-  agent { label 'metal' }
+  agent { label 'linux && immutable' }
   environment {
     BASE_DIR = 'src'
     PIPELINE_LOG_LEVEL = 'INFO'
@@ -38,25 +38,41 @@ pipeline {
         stash allowEmpty: true, name: 'source', useDefaultExcludes: false
       }
     }
-    stage('Test'){
-      options { skipDefaultCheckout() }
-      steps {
-        deleteDir()
-        unstash 'source'
-        dir("${BASE_DIR}"){
-          sh(label: 'make ci', 
-             script: """#!/bin/bash
-              echo "url_base: ${URL_BASE}" > run-settings-jenkins.yml
-              echo "version: ${VERSION}" >> run-settings-jenkins.yml
-              RUN_SETTINGS=jenkins make ci""")
+    stage('Test Hosts'){
+      matrix {
+        agent { label 'metal' }
+        axes {
+          axis {
+            name 'GROUPS'
+            values 'centos', 'debian', 'sles', 'windows'
+          }
         }
-      }
-      post {
-        always {
-          dir("${BASE_DIR}"){
-            archiveArtifacts(allowEmptyArchive: true, artifacts: '**/logs/**')
-            sh(label: 'make clean', script: 'make clean')
-          }          
+        stages {
+          stage('Test'){
+            options { skipDefaultCheckout() }
+            steps {
+              deleteDir()
+              unstash 'source'
+              dir("${BASE_DIR}"){
+                sh(label: 'make batch',
+                  script: """#!/bin/bash
+                    echo "url_base: ${URL_BASE}" > run-settings-jenkins.yml
+                    echo "version: ${VERSION}" >> run-settings-jenkins.yml
+                    RUN_SETTINGS=jenkins make batch""")
+              }
+            }
+            post {
+              always {
+                dir("${BASE_DIR}"){
+                  archiveArtifacts(allowEmptyArchive: true, artifacts: '**/logs/**')
+                  sh(label: 'make clean', script: 'make clean')
+                }
+              }
+              cleanup {
+                deleteDir()
+              }
+            }
+          }
         }
       }
     }
@@ -64,7 +80,6 @@ pipeline {
   post {
     cleanup {
       notifyBuildResult(prComment: true)
-      deleteDir()
     }
   }
 }
