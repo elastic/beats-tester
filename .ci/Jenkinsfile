@@ -44,17 +44,10 @@ pipeline {
         unstash 'source'
         dir("${BASE_DIR}"){
           sh(label: 'make ci', 
-             script: '''#!/bin/bash
-              printf 'VERSION=%s\n'"$VERSION"
-              cat << EOF > run-settings-jenkins.yml
-              url_base: ${URL_BASE}
-              version: ${VERSION}
-              EOF
-              cleanup() {
-                vagrant destroy -f
-              }
-              trap cleanup EXIT
-              RUN_SETTINGS=jenkins make ci''')
+             script: """#!/bin/bash
+              echo "url_base: ${URL_BASE}" > run-settings-jenkins.yml
+              echo "version: ${VERSION}" >> run-settings-jenkins.yml
+              RUN_SETTINGS=jenkins make ci""")
         }
       }
       post {
