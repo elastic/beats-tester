@@ -12,7 +12,7 @@ pipeline {
     HOME = "${WORKSPACE}"
   }
   options {
-    timeout(time: 2, unit: 'HOURS')
+    timeout(time: 4, unit: 'HOURS')
     buildDiscarder(logRotator(numToKeepStr: '20', artifactNumToKeepStr: '20', daysToKeepStr: '30'))
     timestamps()
     ansiColor('xterm')
@@ -40,11 +40,15 @@ pipeline {
     }
     stage('Test Hosts'){
       matrix {
-        agent { label 'linux && immutable' }
+        // TODO: when the infra is ready with the 'nested-virtualization' then we can use that label
+        // agent { label 'nested-virtualization' }
+        agent { label 'metal' }
         axes {
           axis {
             name 'GROUPS'
-            values 'centos', 'debian', 'sles', 'windows'
+            // TODO: when the infra is ready with the 'nested-virtualization' then we can split in stages
+            // values 'centos', 'debian', 'sles', 'windows'
+            values 'centos debian sles windows'
           }
         }
         stages {
