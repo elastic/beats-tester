@@ -9,6 +9,7 @@ pipeline {
     PIPELINE_LOG_LEVEL = 'INFO'
     URL_BASE = "${params.URL_BASE}"
     VERSION = "${params.VERSION}"
+    HOME = "${WORKSPACE}"
   }
   options {
     timeout(time: 2, unit: 'HOURS')
@@ -53,6 +54,7 @@ pipeline {
       post {
         always {
           dir("${BASE_DIR}"){
+            archiveArtifacts(allowEmptyArchive: true, artifacts: '**/logs/**')
             sh(label: 'make clean', script: 'make clean')
           }          
         }
