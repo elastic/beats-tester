@@ -64,7 +64,8 @@ pipeline {
             post {
               always {
                 dir("${BASE_DIR}"){
-                  archiveArtifacts(allowEmptyArchive: true, artifacts: '**/logs/**')
+                  junit(allowEmptyResults: true, keepLongStdio: true, testResults: "logs/*.xml")
+                  archiveArtifacts(allowEmptyArchive: true, artifacts: 'logs/**')
                   sh(label: 'make clean', script: 'make clean')
                 }
               }

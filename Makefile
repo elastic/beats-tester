@@ -49,6 +49,8 @@ ci: batch
 # Run Ansible from the virtualenv.
 ansible-playbook-run-%: ve
 	OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES \
+	JUNIT_TASK_CLASS=yes \
+	JUNIT_OUTPUT_DIR=logs \
 	ve/bin/ansible-playbook \
 	${ANSIBLE_VERBOSE} \
 	-i hosts \
