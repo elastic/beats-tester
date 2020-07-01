@@ -40,7 +40,7 @@ pipeline {
     }
     stage('Test Hosts'){
       matrix {
-        agent { label 'nested-virtualization' }
+        agent { label 'ubuntu-20 && nested-virtualization' }
         axes {
           axis {
             name 'GROUPS'
