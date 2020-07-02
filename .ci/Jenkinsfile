@@ -40,11 +40,15 @@ pipeline {
     }
     stage('Test Hosts'){
       matrix {
-        agent { label 'ubuntu-20 && nested-virtualization' }
+        // TODO: when the infra is ready with the 'nested-virtualization' then we can use that label
+        // agent { label 'nested-virtualization' }
+        agent { label 'metal' }
         axes {
           axis {
             name 'GROUPS'
-            values 'centos', 'debian', 'sles', 'windows'
+            // TODO: when the infra is ready with the 'nested-virtualization' then we can split in stages
+            // values 'centos', 'debian', 'sles', 'windows'
+            values 'centos debian sles windows'
           }
         }
         stages {
