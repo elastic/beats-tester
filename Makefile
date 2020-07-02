@@ -32,7 +32,7 @@ batch:
 run-group: HOSTS=$(shell ansible ${GROUP} -i hosts --list-hosts | tail -n +2)
 # For each ansible group, start the vm, check the vm's status, configure
 # ssh, run the ansible playbook, and finally destroy the vm.
-run-group:
+run-group: ve
 	vagrant up ${HOSTS}
 	vagrant status ${HOSTS}
 	vagrant ssh-config ${HOSTS} >ssh_config
