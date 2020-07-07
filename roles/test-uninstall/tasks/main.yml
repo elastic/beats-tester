@@ -10,14 +10,20 @@
 
 - name: 'Uninstall {{ beat_pkg_name }} deb'
   apt: name={{ beat_pkg_name }} state=absent purge=true
+  retries: 3
+  delay: 10
   when: ansible_os_family == "Debian"
 
 - name: 'Uninstall {{ beat_pkg_name }} rpm'
   yum: name={{ beat_pkg_name }} state=absent lock_timeout=900
+  retries: 3
+  delay: 10
   when: ansible_os_family == "RedHat"
 
 - name: 'Uninstall {{ beat_pkg_name }} rpm'
   zypper: name={{ beat_pkg_name }} state=absent
+  retries: 3
+  delay: 10
   when: ansible_os_family == "Suse"
 
 - name: Delete directory (darwin)

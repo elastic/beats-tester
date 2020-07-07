@@ -32,7 +32,7 @@ batch:
 run-group: HOSTS=$(shell ansible ${GROUP} -i hosts --list-hosts | tail -n +2)
 # For each ansible group, start the vm, check the vm's status, configure
 # ssh, run the ansible playbook, and finally destroy the vm.
-run-group:
+run-group: ve
 	vagrant up ${HOSTS}
 	vagrant status ${HOSTS}
 	vagrant ssh-config ${HOSTS} >ssh_config
@@ -49,6 +49,8 @@ ci: batch
 # Run Ansible from the virtualenv.
 ansible-playbook-run-%: ve
 	OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES \
+	JUNIT_TASK_CLASS=yes \
+	JUNIT_OUTPUT_DIR=logs \
 	ve/bin/ansible-playbook \
 	${ANSIBLE_VERBOSE} \
 	-i hosts \
