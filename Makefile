@@ -71,4 +71,15 @@ clean:
 	-vagrant destroy -f
 	-rm -r .vagrant
 
+# Generate markdown compatibility matrix
+markdown-matrix:
+	@ansible -i hosts --list-hosts all | \
+		sort | \
+		grep -v tester-es | \
+		grep -v '^#' | \
+		grep tester | \
+		sed 's#tester-##g' | \
+		tr -d " " | \
+		sed 's#\(.*\)#\1 | :white_check_mark:#g'
+
 .PHONY: batch clean run run-elastic run-group run-oss setup ve
