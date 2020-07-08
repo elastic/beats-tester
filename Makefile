@@ -20,7 +20,7 @@ ve/bin/activate: requirements.txt
 
 # Setup the VMs and the SSH config needed for Ansible to communicate to them.
 setup:
-	vagrant up
+	vagrant up --no-tty
 	vagrant ssh-config > ssh_config
 
 # Execute the ansible playbook for each ansible group (GROUPS) in batches.
@@ -33,7 +33,7 @@ run-group: HOSTS=$(shell ansible ${GROUP} -i hosts --list-hosts | tail -n +2)
 # For each ansible group, start the vm, check the vm's status, configure
 # ssh, run the ansible playbook, and finally destroy the vm.
 run-group: ve
-	vagrant up ${HOSTS}
+	vagrant up --no-tty ${HOSTS}
 	vagrant status ${HOSTS}
 	vagrant ssh-config ${HOSTS} >ssh_config
 	ANSIBLE_LIMIT=${GROUP} make run
