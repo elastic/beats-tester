@@ -10,6 +10,14 @@ ANSIBLE_EXTRA_FLAGS?=
 # end of the list since periodic failures were preventing
 # the other groups from running.
 GROUPS?=debian sles windows centos
+# Vagrant version >= 2.2.8 then use the --no-tty option
+VAGRANT_UP_OPTIONS:=
+MIN_VAGRANT_VERSION = "2.2.8"
+VAGRANT_VERSION := $(shell vagrant --version | cut -d' ' -f2)
+IS_VAGRANT_ABOVE_MIN_VERSION := $(shell expr "$(VAGRANT_VERSION)" ">=" "$(MIN_VAGRANT_VERSION)")
+ifeq "$(IS_VAGRANT_ABOVE_MIN_VERSION)" "1"
+    VAGRANT_UP_OPTIONS :=--no-tty
+endif
 
 # Create a virtualenv to run Ansible.
 ve: ve/bin/activate
@@ -20,7 +28,7 @@ ve/bin/activate: requirements.txt
 
 # Setup the VMs and the SSH config needed for Ansible to communicate to them.
 setup:
-	vagrant up
+	vagrant up ${VAGRANT_UP_OPTIONS}
 	vagrant ssh-config > ssh_config
 
 # Execute the ansible playbook for each ansible group (GROUPS) in batches.
@@ -33,7 +41,7 @@ run-group: HOSTS=$(shell ansible ${GROUP} -i hosts --list-hosts | tail -n +2)
 # For each ansible group, start the vm, check the vm's status, configure
 # ssh, run the ansible playbook, and finally destroy the vm.
 run-group: ve
-	vagrant up ${HOSTS}
+	vagrant up ${VAGRANT_UP_OPTIONS} ${HOSTS}
 	vagrant status ${HOSTS}
 	vagrant ssh-config ${HOSTS} >ssh_config
 	ANSIBLE_LIMIT=${GROUP} make run
