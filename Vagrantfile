@@ -175,7 +175,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "tester-win16-64" do |testvm|
-    testvm.vm.box = "StefanScherer/windows_2016_docker"
+    testvm.vm.box = "jborean93/WindowsServer2016"
 
     testvm.ssh.port = 2420
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
