@@ -54,6 +54,7 @@ pipeline {
               deleteDir()
               unstash 'source'
               dir("${BASE_DIR}"){
+                sh(label: 'prepare env in the darwin workers', script: 'python3 -m venv ve || true')
                 sh(label: 'make batch',
                   script: """#!/bin/bash
                     echo "url_base: ${URL_BASE}" > run-settings-jenkins.yml
