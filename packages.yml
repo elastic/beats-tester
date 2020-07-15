@@ -1,4 +1,21 @@
 ---
+- name: Packaging tests APM Server
+  hosts:
+    - debian
+    # TODO add more
+  become: yes
+  tags:
+    - apm-server
+  vars:
+    - beat_name: apm-server
+    - project: apm-server
+  roles:
+    - common
+    - test-install
+    - test-beat
+    - test-uninstall
+    - {role: test-linux-binary, when: ansible_system == "Linux"}
+
 - name: Packaging tests Packetbeat
   hosts:
     - debian
@@ -10,6 +27,7 @@
     - packetbeat
   vars:
     - beat_name: packetbeat
+    - project: beats
   roles:
     - common
     - test-install
@@ -28,6 +46,7 @@
     - filebeat
   vars:
     - beat_name: filebeat
+    - project: beats
   roles:
     - common
     - test-install
@@ -46,6 +65,7 @@
     - metricbeat
   vars:
     - beat_name: metricbeat
+    - project: beats
   roles:
     - common
     - test-install
@@ -65,6 +85,7 @@
   vars:
     - beat_name: heartbeat
     - service_name: heartbeat-elastic
+    - project: beats
   roles:
     - common
     - test-install
@@ -83,6 +104,7 @@
     - auditbeat
   vars:
     - beat_name: auditbeat
+    - project: beats
   roles:
     # The tests are written for Auditbeat 6.2 GA.
     - role: common
@@ -107,6 +129,7 @@
   vars:
     - beat_name: packetbeat
     - win_arch: x86
+    - project: beats
   roles:
     - common
     - test-install
@@ -122,6 +145,7 @@
   vars:
     - beat_name: packetbeat
     - win_arch: x86_64
+    - project: beats
   roles:
     - common
     - test-install
@@ -137,6 +161,7 @@
   vars:
     - beat_name: metricbeat
     - win_arch: x86
+    - project: beats
   roles:
     - common
     - test-install
@@ -152,6 +177,7 @@
   vars:
     - beat_name: metricbeat
     - win_arch: x86_64
+    - project: beats
   roles:
     - common
     - test-install
@@ -167,6 +193,7 @@
   vars:
     - beat_name: filebeat
     - win_arch: x86
+    - project: beats
   roles:
     - common
     - test-install
@@ -182,6 +209,7 @@
   vars:
     - beat_name: filebeat
     - win_arch: x86_64
+    - project: beats
   roles:
     - common
     - test-install
@@ -197,6 +225,7 @@
   vars:
     - beat_name: heartbeat
     - win_arch: x86
+    - project: beats
   roles:
     - common
     - test-install
@@ -212,6 +241,7 @@
   vars:
     - beat_name: heartbeat
     - win_arch: x86_64
+    - project: beats
   roles:
     - common
     - test-install
@@ -227,6 +257,7 @@
   vars:
     - beat_name: winlogbeat
     - win_arch: x86
+    - project: beats
   roles:
     - common
     - test-install
@@ -242,6 +273,7 @@
   vars:
     - beat_name: winlogbeat
     - win_arch: x86_64
+    - project: beats
   roles:
     - common
     - test-install
@@ -257,6 +289,7 @@
   vars:
     - beat_name: auditbeat
     - win_arch: x86
+    - project: beats
   roles:
     - role: common
       when: "version is version_compare('6.2', '>=')"
@@ -276,6 +309,7 @@
   vars:
     - beat_name: auditbeat
     - win_arch: x86_64
+    - project: beats
   roles:
     - role: common
       when: "version is version_compare('6.2', '>=')"

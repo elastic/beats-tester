@@ -1,3 +1,5 @@
 deb_arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else 'i386' }}"
 rpm_arch: "{{ 'x86_64' if ansible_architecture == 'x86_64' else 'i686' }}"
 bin_arch: "{{ 'x86_64' if ansible_architecture == 'x86_64' else 'x86' }}"
+url_base: "{{ beats_url_base if project == 'beats' else apm_url_base }}"
+url_dir: "{{ beat_name + '/' if project == 'beats' else '' }}"
