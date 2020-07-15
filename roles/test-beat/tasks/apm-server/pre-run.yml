@@ -1,0 +1,7 @@
+# - name: Change ownership to root of APM configuration file
+#   file:
+#     path: /etc/apm-server/apm-server.yml
+#     owner: root
+#     group: root
+#     # FIXME remove?
+#     # mode: '0644'
