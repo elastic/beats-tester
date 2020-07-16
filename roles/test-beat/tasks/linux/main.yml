@@ -4,15 +4,11 @@
   file:
     path: '{{ beat_data_path }}'
     state: absent
-  # FIXME this might need to move into the post-run
-  when: project != 'apm-server'
 
 - name: "Remove {{ beat_name }} logs directory"
   file:
     path: '{{ beat_logs_path }}'
     state: absent
-  # FIXME this might need to move into the post-run
-  when: project != 'apm-server'
 
 - name: "Pre-run setup for {{ beat_name }}"
   include_tasks: '{{ pre_run_item }}'

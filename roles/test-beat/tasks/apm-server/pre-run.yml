@@ -1,0 +1,13 @@
+- name: Create data path
+  file:
+    path: /var/lib/apm-server
+    state: directory
+    mode: '0755'
+    owner: apm-server
+
+- name: Create logging dir
+  file:
+    path: /var/log/apm-server
+    state: directory
+    mode: '0755'
+    owner: apm-server
