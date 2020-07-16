@@ -85,7 +85,9 @@
     that:
       - "log_metrics_event.beat.handles.open >= 0"
   # These metric names were established in 6.5.
-  when: "version is version_compare('6.5', '>=')"
+  when:
+    - "version is version_compare('6.5', '>=')"
+    - "project != 'apm-server'"
 
 - name: 'Check {{ beat_name }} reports the limits of open handles (Linux)'
   assert:
@@ -96,6 +98,7 @@
   when:
     - "version is version_compare('6.5', '>=')"
     - ansible_system == "Linux"
+    - "project != 'apm-server'"
 
 - name: 'Get {{ beat_name }} help output for an unknown help topic'
   shell: '{{ beat_name }} help non_existing_topic'

@@ -2,7 +2,9 @@
 - name: Packaging tests APM Server
   hosts:
     - debian
-    # TODO add more
+    - centos
+    - sles
+    - darwin
   become: yes
   tags:
     - apm-server
