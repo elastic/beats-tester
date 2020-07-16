@@ -120,6 +120,7 @@
   when:
     - "version is version_compare('6.5', '>=')"
     - "'oss' not in beat_pkg_suffix"
+    - "project != 'apm-server'"
 
 - name: 'Check that {{ beat_name }} contains OSS features only'
   assert:
@@ -128,3 +129,4 @@
   when:
     - "version is version_compare('6.5', '>=')"
     - "'oss' in beat_pkg_suffix"
+    - "project != 'apm-server'"

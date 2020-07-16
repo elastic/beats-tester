@@ -1,0 +1,2 @@
+- name: Dump system journal to log
+  shell: journalctl -u apm-server.service > /var/log/apm-server/apm-server.json
