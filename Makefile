@@ -1,6 +1,6 @@
 RUN_SETTINGS?=nightlies
 # Control ansible's verbosity by setting this with -v or -vvvvv (more verbose).
-ANSIBLE_VERBOSE?=-vvvvv
+ANSIBLE_VERBOSE?=
 # Exluding localhost, as localhost is assumed to be Mac OS X with ssh enabled.
 ANSIBLE_LIMIT?=all:!localhost
 # Extra flags to pass to Ansible (e.g. --skip-tags filebeat).
