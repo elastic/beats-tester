@@ -1,6 +1,5 @@
 # Beats "nightly" build artifacts.
 # Published by: https://beats-ci.elastic.co/job/elastic+beats+master+package/
 beats_url_base: https://storage.googleapis.com/beats-ci-artifacts/snapshots
-# FIXME this might be wrong
 apm_url_base: https://storage.googleapis.com/apm-ci-artifacts/jobs/snapshots
 version: 8.0.0-SNAPSHOT
