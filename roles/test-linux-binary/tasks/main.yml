@@ -1,6 +1,6 @@
 - name: Compute vars (binary)
   set_fact:
-    beat_url: "{{url_base}}/{{beat_name}}/{{beat_name}}{{ beat_pkg_suffix }}-{{version}}-linux-{{bin_arch}}.tar.gz"
+    beat_url: "{{url_base}}/{{url_dir}}{{beat_name}}{{ beat_pkg_suffix }}-{{version}}-linux-{{bin_arch}}.tar.gz"
     beat_pkg: "{{beat_name}}{{ beat_pkg_suffix }}-{{version}}-linux-{{bin_arch}}.tar.gz"
     beat_cfg: "/tmp/{{beat_name}}{{ beat_pkg_suffix }}-{{version}}-linux-{{bin_arch}}/{{beat_name}}.yml"
     workdir: /tmp
@@ -53,6 +53,7 @@
   shell: chdir={{installdir}} ./{{beat_name}} -E output.elasticsearch.enabled=false -E output.file.path={{workdir}}/output -E metricbeat.max_start_delay=0
   async: 45
   poll: 0  # run in bg
+  when: "project == 'beats'"
 
 - name: Sleep a little
   shell: sleep 1

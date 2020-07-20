@@ -1,3 +1,4 @@
 # Staged releases.
-url_base: https://staging.elastic.co/6.2.0-dd3c6d0b/downloads/beats
+beats_url_base: https://staging.elastic.co/6.2.0-dd3c6d0b/downloads/beats
+apm_url_base: https://staging.elastic.co/6.2.0-dd3c6d0b/downloads/apm-server
 version: 6.2.0
