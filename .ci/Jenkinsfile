@@ -10,6 +10,7 @@ pipeline {
     URL_BASE = "${params.URL_BASE}"
     VERSION = "${params.VERSION}"
     HOME = "${WORKSPACE}"
+    NEW_CHANGES = 'true'
   }
   options {
     timeout(time: 4, unit: 'HOURS')
@@ -37,9 +38,43 @@ pipeline {
         deleteDir()
         gitCheckout(basedir: "${BASE_DIR}", githubNotifyFirstTimeContributor: true)
         stash allowEmpty: true, name: 'source', useDefaultExcludes: false
+        dir("${BASE_DIR}"){
+          sh(label: 'Get snapshot metadata', script: ".ci/scripts/fetch-metadata.sh ${VERSION}")
+        }
+      }
+      post {
+        always {
+          // Archive metadata to be compared in the daily setup stage.
+          archiveArtifacts(allowEmptyArchive: false, artifacts: "${BASE_DIR}/metadata.txt")
+        }
+      }
+    }
+    stage('Daily Setup'){
+      when {
+        triggeredBy 'UpstreamCause'
+      }
+      steps {
+        dir("${BASE_DIR}"){
+          copyArtifacts(projectName: "${JOB_NAME}", filter: 'metadata.txt', target: 'previous', optional: true)
+          whenTrue(fileExists('previous/metadata.txt')) {
+            script {
+              env.NEW_CHANGES = sh(label: 'Compare metadata', returnStdout: true,
+                                  script: 'cmp metadata.txt previous/metadata.txt && echo "false" || echo "true"')?.trim()
+              whenTrue(env.NEW_CHANGES.equals('true')) {
+                def buildId = sh(label: 'Set build id', returnStdout: true,
+                                 script: '.ci/scripts/fetch-metadata.sh metadata.txt')?.trim()
+                env.APM_URL_BASE = "https://staging.elastic.co/${buildId}/downloads/apm-server"
+                env.BEATS_URL_BASE = "https://staging.elastic.co/${buildId}/downloads/beats"
+              }
+            }
+          }
+        }
       }
     }
     stage('Test Hosts'){
+      when {
+        expression { return env.NEW_CHANGES != "false" }
+      }
       matrix {
         // TODO: when the infra is ready with the 'nested-virtualization' then we can use that label
         // agent { label 'nested-virtualization' }
