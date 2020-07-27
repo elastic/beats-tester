@@ -62,7 +62,7 @@ pipeline {
                                   script: 'cmp metadata.txt previous/metadata.txt && echo "false" || echo "true"')?.trim()
               whenTrue(env.NEW_CHANGES.equals('true')) {
                 def buildId = sh(label: 'Set build id', returnStdout: true,
-                                 script: '.ci/scripts/fetch-metadata.sh metadata.txt')?.trim()
+                                 script: '.ci/scripts/get-build-id.sh metadata.txt')?.trim()
                 env.APM_URL_BASE = "https://staging.elastic.co/${buildId}/downloads/apm-server"
                 env.BEATS_URL_BASE = "https://staging.elastic.co/${buildId}/downloads/beats"
               }
