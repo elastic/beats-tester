@@ -76,8 +76,14 @@ pipeline {
         anyOf {
           not { triggeredBy cause: 'UpstreamCause' }
           allOf {
-            triggeredBy cause: 'UpstreamCause'
-            expression { return env.NEW_CHANGES == 'true' }
+            def ret = env.NEW_CHANGES == 'true' && isUpstreamTrigger()
+            if(!ret){
+              currentBuild.result = 'NOT_BUILT'
+              currentBuild.description = 'The build has been skipped'
+              currentBuild.displayName = "#${BUILD_NUMBER}-(Skipped)"
+              echo('If upstream caused and no change then the build is skipped')
+            }
+            return ret
           }
         }
       }
