@@ -10,6 +10,9 @@ pipeline {
     URL_BASE = "${params.URL_BASE}"
     VERSION = "${params.VERSION}"
     HOME = "${WORKSPACE}"
+    LANG = "C.UTF-8"
+    LC_ALL = "C.UTF-8"
+    PYTHONUTF8 = "1"
   }
   options {
     timeout(time: 4, unit: 'HOURS')
