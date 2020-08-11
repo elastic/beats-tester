@@ -7,9 +7,13 @@ pipeline {
   environment {
     BASE_DIR = 'src'
     PIPELINE_LOG_LEVEL = 'INFO'
-    URL_BASE = "${params.URL_BASE}"
+    APM_URL_BASE = "${params.APM_URL_BASE}"
+    BEATS_URL_BASE = "${params.BEATS_URL_BASE}"
     VERSION = "${params.VERSION}"
     HOME = "${WORKSPACE}"
+    LANG = "C.UTF-8"
+    LC_ALL = "C.UTF-8"
+    PYTHONUTF8 = "1"
   }
   options {
     timeout(time: 4, unit: 'HOURS')
