@@ -141,7 +141,11 @@ pipeline {
       notifyBuildResult(prComment: true)
     }
     unsuccessful {
-      slackSend channel: '#observablt-robots', color: 'danger', message: "Build Failed: ${env.JOB_NAME} ${env.BUILD_NUMBER}", tokenCredentialId: 'jenkins-slack-integration-token'
+      whenFalse(isPR()) {
+        slackSend(channel: '#observablt-robots', color: 'danger',
+                  message: "Build Failed: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.RUN_DISPLAY_URL}|Open>).",
+                  tokenCredentialId: 'jenkins-slack-integration-token')
+      }
     }
   }
 }
