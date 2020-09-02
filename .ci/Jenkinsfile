@@ -92,6 +92,7 @@ pipeline {
           }
         }
       }
+      failFast false
       matrix {
         agent { label 'metal' }
         axes {
