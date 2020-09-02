@@ -39,17 +39,9 @@ pipeline {
     upstream('Beats/beats/master')
   }
   stages {
-    stage('Run Tasks on a cron basis'){
-      when {
-        triggeredBy 'TimerTrigger'
-      }
-      steps {
-        runBeatsTesterJob()
-      }
-    }
     stage('Upstream setup') {
       when {
-        triggeredBy 'UpstreamCause'
+        triggeredBy 'TimerTrigger'
       }
       steps {
         git 'https://github.com/elastic/beats-tester.git'
@@ -66,10 +58,10 @@ pipeline {
         }        
       }
     }
-    stage('Run Tasks on an Upstream basis if new BC'){
+    stage('BC when TimerTrigger'){
       when {
         allOf {
-          triggeredBy 'UpstreamCause'
+          triggeredBy 'TimerTrigger'
           expression { env.NEW_CHANGES == 'true' }
         }
       }
@@ -78,12 +70,9 @@ pipeline {
                           beats: "https://staging.elastic.co/${env.BC_ID}/downloads/beats")
       }
     }
-    stage('Run Tasks on an Upstream basis if no BC'){
+    stage('Snapshot when UpstreamCause'){
       when {
-        allOf {
-          triggeredBy 'UpstreamCause'
-          expression { env.NEW_CHANGES == 'false' }
-        }
+        triggeredBy 'UpstreamCause'
       }
       steps {
         runBeatsTesterJob()
