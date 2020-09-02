@@ -24,6 +24,7 @@ pipeline {
     PIPELINE_LOG_LEVEL = 'INFO'
     BEATS_TESTER_JOB = 'Beats/beats-tester-mbp/master'
     VERSION = '8.0.0-SNAPSHOT'
+    NEW_CHANGES = 'false'
   }
   options {
     timeout(time: 1, unit: 'HOURS')
@@ -43,10 +44,10 @@ pipeline {
         triggeredBy 'TimerTrigger'
       }
       steps {
-        build(job: env.BEATS_TESTER_JOB, propagate: false, wait: false)
+        runBeatsTesterJob()
       }
     }
-    stage('Run Tasks on an Upstream basis'){
+    stage('Upstream setup') {
       when {
         triggeredBy 'UpstreamCause'
       }
@@ -60,17 +61,32 @@ pipeline {
           script {
             env.NEW_CHANGES = sh(label: 'Compare metadata', returnStdout: true,
                                 script: 'cmp metadata.txt previous/metadata.txt && echo "false" || echo "true"')?.trim()
-            whenTrue(env.NEW_CHANGES.equals('true')) {
-              def buildId = sh(script: '.ci/scripts/get-build-id.sh metadata.txt', returnStdout: true)?.trim()
-              build(job: env.BEATS_TESTER_JOB, propagate: false, wait: false,
-                    parameters: [
-                      string(name: 'APM_URL_BASE', value: "https://staging.elastic.co/${buildId}/downloads/apm-server"),
-                      string(name: 'BEATS_URL_BASE', value: "https://staging.elastic.co/${buildId}/downloads/beats"),
-                      string(name: 'VERSION', value: env.VERSION)
-                    ])
-            }
+            env.BC_ID = sh(script: '.ci/scripts/get-build-id.sh metadata.txt', returnStdout: true)?.trim()
           }
         }        
+      }
+    }
+    stage('Run Tasks on an Upstream basis if new BC'){
+      when {
+        allOf {
+          triggeredBy 'UpstreamCause'
+          expression { env.NEW_CHANGES == 'true' }
+        }
+      }
+      steps {
+        runBeatsTesterJob(apm: "https://staging.elastic.co/${env.BC_ID}/downloads/apm-server",
+                          beats: "https://staging.elastic.co/${env.BC_ID}/downloads/beats")
+      }
+    }
+    stage('Run Tasks on an Upstream basis if no BC'){
+      when {
+        allOf {
+          triggeredBy 'UpstreamCause'
+          expression { env.NEW_CHANGES == 'false' }
+        }
+      }
+      steps {
+        runBeatsTesterJob()
       }
     }
   }
@@ -78,5 +94,18 @@ pipeline {
     cleanup {
       notifyBuildResult(prComment: false)
     }
+  }
+}
+
+def runBeatsTesterJob(Map args = [:]) {
+  if (args.apm && args.beats) {
+    build(job: env.BEATS_TESTER_JOB, propagate: false, wait: false,
+          parameters: [
+            string(name: 'APM_URL_BASE', value: args.apm),
+            string(name: 'BEATS_URL_BASE', value: args.beats),
+            string(name: 'VERSION', value: env.VERSION)
+          ])
+  } else {
+    build(job: env.BEATS_TESTER_JOB, propagate: false, wait: false, parameters: [ string(name: 'VERSION', value: env.VERSION) ])
   }
 }
