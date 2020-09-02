@@ -1,0 +1,26 @@
+---
+- job:
+    name: Beats/beats-tester-trigger-builds
+    display-name: Jobs scheduled daily or on events
+    description: Jobs scheduled daily from Monday to Friday or with certain events
+    project-type: pipeline
+    parameters:
+      - string:
+          name: branch_specifier
+          default: master
+          description: the Git branch specifier to build
+    pipeline-scm:
+      script-path: .ci/trigger-builds.groovy
+      scm:
+        - git:
+            url: git@github.com:elastic/beats-tester.git
+            refspec: +refs/heads/*:refs/remotes/origin/* +refs/pull/*/head:refs/remotes/origin/pr/*
+            wipe-workspace: 'True'
+            name: origin
+            shallow-clone: true
+            credentials-id: 2a9602aa-ab9f-4e52-baf3-b71ca88469c7-UserAndToken
+            reference-repo: /var/lib/jenkins/.git-references/beats-tester.git
+            branches:
+              - $branch_specifier
+    triggers:
+      - timed: 'H H(4-5) * * 1-5'
