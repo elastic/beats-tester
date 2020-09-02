@@ -7,9 +7,14 @@ pipeline {
   environment {
     BASE_DIR = 'src'
     PIPELINE_LOG_LEVEL = 'INFO'
-    URL_BASE = "${params.URL_BASE}"
+    APM_URL_BASE = "${params.APM_URL_BASE}"
+    BEATS_URL_BASE = "${params.BEATS_URL_BASE}"
     VERSION = "${params.VERSION}"
     HOME = "${WORKSPACE}"
+    NEW_CHANGES = 'false'
+    LANG = "C.UTF-8"
+    LC_ALL = "C.UTF-8"
+    PYTHONUTF8 = "1"
   }
   options {
     timeout(time: 4, unit: 'HOURS')
@@ -19,13 +24,16 @@ pipeline {
     disableResume()
     durabilityHint('PERFORMANCE_OPTIMIZED')
     quietPeriod(10)
-    rateLimitBuilds(throttle: [count: 60, durationName: 'hour', userBoost: true])
+    rateLimitBuilds(throttle: [count: 4, durationName: 'hour', userBoost: true])
   }
   triggers {
     issueCommentTrigger('(?i).*(?:jenkins\\W+)?run\\W+(?:the\\W+)?tests(?:\\W+please)?.*')
+    // disable upstream trigger on a PR basis
+    upstream("Beats/beats/${ env.JOB_BASE_NAME.startsWith('PR-') ? 'none' : env.JOB_BASE_NAME }")
   }
   parameters {
-    string(name: 'URL_BASE', defaultValue: 'https://storage.googleapis.com/beats-ci-artifacts/snapshots', description: 'The location where the packages should be downloaded from')
+    string(name: 'APM_URL_BASE', defaultValue: 'https://storage.googleapis.com/apm-ci-artifacts/jobs/snapshots', description: 'The location where the APM packages should be downloaded from')
+    string(name: 'BEATS_URL_BASE', defaultValue: 'https://storage.googleapis.com/beats-ci-artifacts/snapshots', description: 'The location where the Beats packages should be downloaded from')
     string(name: 'VERSION', defaultValue: '8.0.0-SNAPSHOT', description: 'The package version to test (modify the job configuration to add a new version)')
   }
   stages {
@@ -36,9 +44,54 @@ pipeline {
         deleteDir()
         gitCheckout(basedir: "${BASE_DIR}", githubNotifyFirstTimeContributor: true)
         stash allowEmpty: true, name: 'source', useDefaultExcludes: false
+        dir("${BASE_DIR}"){
+          sh(label: 'Get snapshot metadata', script: ".ci/scripts/fetch-metadata.sh ${VERSION}")
+          // Archive metadata to be compared in the upstream setup stage.
+          archiveArtifacts(allowEmptyArchive: false, artifacts: 'metadata.txt')
+        }
+      }
+    }
+    stage('Upstream setup'){
+      when {
+        anyOf {
+          triggeredBy cause: 'UpstreamCause'
+        }
+      }
+      steps {
+        dir("${BASE_DIR}"){
+          copyArtifacts(projectName: "${JOB_NAME}", filter: 'metadata.txt', target: 'previous', optional: true)
+          whenTrue(fileExists('previous/metadata.txt')) {
+            script {
+              env.NEW_CHANGES = sh(label: 'Compare metadata', returnStdout: true,
+                                  script: 'cmp metadata.txt previous/metadata.txt && echo "false" || echo "true"')?.trim()
+              whenTrue(env.NEW_CHANGES.equals('true')) {
+                def buildId = sh(label: 'Set build id', returnStdout: true,
+                                 script: '.ci/scripts/get-build-id.sh metadata.txt')?.trim()
+                env.APM_URL_BASE = "https://staging.elastic.co/${buildId}/downloads/apm-server"
+                env.BEATS_URL_BASE = "https://staging.elastic.co/${buildId}/downloads/beats"
+              }
+            }
+          }
+        }
       }
     }
     stage('Test Hosts'){
+      when {
+        beforeAgent true
+        anyOf {
+          not { triggeredBy cause: 'UpstreamCause' }
+          expression {
+            def ret = env.NEW_CHANGES == 'true' && isUpstreamTrigger()
+            if(!ret){
+              currentBuild.result = 'NOT_BUILT'
+              currentBuild.description = 'The build has been skipped'
+              currentBuild.displayName = "#${BUILD_NUMBER}-(Skipped)"
+              echo('If upstream caused and no change then the build is skipped')
+            }
+            return ret
+          }
+        }
+      }
       matrix {
         agent { label 'metal || macosx-10.15 || macosx-10.14 || macosx-10.13' }
         axes {
@@ -60,7 +113,8 @@ pipeline {
                 ''')
                 sh(label: 'make batch',
                   script: """#!/bin/bash
-                    echo "url_base: ${URL_BASE}" > run-settings-jenkins.yml
+                    echo "beats_url_base: ${BEATS_URL_BASE}" > run-settings-jenkins.yml
+                    echo "apm_url_base: ${APM_URL_BASE}" >> run-settings-jenkins.yml
                     echo "version: ${VERSION}" >> run-settings-jenkins.yml
                     RUN_SETTINGS=jenkins make batch""")
               }
@@ -85,6 +139,13 @@ pipeline {
   post {
     cleanup {
       notifyBuildResult(prComment: true)
+    }
+    unsuccessful {
+      whenFalse(isPR()) {
+        slackSend(channel: '#observablt-robots', color: 'danger',
+                  message: "Build Failed: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.RUN_DISPLAY_URL}|Open>).",
+                  tokenCredentialId: 'jenkins-slack-integration-token')
+      }
     }
   }
 }

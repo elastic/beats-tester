@@ -1,5 +1,5 @@
 ---
 
-# The default registry file path changed with 7.0.
-registry_file: '{{ "registry/filebeat/data.json" if version is version_compare("7.0", ">=") else "registry" }}'
+# The default registry file path changed with 7.0 and 7.9
+registry_file: "{% if version is version_compare('7.9', '>=') %}registry/filebeat/log.json{% elif version is version_compare('7.0', '>=') %}registry/filebeat/data.json{% else %}registry{% endif %}"
 filebeat_logs_dir: '{{ ansible_user_dir }}/filebeat_logs'
