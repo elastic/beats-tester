@@ -93,7 +93,7 @@ pipeline {
         }
       }
       matrix {
-        agent { label 'metal || macosx-10.15 || macosx-10.14 || macosx-10.13' }
+        agent { label 'metal' }
         axes {
           axis {
             name 'GROUPS'
@@ -107,10 +107,6 @@ pipeline {
               deleteDir()
               unstash 'source'
               dir("${BASE_DIR}"){
-                sh(label: 'prepare env in the darwin workers', script: '''#!/bin/bash
-                  python3 -m venv ve || true
-                  ve/bin/pip install -Ur requirements.txt
-                ''')
                 sh(label: 'make batch',
                   script: """#!/bin/bash
                     echo "beats_url_base: ${BEATS_URL_BASE}" > run-settings-jenkins.yml
