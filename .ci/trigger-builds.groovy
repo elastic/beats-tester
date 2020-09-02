@@ -39,10 +39,7 @@ pipeline {
     upstream('Beats/beats/master')
   }
   stages {
-    stage('Upstream setup') {
-      when {
-        triggeredBy 'TimerTrigger'
-      }
+    stage('Setup') {
       steps {
         git 'https://github.com/elastic/beats-tester.git'
         sh(label: 'Get snapshot metadata', script: ".ci/scripts/fetch-metadata.sh ${VERSION}")
