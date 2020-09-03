@@ -27,13 +27,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "tester-ubuntu1204-32" do |testvm|
-    testvm.vm.box = "ubuntu/precise32"
+    testvm.vm.box = "hashicorp/precise32"
 
     testvm.ssh.port = 2403
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.72"
   end
-
 
   config.vm.define "tester-debian8-64" do |testvm|
     config.vm.box = "debian/jessie64"
