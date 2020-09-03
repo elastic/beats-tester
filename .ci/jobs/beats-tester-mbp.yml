@@ -3,7 +3,6 @@
     name: Beats/beats-tester-mbp
     display-name: Pipeline for beats-tester
     description: Jenkins pipeline for the beats-tester project.
-    view: Beats
     project-type: multibranch
     script-path: .ci/Jenkinsfile
     scm:
