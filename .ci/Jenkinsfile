@@ -44,16 +44,13 @@ pipeline {
       }
     }
     stage('Test Hosts'){
+      failFast false
       matrix {
-        // TODO: when the infra is ready with the 'nested-virtualization' then we can use that label
-        // agent { label 'nested-virtualization' }
         agent { label 'metal' }
         axes {
           axis {
             name 'GROUPS'
-            // TODO: when the infra is ready with the 'nested-virtualization' then we can split in stages
-            // values 'centos', 'debian', 'sles', 'windows'
-            values 'centos debian sles windows'
+            values 'centos', 'debian', 'sles', 'windows'
           }
         }
         stages {
@@ -92,7 +89,7 @@ pipeline {
     cleanup {
       notifyBuildResult(prComment: true)
     }
-    unsuccessful {
+    failure {
       whenFalse(isPR()) {
         slackSend(channel: '#observablt-robots', color: 'danger',
                   message: "Build Failed: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.RUN_DISPLAY_URL}|Open>).",
