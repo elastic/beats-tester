@@ -43,9 +43,9 @@ pipeline {
       steps {
         git 'https://github.com/elastic/beats-tester.git'
         sh(label: 'Get snapshot metadata', script: ".ci/scripts/fetch-metadata.sh ${VERSION}")
-        // Archive metadata to be compared in the upstream setup stage.
+        // Archive metadata to be compared in the next builds.
         archiveArtifacts(allowEmptyArchive: false, artifacts: 'metadata.txt')
-        copyArtifacts(projectName: env.BEATS_TESTER_JOB, filter: 'metadata.txt', target: 'previous', optional: true)
+        copyArtifacts(projectName: env.JOB_NAME, filter: 'metadata.txt', target: 'previous', optional: true)
         whenTrue(fileExists('previous/metadata.txt')) {
           script {
             env.NEW_CHANGES = sh(label: 'Compare metadata', returnStdout: true,
