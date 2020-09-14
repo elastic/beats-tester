@@ -57,7 +57,6 @@ pipeline {
             options { skipDefaultCheckout() }
             environment {
               VAGRANT_HOME = "${env.HOME}/.vagrant.d"
-              HOME = "${env.WORKSPACE}"
             }
             steps {
               deleteDir()
