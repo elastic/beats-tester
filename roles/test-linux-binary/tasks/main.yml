@@ -9,14 +9,10 @@
 - name: Ensure empty output directory
   file: path={{workdir}}/output state=absent
 
-- name: Download package sha512
-  get_url: url={{beat_url}}.sha512 dest={{workdir}} validate_certs=no
-
-- name: Download package
-  get_url: url={{beat_url}} dest={{workdir}} validate_certs=no
-
-- name: Check file (linux)
-  shell: chdir={{workdir}} sha512sum -c {{beat_pkg}}.sha512
+- name: Download package and checksum
+  include_role:
+    name: common
+    tasks_from: download
 
 - name: Create install directory
   file: path={{installdir}} state=directory
