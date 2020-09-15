@@ -56,8 +56,8 @@ pipeline {
           stage('Test'){
             options { skipDefaultCheckout() }
             environment {
-              VAGRANT_HOME = "${env.HOME}/.vagrant.d"
-              HOME = "${env.WORKSPACE}"
+              VAGRANT_HOME = "${env.JENKINS_HOME}/.vagrant.d"
+              HOME = "${env.WORKSPACE}" // HOME is not set in some workers
             }
             steps {
               deleteDir()
