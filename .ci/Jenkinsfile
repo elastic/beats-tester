@@ -10,10 +10,11 @@ pipeline {
     APM_URL_BASE = "${params.APM_URL_BASE}"
     BEATS_URL_BASE = "${params.BEATS_URL_BASE}"
     VERSION = "${params.VERSION}"
-    HOME = "${WORKSPACE}"
+    HOME = "${env.WORKSPACE}" // HOME is not set in some workers
     LANG = "C.UTF-8"
     LC_ALL = "C.UTF-8"
     PYTHONUTF8 = "1"
+    VAGRANT_HOME = "${env.JENKINS_HOME}/.vagrant.d"
   }
   options {
     timeout(time: 4, unit: 'HOURS')
