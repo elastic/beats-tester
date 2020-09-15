@@ -10,9 +10,11 @@ pipeline {
     APM_URL_BASE = "${params.APM_URL_BASE}"
     BEATS_URL_BASE = "${params.BEATS_URL_BASE}"
     VERSION = "${params.VERSION}"
+    HOME = "${env.WORKSPACE}" // HOME is not set in some workers
     LANG = "C.UTF-8"
     LC_ALL = "C.UTF-8"
     PYTHONUTF8 = "1"
+    VAGRANT_HOME = "${env.JENKINS_HOME}/.vagrant.d"
   }
   options {
     timeout(time: 4, unit: 'HOURS')
@@ -55,18 +57,9 @@ pipeline {
         stages {
           stage('Test'){
             options { skipDefaultCheckout() }
-            environment {
-              VAGRANT_HOME = "${env.JENKINS_HOME}/.vagrant.d"
-              HOME = "${env.WORKSPACE}" // HOME is not set in some workers
-            }
             steps {
               deleteDir()
               unstash 'source'
-              sh(label: 'Debug vagrant context',
-                script: """#!/bin/bash
-                  env | sort
-                  find ${VAGRANT_HOME} -type f -ls || true
-                """)
               dir("${BASE_DIR}"){
                 sh(label: 'make batch',
                   script: """#!/bin/bash
