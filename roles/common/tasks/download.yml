@@ -1,24 +1,19 @@
 
-- name: Download package sha512
-  get_url: url={{beat_url}}.sha512 dest={{workdir}} validate_certs=no
-  when: not ansible_os_family == "Windows"
+- name: Download package with checksum (linux/darwin)
+  get_url:
+    url: "{{beat_url}}"
+    dest: "{{workdir}}"
+    validate_certs: no
+    timeout: 60
+    checksum: "sha512:{{beat_url}}.sha512"
+  when: ansible_os_family != "Windows"
 
-- name: Download package sha512 (windows)
-  win_get_url: url={{beat_url}}.sha512 dest={{workdir}}/{{beat_pkg}}.sha512 validate_certs=no
+- name: Download package with checksum (windows)
+  win_get_url:
+    url: "{{beat_url}}"
+    dest: "{{workdir}}"
+    validate_certs: no
+    timeout: 60
+    checksum_url: "{{beat_url}}.sha512"
+    checksum_algorithm: sha512
   when: ansible_os_family == "Windows"
-
-- name: Download package
-  get_url: url={{beat_url}} dest={{workdir}} validate_certs=no
-  when: not ansible_os_family == "Windows"
-
-- name: Download package (windows)
-  win_get_url: url={{beat_url}} dest={{workdir}}/{{beat_pkg}} validate_certs=no force=no
-  when: ansible_os_family == "Windows"
-
-- name: Check file (linux)
-  shell: chdir={{workdir}} sha512sum -c {{beat_pkg}}.sha512
-  when: ansible_os_family in ["RedHat", "Debian", "Suse"]
-
-- name: Check file (darwin)
-  shell: chdir={{workdir}} shasum -a 512 -c {{beat_pkg}}.sha512
-  when: ansible_os_family == "Darwin"
