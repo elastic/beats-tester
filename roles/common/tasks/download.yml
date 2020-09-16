@@ -9,10 +9,11 @@
   when: ansible_os_family != "Windows"
 
 - name: Download package with checksum (windows)
-  get_url:
+  win_get_url:
     url: "{{beat_url}}"
     dest: "{{workdir}}"
     validate_certs: no
     timeout: 60
-    checksum: "sha512:{{beat_url}}.sha512"
+    checksum_url: "{{beat_url}}.sha512"
+    checksum_algorithm: sha512
   when: ansible_os_family == "Windows"
