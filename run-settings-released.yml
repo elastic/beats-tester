@@ -1,3 +1,4 @@
 # Released artifacts.
-url_base: https://artifacts.elastic.co/downloads/beats
-version:  6.6.2
+beats_url_base: https://artifacts.elastic.co/downloads/beats
+apm_url_base: https://artifacts.elastic.co/downloads/apm-server
+version:  7.9.0

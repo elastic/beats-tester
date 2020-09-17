@@ -7,9 +7,14 @@ pipeline {
   environment {
     BASE_DIR = 'src'
     PIPELINE_LOG_LEVEL = 'INFO'
-    URL_BASE = "${params.URL_BASE}"
+    APM_URL_BASE = "${params.APM_URL_BASE}"
+    BEATS_URL_BASE = "${params.BEATS_URL_BASE}"
     VERSION = "${params.VERSION}"
-    HOME = "${WORKSPACE}"
+    HOME = "${env.WORKSPACE}" // HOME is not set in some workers
+    LANG = "C.UTF-8"
+    LC_ALL = "C.UTF-8"
+    PYTHONUTF8 = "1"
+    VAGRANT_HOME = "${env.JENKINS_HOME}/.vagrant.d"
   }
   options {
     timeout(time: 4, unit: 'HOURS')
@@ -19,13 +24,14 @@ pipeline {
     disableResume()
     durabilityHint('PERFORMANCE_OPTIMIZED')
     quietPeriod(10)
-    rateLimitBuilds(throttle: [count: 60, durationName: 'hour', userBoost: true])
+    rateLimitBuilds(throttle: [count: 8, durationName: 'hour', userBoost: true])
   }
   triggers {
     issueCommentTrigger('(?i).*(?:jenkins\\W+)?run\\W+(?:the\\W+)?tests(?:\\W+please)?.*')
   }
   parameters {
-    string(name: 'URL_BASE', defaultValue: 'https://storage.googleapis.com/beats-ci-artifacts/snapshots', description: 'The location where the packages should be downloaded from')
+    string(name: 'APM_URL_BASE', defaultValue: 'https://storage.googleapis.com/apm-ci-artifacts/jobs/snapshots', description: 'The location where the APM packages should be downloaded from')
+    string(name: 'BEATS_URL_BASE', defaultValue: 'https://storage.googleapis.com/beats-ci-artifacts/snapshots', description: 'The location where the Beats packages should be downloaded from')
     string(name: 'VERSION', defaultValue: '8.0.0-SNAPSHOT', description: 'The package version to test (modify the job configuration to add a new version)')
   }
   stages {
@@ -39,9 +45,8 @@ pipeline {
       }
     }
     stage('Test Hosts'){
+      failFast false
       matrix {
-        // TODO: when the infra is ready with the 'nested-virtualization' then we can use that label
-        // agent { label 'nested-virtualization' }
         agent { label 'metal' }
         axes {
           axis {
@@ -60,7 +65,8 @@ pipeline {
               dir("${BASE_DIR}"){
                 sh(label: 'make batch',
                   script: """#!/bin/bash
-                    echo "url_base: ${URL_BASE}" > run-settings-jenkins.yml
+                    echo "beats_url_base: ${BEATS_URL_BASE}" > run-settings-jenkins.yml
+                    echo "apm_url_base: ${APM_URL_BASE}" >> run-settings-jenkins.yml
                     echo "version: ${VERSION}" >> run-settings-jenkins.yml
                     RUN_SETTINGS=jenkins make batch""")
               }
@@ -85,6 +91,13 @@ pipeline {
   post {
     cleanup {
       notifyBuildResult(prComment: true)
+    }
+    failure {
+      whenFalse(isPR()) {
+        slackSend(channel: '#observablt-robots', color: 'danger',
+                  message: "Build Failed: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.RUN_DISPLAY_URL}|Open>).",
+                  tokenCredentialId: 'jenkins-slack-integration-token')
+      }
     }
   }
 }

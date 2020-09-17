@@ -89,6 +89,9 @@ Here are some execution examples:
         export ANSIBLE_LIMIT="localhost"
         make run
 
+* To run just the APM Server tests, set `ANSIBLE_EXTRA_FLAGS="--tags apm-server"` in
+  the environment.
+
 ## Cleanup
 
 You need to tear down the VMs when you are finished.
