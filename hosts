@@ -25,7 +25,11 @@ tester-sles12-64
 [darwin]
 localhost
 
-[windows]
-#tester-win12-64 ansible_ssh_host=localhost ansible_ssh_user=administrator ansible_ssh_port=5985 ansible_connection=winrm ansible_ssh_pass=vagrant
-tester-win16-64 ansible_ssh_host=localhost ansible_ssh_user=vagrant ansible_ssh_port=5987 ansible_connection=winrm ansible_ssh_pass=vagrant ansible_winrm_scheme=http ansible_winrm_server_cert_validation=ignore
-#tester-win19-64 ansible_ssh_host=localhost ansible_ssh_user=vagrant ansible_ssh_port=5986 ansible_connection=winrm ansible_ssh_pass=vagrant
+[windows2012]
+tester-win12-64 ansible_ssh_host=localhost ansible_ssh_user=administrator ansible_ssh_port=5985 ansible_connection=winrm ansible_ssh_pass=vagrant
+
+[windows2016]
+tester-win16-64 ansible_ssh_host=localhost ansible_ssh_user=vagrant ansible_ssh_port=5985 ansible_connection=winrm ansible_ssh_pass=vagrant
+
+[windows2019]
+tester-win19-64 ansible_ssh_host=localhost ansible_ssh_user=vagrant ansible_ssh_port=5985 ansible_connection=winrm ansible_ssh_pass=vagrant

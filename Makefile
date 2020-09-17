@@ -9,7 +9,7 @@ ANSIBLE_EXTRA_FLAGS?=
 # centos is not in alphabetic order.  It was moved to the
 # end of the list since periodic failures were preventing
 # the other groups from running.
-GROUPS?=debian sles windows centos
+GROUPS?=debian sles windows2012 windows2016 windows2019 centos
 # Vagrant version >= 2.2.8 then use the --no-tty option
 VAGRANT_UP_OPTIONS:=
 MIN_VAGRANT_VERSION = "2.2.8"
