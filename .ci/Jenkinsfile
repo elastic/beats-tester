@@ -53,7 +53,7 @@ pipeline {
             name 'GROUPS'
             // TODO: when the infra is ready with the 'nested-virtualization' then we can split in stages
             // values 'centos', 'debian', 'sles', 'windows'
-            values 'windows2012' 'windows2016' 'windows2019'
+            values 'windows'
           }
         }
         stages {
