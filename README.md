@@ -23,8 +23,6 @@ ubuntu1604-64 | :white_check_mark:
 ubuntu1804-64 | :white_check_mark:
 ubuntu2004-64 | :white_check_mark:
 win12-64 | :white_check_mark:
-win16-64 | :white_check_mark:
-win19-64 | :white_check_mark:
 
 ## Execute
 
