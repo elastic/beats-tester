@@ -3,6 +3,27 @@
 Vagrant + Ansible setup for testing the OS packages and basic e2e tests for all
 the [Beats](https://www.elastic.co/products/beats).
 
+## OS matrix
+
+  OS | Support
+---- | -------
+awslinux | :white_check_mark:
+awslinux2 | :white_check_mark:
+centos6-32 | :white_check_mark:
+centos6-64 | :white_check_mark:
+centos7-64 | :white_check_mark:
+centos8-64 | :white_check_mark:
+debian10-64 | :white_check_mark:
+debian8-64 | :white_check_mark:
+debian9-64 | :white_check_mark:
+sles12-64 | :white_check_mark:
+ubuntu1204-32 | :white_check_mark:
+ubuntu1404-64 | :white_check_mark:
+ubuntu1604-64 | :white_check_mark:
+ubuntu1804-64 | :white_check_mark:
+ubuntu2004-64 | :white_check_mark:
+win12-64 | :white_check_mark:
+
 ## Execute
 
 First, you need to bring the machines up:
