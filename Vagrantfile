@@ -15,6 +15,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.70"
     testvm.vm.provision "shell", inline: "yum install -y libselinux-python"
+    testvm.vm.provider "virtualbox" do |v|
+      v.destroy_unused_network_interfaces = true
+    end
   end
 
   config.vm.define "tester-centos6-64" do |testvm|
@@ -24,6 +27,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.71"
     testvm.vm.provision "shell", inline: "yum install -y libselinux-python"
+    testvm.vm.provider "virtualbox" do |v|
+      v.destroy_unused_network_interfaces = true
+    end
   end
 
   config.vm.define "tester-ubuntu1204-32" do |testvm|
@@ -32,6 +38,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.ssh.port = 2403
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.72"
+    testvm.vm.provider "virtualbox" do |v|
+      v.destroy_unused_network_interfaces = true
+    end
   end
 
   config.vm.define "tester-debian8-64" do |testvm|
@@ -40,6 +49,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.ssh.port = 2404
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.73"
+    testvm.vm.provider "virtualbox" do |v|
+      v.destroy_unused_network_interfaces = true
+    end
   end
 
   config.vm.define "tester-centos7-64" do |testvm|
@@ -48,6 +60,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.ssh.port = 2405
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.74"
+    testvm.vm.provider "virtualbox" do |v|
+      v.destroy_unused_network_interfaces = true
+    end
   end
 
   config.vm.define "tester-win12-64" do |testvm|
@@ -65,6 +80,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.gui = false
       v.cpus = 2
       v.memory = 2048
+      v.destroy_unused_network_interfaces = true
     end
   end
 
@@ -75,6 +91,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.76"
     testvm.vm.provision "python", type: "shell", inline: ubuntu_provision_python()
+    testvm.vm.provider "virtualbox" do |v|
+      v.destroy_unused_network_interfaces = true
+    end
   end
 
   config.vm.define "tester-awslinux" do |testvm|
@@ -83,6 +102,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.ssh.port = 2409
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.78"
+    testvm.vm.provider "virtualbox" do |v|
+      v.destroy_unused_network_interfaces = true
+    end
   end
 
   config.vm.define "tester-debian9-64" do |testvm|
@@ -92,6 +114,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.79"
     testvm.vm.provision "python", type: "shell", inline: ubuntu_provision_python()
+    testvm.vm.provider "virtualbox" do |v|
+      v.destroy_unused_network_interfaces = true
+    end
   end
 
   config.vm.define "tester-sles12-64" do |testvm|
@@ -100,6 +125,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.ssh.port = 2411
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.80"
+    testvm.vm.provider "virtualbox" do |v|
+      v.destroy_unused_network_interfaces = true
+    end
   end
 
   config.vm.define "tester-ubuntu1404-64" do |testvm|
@@ -109,6 +137,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.81"
     testvm.vm.provision "python", type: "shell", inline: ubuntu_provision_python()
+    testvm.vm.provider "virtualbox" do |v|
+      v.destroy_unused_network_interfaces = true
+    end
   end
 
   config.vm.define "tester-ubuntu1804-64" do |testvm|
@@ -118,6 +149,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.82"
     testvm.vm.provision "python", type: "shell", inline: ubuntu_provision_python()
+    testvm.vm.provider "virtualbox" do |v|
+      v.destroy_unused_network_interfaces = true
+    end
   end
 
   config.vm.define "tester-awslinux2" do |testvm|
@@ -126,6 +160,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.ssh.port = 2414
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.83"
+    testvm.vm.provider "virtualbox" do |v|
+      v.destroy_unused_network_interfaces = true
+    end
   end
 
   config.vm.define "tester-centos8-64" do |testvm|
@@ -134,6 +171,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.ssh.port = 2415
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.84"
+    testvm.vm.provider "virtualbox" do |v|
+      v.destroy_unused_network_interfaces = true
+    end
   end
 
   config.vm.define "tester-win19-64" do |testvm|
@@ -151,6 +191,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.gui = false
       v.cpus = 2
       v.memory = 2048
+      v.destroy_unused_network_interfaces = true
     end
   end
 
@@ -161,6 +202,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.87"
     testvm.vm.provision "python", type: "shell", inline: ubuntu_provision_python()
+    testvm.vm.provider "virtualbox" do |v|
+      v.destroy_unused_network_interfaces = true
+    end
   end
 
   config.vm.define "tester-ubuntu2004-64" do |testvm|
@@ -171,6 +215,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.vm.network "private_network", ip: "192.168.33.88"
     testvm.vm.provision "python", type: "shell", inline: ubuntu_provision_python()
     testvm.vm.synced_folder ".", "/vagrant", disabled: true
+    testvm.vm.provider "virtualbox" do |v|
+      v.destroy_unused_network_interfaces = true
+    end
   end
 
 end
