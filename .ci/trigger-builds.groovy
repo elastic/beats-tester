@@ -36,7 +36,6 @@ pipeline {
   }
   triggers {
     cron('H H(4-5) * * 1-5')
-    upstream('Beats/beats/master')
   }
   stages {
     stage('Setup') {
@@ -65,14 +64,6 @@ pipeline {
       steps {
         runBeatsTesterJob(apm: "https://staging.elastic.co/${env.BC_ID}/downloads/apm-server",
                           beats: "https://staging.elastic.co/${env.BC_ID}/downloads/beats")
-      }
-    }
-    stage('Snapshot when UpstreamCause'){
-      when {
-        triggeredBy 'UpstreamCause'
-      }
-      steps {
-        runBeatsTesterJob()
       }
     }
   }
