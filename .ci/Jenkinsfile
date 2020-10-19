@@ -15,6 +15,7 @@ pipeline {
     LC_ALL = "C.UTF-8"
     PYTHONUTF8 = "1"
     VAGRANT_HOME = "${env.JENKINS_HOME}/.vagrant.d"
+    SLACK_CHANNEL = '#beats-build'
   }
   options {
     timeout(time: 8, unit: 'HOURS')
@@ -91,11 +92,7 @@ pipeline {
       notifyBuildResult(prComment: true)
     }
     failure {
-      whenFalse(isPR()) {
-        slackSend(channel: '#observablt-robots', color: 'danger',
-                  message: "Build Failed: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.RUN_DISPLAY_URL}|Open>).",
-                  tokenCredentialId: 'jenkins-slack-integration-token')
-      }
+      notifyBuildResult(prComment: true, slackComment: true, slackNotify: (isBranch() || isTag()))
     }
   }
 }
