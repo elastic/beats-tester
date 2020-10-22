@@ -63,7 +63,7 @@ pipeline {
               unstash 'source'
               dir("${BASE_DIR}"){
                 sh(label: 'make batch',
-                  script: """#!/bin/bash
+                  script: """#!/bin/bash -x
                     ## Skip BEATS if no params.
                     if [ -n "${env.BEATS_URL_BASE?.trim()}" ] ; then
                       echo "beats_url_base: ${env.BEATS_URL_BASE}" > run-settings-jenkins.yml
@@ -80,7 +80,7 @@ pipeline {
               always {
                 dir("${BASE_DIR}"){
                   junit(allowEmptyResults: true, keepLongStdio: true, testResults: "logs/*.xml")
-                  archiveArtifacts(allowEmptyArchive: true, artifacts: 'logs/**')
+                  archiveArtifacts(allowEmptyArchive: true, artifacts: 'logs/**,run-settings-jenkins.yml')
                   sh(label: 'make clean', script: 'make clean')
                 }
               }
