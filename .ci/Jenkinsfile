@@ -65,11 +65,11 @@ pipeline {
                 sh(label: 'make batch',
                   script: """#!/bin/bash -x
                     ## Skip BEATS if no params.
-                    if [ -n "${env.BEATS_URL_BASE?.trim()}" ] ; then
+                    if [[ -n "${env.BEATS_URL_BASE?.trim()}" || "${env.BEATS_URL_BASE?.trim()}" != "null" ]] ; then
                       echo "beats_url_base: ${env.BEATS_URL_BASE}" > run-settings-jenkins.yml
                     fi
                     ## Skip APM if no params.
-                    if [ -n "${env.APM_URL_BASE?.trim()}" ] ; then
+                    if [[ -n "${env.APM_URL_BASE?.trim()}" || "${env.APM_URL_BASE?.trim()}" != "null" ]] ; then
                       echo "apm_url_base: ${env.APM_URL_BASE}" >> run-settings-jenkins.yml
                     fi
                     echo "version: ${VERSION}" >> run-settings-jenkins.yml
