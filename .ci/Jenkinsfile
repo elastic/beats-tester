@@ -67,13 +67,17 @@ pipeline {
                     ## Skip BEATS if no params.
                     if [[ "${env.BEATS_URL_BASE}" != "null" && -n "${env.BEATS_URL_BASE?.trim()}" ]] ; then
                       echo "beats_url_base: ${env.BEATS_URL_BASE}" > run-settings-jenkins.yml
+                    else
+                      ANSIBLE_EXTRA_FLAGS="--skip-tags beats"
                     fi
                     ## Skip APM if no params.
                     if [[ "${env.APM_URL_BASE}" != "null" && -n "${env.APM_URL_BASE?.trim()}" ]] ; then
                       echo "apm_url_base: ${env.APM_URL_BASE}" >> run-settings-jenkins.yml
+                    else
+                      ANSIBLE_EXTRA_FLAGS="--skip-tags apm-server"
                     fi
                     echo "version: ${VERSION}" >> run-settings-jenkins.yml
-                    RUN_SETTINGS=jenkins make batch""")
+                    ANSIBLE_EXTRA_FLAGS=\${ANSIBLE_EXTRA_FLAGS} RUN_SETTINGS=jenkins make batch""")
               }
             }
             post {
