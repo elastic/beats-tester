@@ -14,6 +14,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.ssh.port = 2401
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.70"
+    ## EOL for CentOS 6 so using the package location in http://vault.centos.org
+    testvm.vm.provision "shell", inline: "sed -ibck  's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-Base.repo"
     testvm.vm.provision "shell", inline: "yum install -y libselinux-python"
     testvm.vm.provider "virtualbox" do |v|
       v.destroy_unused_network_interfaces = true
@@ -26,6 +28,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.ssh.port = 2402
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.71"
+    ## EOL for CentOS 6 so using the package location in http://vault.centos.org
+    testvm.vm.provision "shell", inline: "sed -ibck  's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-Base.repo"
     testvm.vm.provision "shell", inline: "yum install -y libselinux-python"
     testvm.vm.provider "virtualbox" do |v|
       v.destroy_unused_network_interfaces = true
