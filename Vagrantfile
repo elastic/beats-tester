@@ -8,30 +8,6 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  config.vm.define "tester-centos6-32" do |testvm|
-    testvm.vm.box = "bento/centos-6.9-i386"
-
-    testvm.ssh.port = 2401
-    testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
-    testvm.vm.network "private_network", ip: "192.168.33.70"
-    testvm.vm.provision "shell", inline: "yum install -y libselinux-python"
-    testvm.vm.provider "virtualbox" do |v|
-      v.destroy_unused_network_interfaces = true
-    end
-  end
-
-  config.vm.define "tester-centos6-64" do |testvm|
-    testvm.vm.box = "bento/centos-6.9"
-
-    testvm.ssh.port = 2402
-    testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
-    testvm.vm.network "private_network", ip: "192.168.33.71"
-    testvm.vm.provision "shell", inline: "yum install -y libselinux-python"
-    testvm.vm.provider "virtualbox" do |v|
-      v.destroy_unused_network_interfaces = true
-    end
-  end
-
   config.vm.define "tester-ubuntu1204-32" do |testvm|
     testvm.vm.box = "hashicorp/precise32"
 
