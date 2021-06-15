@@ -8,45 +8,6 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  config.vm.define "tester-centos6-32" do |testvm|
-    testvm.vm.box = "bento/centos-6.9-i386"
-
-    testvm.ssh.port = 2401
-    testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
-    testvm.vm.network "private_network", ip: "192.168.33.70"
-    ## EOL for CentOS 6 so using the package location in http://vault.centos.org
-    testvm.vm.provision "shell", inline: "sed -ibck  's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-Base.repo"
-    testvm.vm.provision "shell", inline: "yum install -y libselinux-python"
-    testvm.vm.provider "virtualbox" do |v|
-      v.destroy_unused_network_interfaces = true
-    end
-  end
-
-  config.vm.define "tester-centos6-64" do |testvm|
-    testvm.vm.box = "bento/centos-6.9"
-
-    testvm.ssh.port = 2402
-    testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
-    testvm.vm.network "private_network", ip: "192.168.33.71"
-    ## EOL for CentOS 6 so using the package location in http://vault.centos.org
-    testvm.vm.provision "shell", inline: "sed -ibck  's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-Base.repo"
-    testvm.vm.provision "shell", inline: "yum install -y libselinux-python"
-    testvm.vm.provider "virtualbox" do |v|
-      v.destroy_unused_network_interfaces = true
-    end
-  end
-
-  config.vm.define "tester-ubuntu1204-32" do |testvm|
-    testvm.vm.box = "hashicorp/precise32"
-
-    testvm.ssh.port = 2403
-    testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
-    testvm.vm.network "private_network", ip: "192.168.33.72"
-    testvm.vm.provider "virtualbox" do |v|
-      v.destroy_unused_network_interfaces = true
-    end
-  end
-
   config.vm.define "tester-debian8-64" do |testvm|
     config.vm.box = "debian/jessie64"
 
@@ -88,18 +49,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.define "tester-ubuntu1604-64" do |testvm|
-    testvm.vm.box = "ubuntu/xenial64"
-
-    testvm.ssh.port = 2407
-    testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
-    testvm.vm.network "private_network", ip: "192.168.33.76"
-    testvm.vm.provision "python", type: "shell", inline: ubuntu_provision_python()
-    testvm.vm.provider "virtualbox" do |v|
-      v.destroy_unused_network_interfaces = true
-    end
-  end
-
   config.vm.define "tester-awslinux" do |testvm|
     testvm.vm.box = "mvbcoding/awslinux"
 
@@ -129,18 +78,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.ssh.port = 2411
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.80"
-    testvm.vm.provider "virtualbox" do |v|
-      v.destroy_unused_network_interfaces = true
-    end
-  end
-
-  config.vm.define "tester-ubuntu1404-64" do |testvm|
-    testvm.vm.box = "ubuntu/trusty64"
-
-    testvm.ssh.port = 2412
-    testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
-    testvm.vm.network "private_network", ip: "192.168.33.81"
-    testvm.vm.provision "python", type: "shell", inline: ubuntu_provision_python()
     testvm.vm.provider "virtualbox" do |v|
       v.destroy_unused_network_interfaces = true
     end
