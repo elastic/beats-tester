@@ -46,7 +46,7 @@ pipeline {
       }
     }
     stage('Test Hosts'){
-      failFast true
+      failFast false
       matrix {
         agent { label 'metal' }
         axes {
