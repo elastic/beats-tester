@@ -41,6 +41,8 @@
     line: '  enabled: false'
   when: beat_name == "heartbeat"
 
+- debug: msg="the value of {{installdir}}/heartbeat.yml is {{lookup('file', '{{installdir}}/heartbeat.yml') }}"
+
 # TODO (andrewkroh on 2018-11-21): Re-enable after go-sysinfo has been patched
 # to work on Debian 6. https://github.com/elastic/beats-tester/issues/97
 - name: Disable add_host_metadata on Debian 6
