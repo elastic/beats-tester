@@ -43,6 +43,17 @@
 
 - name: Print heartbeat.yml
   shell: cat {{installdir}}/heartbeat.yml
+  register: heartbeat_file_record
+  when: beat_name == "heartbeat"
+
+- name: Setting heartbeat_file
+  set_fact:
+    heartbeat_file: '{{ heartbeat_file_record.stdout | from_json }}'
+  when: beat_name == "heartbeat"
+
+- name: '{{ beat_name }} configuration file'
+  debug:
+    var: heartbeat_file
   when: beat_name == "heartbeat"
 
 # TODO (andrewkroh on 2018-11-21): Re-enable after go-sysinfo has been patched
