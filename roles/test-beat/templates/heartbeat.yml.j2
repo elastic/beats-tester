@@ -4,7 +4,6 @@ heartbeat.monitors:
 - type: http
   schedule: '@every 1s'
   urls: ["http://localhost:12345"]
-  enabled: true
 
 output.file:
   path: '${path.logs}'
