@@ -42,7 +42,7 @@
   when: beat_name == "heartbeat"
 
 - name: Print heartbeat.yml
-  debug: msg="the value of {{installdir}}/heartbeat.yml is {{lookup('file', '{{installdir}}/heartbeat.yml') }}"
+  shell: cat {{installdir}}/heartbeat.yml
   when: beat_name == "heartbeat"
 
 # TODO (andrewkroh on 2018-11-21): Re-enable after go-sysinfo has been patched
