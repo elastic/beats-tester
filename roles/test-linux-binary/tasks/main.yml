@@ -41,7 +41,9 @@
     line: '  enabled: false'
   when: beat_name == "heartbeat"
 
-- debug: msg="the value of {{installdir}}/heartbeat.yml is {{lookup('file', '{{installdir}}/heartbeat.yml') }}"
+- name: Print heartbeat.yml
+  debug: msg="the value of {{installdir}}/heartbeat.yml is {{lookup('file', '{{installdir}}/heartbeat.yml') }}"
+  when: beat_name == "heartbeat"
 
 # TODO (andrewkroh on 2018-11-21): Re-enable after go-sysinfo has been patched
 # to work on Debian 6. https://github.com/elastic/beats-tester/issues/97
