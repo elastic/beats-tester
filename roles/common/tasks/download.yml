@@ -5,7 +5,7 @@
     dest: "{{workdir}}"
     validate_certs: no
     timeout: 60
-    checksum: "sha512:{{beat_url}}.sha512"
+    checksum: "sha512:{{ lookup('url', beat_url + '.sha512') }}"
   when: ansible_os_family != "Windows"
 
 - name: Download package with checksum (windows)
