@@ -1,12 +1,15 @@
 - name: Download beat checksum (linux/darwin)
   vars:
     beat_url_sha: "{{ beat_url }}.sha512"
-  local_action: get_url url={{beat_url_sha}} dest=beat_sha512.txt
-  become: false
-  
+  get_url:
+    url: "{{beat_url_sha}}"
+    dest: "{{workdir}}/beat_sha512.txt"
+  when: ansible_os_family != "Windows"
+
 - name: Extract beat checksum (linux/darwin)
-  set_fact: beat_sha512="{{ lookup('file', 'beat_sha512.txt') }}"
-  
+  set_fact: beat_sha512="{{ lookup('file', '/root/beat_sha512.txt') }}"
+  when: ansible_os_family != "Windows"
+
 - name: Print checksum info
   ansible.builtin.debug:
     var: beat_sha512
