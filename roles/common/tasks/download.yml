@@ -8,7 +8,7 @@
     dest: "{{workdir}}"
     validate_certs: no
     timeout: 60
-    checksum: "sha512:{{ beat_sha512 }}"
+    checksum: "sha512:{{ beat_sha512.split()[0] }}"
   when: ansible_os_family != "Windows"
 
 - name: Download package with checksum (windows)
