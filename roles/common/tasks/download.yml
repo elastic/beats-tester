@@ -1,13 +1,13 @@
 - name: Download beat checksum (linux/darwin)
-  vars:
-    beat_url_sha: "{{ beat_url }}.sha512"
   get_url:
     url: "{{beat_url_sha}}"
     dest: "{{workdir}}/beat_sha512.txt"
   when: ansible_os_family != "Windows"
 
 - name: Extract beat checksum (linux/darwin)
-  set_fact: beat_sha512="{{ lookup('file', workdir + '/beat_sha512.txt') }}"
+  vars:
+    beat_url_sha: "{{ beat_url }}.sha512"
+  set_fact: beat_sha512="{{ lookup('url', beat_url_sha, split_lines=False) | trim }}"
   when: ansible_os_family != "Windows"
 
 - name: Print checksum info
@@ -21,7 +21,7 @@
     dest: "{{workdir}}"
     validate_certs: no
     timeout: 60
-    checksum: "sha512:{{ beat_sha512.split()[0] }}"
+    checksum: "sha512:{{ beat_sha512 }}"
   when: ansible_os_family != "Windows"
 
 - name: Download package with checksum (windows)
