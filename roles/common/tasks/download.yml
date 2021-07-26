@@ -1,11 +1,13 @@
 
 - name: Download package with checksum (linux/darwin)
+  vars:
+    beat_url_sha: "{{ beat_url }}.sha512"
   get_url:
     url: "{{beat_url}}"
     dest: "{{workdir}}"
     validate_certs: no
     timeout: 60
-    checksum: "sha512:{{ lookup('url', beat_url) }}.sha512"
+    checksum: "sha512:{{ lookup('url', beat_url_sha) }}"
   when: ansible_os_family != "Windows"
 
 - name: Download package with checksum (windows)
