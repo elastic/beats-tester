@@ -1,3 +1,6 @@
+- name: Extract beat checksum (linux/darwin)
+  set_fact: beat_sha512="{{ lookup('url', beat_url + '.sha512', split_lines=False) | trim }}"
+  when: ansible_os_family != "Windows"
 
 - name: Download package with checksum (linux/darwin)
   get_url:
@@ -5,7 +8,7 @@
     dest: "{{workdir}}"
     validate_certs: no
     timeout: 60
-    checksum: "sha512:{{beat_url}}.sha512"
+    checksum: "sha512:{{ beat_sha512.split()[0] }}"
   when: ansible_os_family != "Windows"
 
 - name: Download package with checksum (windows)
