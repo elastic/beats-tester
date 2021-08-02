@@ -138,10 +138,14 @@
     - win_arch: x86
     - project: apm-server
   roles:
-    - common
-    - test-install
-    - test-beat
-    - test-uninstall
+    - role: common
+      when: inventory_hostname.endswith('x86')
+    - role: test-install
+      when: inventory_hostname.endswith('x86')
+    - role: test-beat
+      when: inventory_hostname.endswith('x86')
+    - role: test-uninstall
+      when: inventory_hostname.endswith('x86')
 
 - name: Packaging windows x86 tests for Packetbeat
   hosts:
@@ -171,10 +175,14 @@
     - win_arch: x86_64
     - project: apm-server
   roles:
-    - common
-    - test-install
-    - test-beat
-    - test-uninstall
+    - role: common
+      when: inventory_hostname.endswith('64')
+    - role: test-install
+      when: inventory_hostname.endswith('64')
+    - role: test-beat
+      when: inventory_hostname.endswith('64')
+    - role: test-uninstall
+      when: inventory_hostname.endswith('64')
 
 - name: Packaging windows x86_64 tests for Packetbeat
   hosts:
