@@ -13,7 +13,7 @@
   vars:
     - win_beat_sha512: "{{ lookup('url', beat_url + '.sha512?ignoreCache=1', split_lines=False) | trim }}"
   win_get_url:
-    url: "{{beat_url}}'"
+    url: "{{beat_url}}"
     dest: "{{workdir}}"
     validate_certs: no
     timeout: 60
