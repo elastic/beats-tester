@@ -159,10 +159,14 @@
     - win_arch: x86
     - project: beats
   roles:
-    - common
-    - test-install
-    - test-beat
-    - test-uninstall
+    - role: common
+      when: inventory_hostname.endswith('x86')
+    - role: test-install
+      when: inventory_hostname.endswith('x86')
+    - role: test-beat
+      when: inventory_hostname.endswith('x86')
+    - role: test-uninstall
+      when: inventory_hostname.endswith('x86')
 
 - name: Packaging windows x86_64 tests for APM Server
   hosts:
@@ -196,10 +200,14 @@
     - win_arch: x86_64
     - project: beats
   roles:
-    - common
-    - test-install
-    - test-beat
-    - test-uninstall
+    - role: common
+      when: inventory_hostname.endswith('x86')
+    - role: test-install
+      when: inventory_hostname.endswith('x86')
+    - role: test-beat
+      when: inventory_hostname.endswith('x86')
+    - role: test-uninstall
+      when: inventory_hostname.endswith('x86')
 
 - name: Packaging windows x86 tests for Metricbeat
   hosts:
@@ -213,10 +221,14 @@
     - win_arch: x86
     - project: beats
   roles:
-    - common
-    - test-install
-    - test-beat
-    - test-uninstall
+    - role: common
+      when: inventory_hostname.endswith('x86')
+    - role: test-install
+      when: inventory_hostname.endswith('x86')
+    - role: test-beat
+      when: inventory_hostname.endswith('x86')
+    - role: test-uninstall
+      when: inventory_hostname.endswith('x86')
 
 - name: Packaging windows x86_64 tests for Metricbeat
   hosts:
@@ -230,10 +242,14 @@
     - win_arch: x86_64
     - project: beats
   roles:
-    - common
-    - test-install
-    - test-beat
-    - test-uninstall
+    - role: common
+      when: inventory_hostname.endswith('64')
+    - role: test-install
+      when: inventory_hostname.endswith('64')
+    - role: test-beat
+      when: inventory_hostname.endswith('64')
+    - role: test-uninstall
+      when: inventory_hostname.endswith('64')
 
 - name: Packaging windows x86 tests for Filebeat
   hosts:
@@ -247,10 +263,14 @@
     - win_arch: x86
     - project: beats
   roles:
-    - common
-    - test-install
-    - test-beat
-    - test-uninstall
+    - role: common
+      when: inventory_hostname.endswith('x86')
+    - role: test-install
+      when: inventory_hostname.endswith('x86')
+    - role: test-beat
+      when: inventory_hostname.endswith('x86')
+    - role: test-uninstall
+      when: inventory_hostname.endswith('x86')
 
 - name: Packaging windows x86_64 tests for Filebeat
   hosts:
@@ -264,10 +284,14 @@
     - win_arch: x86_64
     - project: beats
   roles:
-    - common
-    - test-install
-    - test-beat
-    - test-uninstall
+    - role: common
+      when: inventory_hostname.endswith('64')
+    - role: test-install
+      when: inventory_hostname.endswith('64')
+    - role: test-beat
+      when: inventory_hostname.endswith('64')
+    - role: test-uninstall
+      when: inventory_hostname.endswith('64')
 
 - name: Packaging windows x86 tests for Heartbeat
   hosts:
@@ -281,10 +305,14 @@
     - win_arch: x86
     - project: beats
   roles:
-    - common
-    - test-install
-    - test-beat
-    - test-uninstall
+    - role: common
+      when: inventory_hostname.endswith('x86')
+    - role: test-install
+      when: inventory_hostname.endswith('x86')
+    - role: test-beat
+      when: inventory_hostname.endswith('x86')
+    - role: test-uninstall
+      when: inventory_hostname.endswith('x86')
 
 - name: Packaging windows x86_64 tests for Heartbeat
   hosts:
@@ -298,10 +326,14 @@
     - win_arch: x86_64
     - project: beats
   roles:
-    - common
-    - test-install
-    - test-beat
-    - test-uninstall
+    - role: common
+      when: inventory_hostname.endswith('64')
+    - role: test-install
+      when: inventory_hostname.endswith('64')
+    - role: test-beat
+      when: inventory_hostname.endswith('64')
+    - role: test-uninstall
+      when: inventory_hostname.endswith('64')
 
 - name: Packaging windows x86 tests for Winlogbeat
   hosts:
@@ -315,10 +347,14 @@
     - win_arch: x86
     - project: beats
   roles:
-    - common
-    - test-install
-    - test-beat
-    - test-uninstall
+    - role: common
+      when: inventory_hostname.endswith('x86')
+    - role: test-install
+      when: inventory_hostname.endswith('x86')
+    - role: test-beat
+      when: inventory_hostname.endswith('x86')
+    - role: test-uninstall
+      when: inventory_hostname.endswith('x86')
 
 - name: Packaging windows x86_64 tests for Winlogbeat
   hosts:
@@ -332,10 +368,14 @@
     - win_arch: x86_64
     - project: beats
   roles:
-    - common
-    - test-install
-    - test-beat
-    - test-uninstall
+    - role: common
+      when: inventory_hostname.endswith('64')
+    - role: test-install
+      when: inventory_hostname.endswith('64')
+    - role: test-beat
+      when: inventory_hostname.endswith('64')
+    - role: test-uninstall
+      when: inventory_hostname.endswith('64')
 
 - name: Packaging windows x86 tests for Auditbeat
   hosts:
@@ -350,13 +390,13 @@
     - project: beats
   roles:
     - role: common
-      when: "version is version_compare('6.2', '>=')"
+      when: version is version_compare('6.2', '>=') and inventory_hostname.endswith('x86')
     - role: test-install
-      when: "version is version_compare('6.2', '>=')"
+      when: version is version_compare('6.2', '>=') and inventory_hostname.endswith('x86')
     - role: test-beat
-      when: "version is version_compare('6.2', '>=')"
+      when: version is version_compare('6.2', '>=') and inventory_hostname.endswith('x86')
     - role: test-uninstall
-      when: "version is version_compare('6.2', '>=')"
+      when: version is version_compare('6.2', '>=') and inventory_hostname.endswith('x86')
 
 - name: Packaging windows x86_64 tests for Auditbeat
   hosts:
@@ -371,10 +411,10 @@
     - project: beats
   roles:
     - role: common
-      when: "version is version_compare('6.2', '>=')"
+      when: version is version_compare('6.2', '>=') and inventory_hostname.endswith('64')
     - role: test-install
-      when: "version is version_compare('6.2', '>=')"
+      when: version is version_compare('6.2', '>=') and inventory_hostname.endswith('64')
     - role: test-beat
-      when: "version is version_compare('6.2', '>=')"
+      when: version is version_compare('6.2', '>=') and inventory_hostname.endswith('64')
     - role: test-uninstall
-      when: "version is version_compare('6.2', '>=')"
+      when: version is version_compare('6.2', '>=') and inventory_hostname.endswith('64')
