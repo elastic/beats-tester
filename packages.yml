@@ -351,7 +351,7 @@
       when: inventory_hostname.endswith('x86')
     - role: test-install
       when: inventory_hostname.endswith('x86')
-    - role:test-beat
+    - role: test-beat
       when: inventory_hostname.endswith('x86')
     - role: test-uninstall
       when: inventory_hostname.endswith('x86')
