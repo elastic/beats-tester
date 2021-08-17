@@ -411,10 +411,10 @@
     - project: beats
   roles:
     - role: common
-      when: version is version_compare('6.2', '>=') inventory_hostname.endswith('64')
+      when: version is version_compare('6.2', '>=') and inventory_hostname.endswith('64')
     - role: test-install
-      when: version is version_compare('6.2', '>=') inventory_hostname.endswith('64')
+      when: version is version_compare('6.2', '>=') and inventory_hostname.endswith('64')
     - role: test-beat
-      when: version is version_compare('6.2', '>=') inventory_hostname.endswith('64')
+      when: version is version_compare('6.2', '>=') and inventory_hostname.endswith('64')
     - role: test-uninstall
-      when: version is version_compare('6.2', '>=') inventory_hostname.endswith('64')
+      when: version is version_compare('6.2', '>=') and inventory_hostname.endswith('64')
