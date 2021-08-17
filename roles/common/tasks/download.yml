@@ -17,6 +17,6 @@
     dest: "{{workdir}}"
     validate_certs: no
     timeout: 60
-    checksum: "sha512:{{ win_beat_sha512.split()[0] }}"
+    checksum: "{{ win_beat_sha512.split()[0] }}"
     checksum_algorithm: sha512
   when: ansible_os_family == "Windows"
