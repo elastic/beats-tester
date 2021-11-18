@@ -1,8 +1,8 @@
 ---
 - job:
     name: Beats/beats-tester-trigger-builds
-    display-name: Jobs scheduled daily or on events
-    description: Jobs scheduled daily from Monday to Friday or with certain events
+    display-name: Beats tester scheduled job
+    description: Jobs scheduled daily from Monday to Friday
     project-type: pipeline
     parameters:
       - string:

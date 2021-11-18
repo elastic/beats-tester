@@ -15,9 +15,10 @@ pipeline {
     LC_ALL = "C.UTF-8"
     PYTHONUTF8 = "1"
     VAGRANT_HOME = "${env.JENKINS_HOME}/.vagrant.d"
+    SLACK_CHANNEL = '#beats-build'
   }
   options {
-    timeout(time: 4, unit: 'HOURS')
+    timeout(time: 8, unit: 'HOURS')
     buildDiscarder(logRotator(numToKeepStr: '20', artifactNumToKeepStr: '20', daysToKeepStr: '30'))
     timestamps()
     ansiColor('xterm')
@@ -65,17 +66,27 @@ pipeline {
               dir("${BASE_DIR}"){
                 sh(label: 'make batch',
                   script: """#!/bin/bash
-                    echo "beats_url_base: ${BEATS_URL_BASE}" > run-settings-jenkins.yml
-                    echo "apm_url_base: ${APM_URL_BASE}" >> run-settings-jenkins.yml
+                    ## Skip BEATS if no params.
+                    if [[ "${env.BEATS_URL_BASE}" != "null" && -n "${env.BEATS_URL_BASE?.trim()}" ]] ; then
+                      echo "beats_url_base: ${env.BEATS_URL_BASE}" > run-settings-jenkins.yml
+                    else
+                      ANSIBLE_EXTRA_FLAGS="--skip-tags beats"
+                    fi
+                    ## Skip APM if no params.
+                    if [[ "${env.APM_URL_BASE}" != "null" && -n "${env.APM_URL_BASE?.trim()}" ]] ; then
+                      echo "apm_url_base: ${env.APM_URL_BASE}" >> run-settings-jenkins.yml
+                    else
+                      ANSIBLE_EXTRA_FLAGS="--skip-tags apm-server"
+                    fi
                     echo "version: ${VERSION}" >> run-settings-jenkins.yml
-                    RUN_SETTINGS=jenkins make batch""")
+                    ANSIBLE_EXTRA_FLAGS=\${ANSIBLE_EXTRA_FLAGS} RUN_SETTINGS=jenkins make batch""")
               }
             }
             post {
               always {
                 dir("${BASE_DIR}"){
                   junit(allowEmptyResults: true, keepLongStdio: true, testResults: "logs/*.xml")
-                  archiveArtifacts(allowEmptyArchive: true, artifacts: 'logs/**')
+                  archiveArtifacts(allowEmptyArchive: true, artifacts: 'logs/**,run-settings-jenkins.yml')
                   sh(label: 'make clean', script: 'make clean')
                 }
               }
@@ -93,11 +104,7 @@ pipeline {
       notifyBuildResult(prComment: true)
     }
     failure {
-      whenFalse(isPR()) {
-        slackSend(channel: '#observablt-robots', color: 'danger',
-                  message: "Build Failed: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.RUN_DISPLAY_URL}|Open>).",
-                  tokenCredentialId: 'jenkins-slack-integration-token')
-      }
+      notifyBuildResult(prComment: true, slackComment: true, slackNotify: (isBranch() || isTag()))
     }
   }
 }
