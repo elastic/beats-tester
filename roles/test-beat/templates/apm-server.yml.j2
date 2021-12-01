@@ -1,4 +1,8 @@
 apm-server:
+  data_streams:
+    # We aren't writing to Elasticsearch, so there is no
+    # need to wait for the integration to be installed.
+    wait_for_integration: false
 logging:
   level: info
   json: true
