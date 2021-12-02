@@ -32,19 +32,19 @@ batch:
 # Find the hosts that belong to a given ansible group.
 run-group: HOSTS=$(shell ansible ${GROUP} -i hosts --list-hosts | tail -n +2)
 run-group: ve
-	vagrant up ${HOSTS}
-	vagrant status ${HOSTS}
-	vagrant ssh-config ${HOSTS} >ssh_config
-	ANSIBLE_LIMIT=${GROUP} make run
-	vagrant destroy -f ${HOSTS}
+	vagrant up $(HOSTS)
+	vagrant status $(HOSTS)
+	vagrant ssh-config $(HOSTS) >ssh_config
+	ANSIBLE_LIMIT=$(GROUP) make run
+	vagrant destroy -f $(HOSTS)
 
 ## @help:run-machine:Run the tests for a single machine. Needs MACHINE environment variable to be set.
 run-machine: ve
-	vagrant up ${MACHINE}
-	vagrant status ${MACHINE}
-	vagrant ssh-config ${MACHINE} > ssh_config
-	ANSIBLE_LIMIT=${MACHINE} make run
-	vagrant destroy -f ${MACHINE}
+	vagrant up $(MACHINE)
+	vagrant status $(MACHINE)
+	vagrant ssh-config $(MACHINE) > ssh_config
+	ANSIBLE_LIMIT=$(MACHINE) make run
+	vagrant destroy -f $(MACHINE)
 
 ## @help:ci:Use this target for continuous integration tools like Jenkins or Travis. This should allow for maintenance without updating the CI jobs directly.
 ci: batch
