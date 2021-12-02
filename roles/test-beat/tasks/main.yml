@@ -22,10 +22,9 @@
     - 'vars/{{ ansible_system | lower }}.yml'
     - default.yml
 
-- name: Set config/output/log file vars
+- name: Set config/log file vars
   set_fact:
     beat_config_file: '{{ beat_config_path}}/{{ beat_name }}.yml'
-    beat_output_file: '{{ beat_logs_path }}/output.json'
     beat_log_file: '{{ beat_logs_path }}/{{ beat_name }}.json'
     beat_registry_file: '{{ beat_data_path }}/{{ registry_file }}'
     beat_metrics_file: '{{ beat_logs_path }}/metrics.json'
@@ -48,12 +47,6 @@
       loop_var: system_item
 
   always:
-  - name: Save output to host
-    fetch:
-      src: '{{ beat_output_file }}'
-      dest: 'logs/{{ beat_name }}{{ beat_pkg_suffix }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/output.json'
-      flat: yes
-
   - name: Save log to host
     fetch:
       src: '{{ beat_log_file }}'
@@ -89,11 +82,3 @@
   loop_control:
     loop_var: assert_item
 
-- name: Run {{ beat_name }} assertions on outputs
-  include: '{{ beat_assert_item }}'
-  with_first_found:
-  - files:
-    - '{{ beat_name }}/assert.yml'
-    - default.yml
-  loop_control:
-    loop_var: beat_assert_item

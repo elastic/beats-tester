@@ -46,12 +46,6 @@
   loop_control:
     loop_var: post_run_item
 
-- name: 'Wait for {{ beat_service_name }} to produce output.json'
-  wait_for:
-    path: '{{ beat_output_file }}'
-    search_regex: '"version"'
-    timeout: 20
-
 - name: 'Fetch metrics from {{ beat_name }} over HTTP'
   get_url:
     url: http://localhost:5066/stats

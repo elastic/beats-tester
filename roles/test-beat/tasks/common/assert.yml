@@ -1,20 +1,5 @@
 ---
 
-- name: 'Stat {{ beat_name }} output file'
-  stat:
-    path: '{{ beat_output_file }}'
-  register: output_stat
-
-- name: '{{ beat_name }} output file stats'
-  debug:
-    var: output_stat
-
-- name: "Assert that {{ beat_name }} output file exists"
-  assert:
-    that:
-      - "output_stat.stat.exists"
-      - "output_stat.stat.size > 0"
-
 - name: 'Stat {{ beat_name }} log file'
   stat:
     path: '{{ beat_log_file }}'
