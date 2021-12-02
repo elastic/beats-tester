@@ -25,6 +25,24 @@ First, you need to bring the machines up:
 
     make setup
 
+> If the command fails with the following error, please retry `make setup` again:
+
+```
+The following SSH command responded with a non-zero exit status.
+Vagrant assumes that this means the command failed!
+
+umount /mnt
+
+Stdout from the command:
+
+
+
+Stderr from the command:
+
+umount: /mnt: not mounted
+```
+
+
 Then you can use Ansible to run the tests. Because they involve lots of VMs and
 commands executed over SSH, these tests are slow (currently 15 minutes in
 total). However, while creating tests or checking something quickly, you can use
