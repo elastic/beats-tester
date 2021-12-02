@@ -70,7 +70,7 @@ run: run-elastic run-oss
 
 # This destroys all vagrant machines and removes the vagrant related data
 clean:
-	-vagrant destroy -f
+	-vagrant destroy -f $(MACHINE)
 	-rm -r .vagrant
 
 # Generate markdown compatibility matrix
