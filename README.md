@@ -71,11 +71,10 @@ MACHINE=tester-debian8-64 make setup
 
 Once the target machines are ready, you need Ansible to run the tests. Because they could involve lots of VMs and commands executed over SSH, these tests are slow (currently 15 minutes in total).
 
-The commands that are available for running the tests are:
+The commands that are available for running the tests are listed using:
 
-- `make run`: it will run the tests for all the OSs in the support matrix.
-- `make run-group`: it will run the tests for all the OSs in a group of OSs. For each ansible group, it will start the vm, check the VM's status, configure SSH, run the ansible playbook, and finally will destroy the vm.
-- `make batch`: it will run the tests in batches. Since it processes each group sequentially, it uses less CPU and memory.
+- `make help`: it will list all available commands, including environment variables affecting the build.
+
 
 It's possible to define what versions of the binaries are used in the tests, you must simply declare the `RUN_SETTINGS` environment variable with the following values: `nightlies`, `released`, `snapshot` and `staging`. These values come from the `run-settings-*.yml` files located at the root directory of this project, where specific variables are configured for the Ansible execution. The default value for this variable is `nightlies`.
 
