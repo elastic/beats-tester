@@ -41,6 +41,13 @@ run-group: ve
 	ANSIBLE_LIMIT=${GROUP} make run
 	vagrant destroy -f ${HOSTS}
 
+run-machine: ve
+	vagrant up ${MACHINE}
+	vagrant status ${MACHINE}
+	vagrant ssh-config ${MACHINE} > ssh_config
+	ANSIBLE_LIMIT=${MACHINE} make run
+	vagrant destroy -f ${MACHINE}
+
 # Use this target for continuous integration tools like Jenkins or Travis.
 # This should allow for maintenance without updating the CI jobs directly.
 ci: batch

@@ -118,9 +118,7 @@ Given you used 'make setup' for one single machine:
 
 ```shell
 MACHINE=tester-debian8-64
-make setup
-export ANSIBLE_LIMIT="$MACHINE"
-make run
+make run-machine
 ```
 
 * All ansible groups in batches:
