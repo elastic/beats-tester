@@ -11,6 +11,8 @@ ANSIBLE_EXTRA_FLAGS?=
 # the other groups from running.
 GROUPS?=debian sles windows centos
 
+MACHINE?=
+
 # Create a virtualenv to run Ansible.
 ve: ve/bin/activate
 ve/bin/activate: requirements.txt
@@ -20,8 +22,8 @@ ve/bin/activate: requirements.txt
 
 # Setup the VMs and the SSH config needed for Ansible to communicate to them.
 setup:
-	vagrant up
-	vagrant ssh-config > ssh_config
+	vagrant up $(MACHINE)
+	vagrant ssh-config $(MACHINE) > ssh_config
 
 # Execute the ansible playbook for each ansible group (GROUPS) in batches.
 # Since it processes each group sequentially, it uses less cpu and memory.
