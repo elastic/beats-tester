@@ -55,7 +55,7 @@
   wait_for:
     path: '{{ beat_output_file }}'
     search_regex: '"version"'
-    timeout: 20
+    timeout: 45
 
 - name: 'Fetch metrics from {{ beat_name }} over HTTP'
   get_url:

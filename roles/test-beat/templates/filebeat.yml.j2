@@ -16,6 +16,8 @@ logging:
   json: true
   to_files: true
   files:
-    name: {{ beat_name }}.json
+    name: "{{ beat_name }}.json"
+  metrics:
+    enabled: true
 
 http.host: localhost

@@ -4,6 +4,7 @@ beat_home_path:   '{{ installdir }}'
 beat_config_path: '{{ installdir }}'
 beat_data_path:   '{{ installdir }}/data'
 beat_logs_path:   '{{ installdir }}/logs'
+beat_file_suffix: '-{{ ansible_date_time.year }}{{ ansible_date_time.month }}{{ ansible_date_time.day }}.ndjson'
 
 beat_service_name: '{{ beat_name }}'
 registry_file: ''

@@ -25,8 +25,8 @@
 - name: Set config/output/log file vars
   set_fact:
     beat_config_file: '{{ beat_config_path}}/{{ beat_name }}.yml'
-    beat_output_file: '{{ beat_logs_path }}/output.json'
-    beat_log_file: '{{ beat_logs_path }}/{{ beat_name }}.json'
+    beat_output_file: '{{ beat_logs_path }}/output.json{{ beat_file_suffix }}'
+    beat_log_file: '{{ beat_logs_path }}/{{ beat_name }}.json{{ beat_file_suffix }}'
     beat_registry_file: '{{ beat_data_path }}/{{ registry_file }}'
     beat_metrics_file: '{{ beat_logs_path }}/metrics.json'
 

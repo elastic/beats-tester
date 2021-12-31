@@ -1,11 +1,17 @@
 apm-server:
+  kibana:
+    enabled: true 
+
 logging:
   level: info
   json: true
   to_files: true
   files:
-    name: apm-server.json
+    name: '{{ beat_name }}.json-{{ ansible_date_time.year }}{{ ansible_date_time.month }}{{ ansible_date_time.day }}.ndjson'
+  metrics:
+    enabled: true
 output.file:
   path: '${path.logs}'
-  filename: output.json
+  filename: 'output.json-{{ ansible_date_time.year }}{{ ansible_date_time.month }}{{ ansible_date_time.day }}.ndjson'
 http.host: localhost
+instrumentation.enabled: true
