@@ -19,6 +19,13 @@ ubuntu1804-64 | :white_check_mark:
 ubuntu2004-64 | :white_check_mark:
 win12-64 | :white_check_mark:
 
+## Requirements
+
+* Python version <= `3.8`
+* Ansible version <= `2.8.8`
+
+Those versions are defined in the `requirements.txt`.
+
 ## Execute
 
 First, you need to bring the machines up:
