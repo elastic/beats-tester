@@ -19,6 +19,15 @@ ubuntu1804-64 | :white_check_mark:
 ubuntu2004-64 | :white_check_mark:
 win12-64 | :white_check_mark:
 
+## Requirements
+
+* Python version <= `3.8`
+* Ansible version <= `2.8.8`
+
+Those versions are defined in the `requirements.txt`.
+
+## Execute
+
 It's possible to run this test suite for all the OSs in the support matrix above, or for a subset of those OSs. The possible use cases are:
 
 - test all Beats for all OSs

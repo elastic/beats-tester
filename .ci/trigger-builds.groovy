@@ -22,7 +22,7 @@ pipeline {
   environment {
     NOTIFY_TO = credentials('notify-to')
     PIPELINE_LOG_LEVEL = 'INFO'
-    BEATS_TESTER_JOB = 'Beats/beats-tester-mbp/master'
+    BEATS_TESTER_JOB = 'Beats/beats-tester-mbp/main'
     VERSION = '8.0.0-SNAPSHOT'
     NEW_CHANGES = 'false'
   }
@@ -51,7 +51,7 @@ pipeline {
                                 script: 'cmp metadata.txt previous/metadata.txt && echo "false" || echo "true"')?.trim()
             env.BC_ID = sh(script: '.ci/scripts/get-build-id.sh metadata.txt', returnStdout: true)?.trim()
           }
-        }        
+        }
       }
     }
     stage('BC when TimerTrigger'){
