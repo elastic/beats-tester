@@ -15,7 +15,7 @@ pipeline {
     LC_ALL = "C.UTF-8"
     PYTHONUTF8 = "1"
     VAGRANT_HOME = "${env.JENKINS_HOME}/.vagrant.d"
-    SLACK_CHANNEL = '#beats-build'
+    SLACK_CHANNEL = '#ingest-notifications'
   }
   options {
     timeout(time: 8, unit: 'HOURS')
