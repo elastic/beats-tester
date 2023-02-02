@@ -40,7 +40,7 @@ pipeline {
   stages {
     stage('Setup') {
       steps {
-        git 'https://github.com/elastic/beats-tester.git'
+        git(branch: 'main', url: 'https://github.com/elastic/beats-tester.git')
         sh(label: 'Get snapshot metadata', script: ".ci/scripts/fetch-metadata.sh ${VERSION}")
         // Archive metadata to be compared in the next builds.
         archiveArtifacts(allowEmptyArchive: false, artifacts: 'metadata.txt')
