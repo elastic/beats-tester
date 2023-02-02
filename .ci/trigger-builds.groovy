@@ -62,8 +62,7 @@ pipeline {
         }
       }
       steps {
-        runBeatsTesterJob(apm: "https://staging.elastic.co/${env.BC_ID}/downloads/apm-server",
-                          beats: "https://staging.elastic.co/${env.BC_ID}/downloads/beats")
+        runBeatsTesterJob(beats: "https://staging.elastic.co/${env.BC_ID}/downloads/beats")
       }
     }
   }
@@ -75,10 +74,9 @@ pipeline {
 }
 
 def runBeatsTesterJob(Map args = [:]) {
-  if (args.apm && args.beats) {
+  if (args.beats) {
     build(job: env.BEATS_TESTER_JOB, propagate: false, wait: false,
           parameters: [
-            string(name: 'APM_URL_BASE', value: args.apm),
             string(name: 'BEATS_URL_BASE', value: args.beats),
             string(name: 'VERSION', value: env.VERSION)
           ])
