@@ -15,6 +15,7 @@ pipeline {
     PYTHONUTF8 = "1"
     VAGRANT_HOME = "${env.JENKINS_HOME}/.vagrant.d"
     SLACK_CHANNEL = '#ingest-notifications'
+    ANSIBLE_EXTRA_FLAGS="--skip-tags packetbeat"
   }
   options {
     timeout(time: 8, unit: 'HOURS')
