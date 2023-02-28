@@ -30,8 +30,10 @@
     file_type:        "file"
   register: find_result
 
-- debug: 
-    with_items: '{{ find_result.files }}'
+- name: debugging files finder
+  debug:
+    var: find_result
+    verbosity: 4
 
 - name: Set config/output/log file vars
   set_fact:
