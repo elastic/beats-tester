@@ -30,8 +30,8 @@
     file_type:        "file"
   register: find_result
 
-- debug: var=item.path
-    with_items: "{{ find_result.files }}"
+- debug: 'var=item.path'
+    with_items: '{{ find_result.files }}'
 
 - name: Set config/output/log file vars
   set_fact:
@@ -40,7 +40,7 @@
     beat_log_file: '{{ beat_logs_path }}/{{ beat_name }}.json'
     beat_registry_file: '{{ beat_data_path }}/{{ registry_file }}'
     beat_metrics_file: '{{ beat_logs_path }}/metrics.json'
-  with_items: "{{ find_result.files }}"
+  with_items: '{{ find_result.files }}'
 
 - name: 'Display vars for testing {{ beat_name }}'
   debug:
