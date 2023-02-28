@@ -30,7 +30,7 @@
     file_type:        "file"
   register: find_result
 
-- debug: 'var=item.path'
+- debug: 
     with_items: '{{ find_result.files }}'
 
 - name: Set config/output/log file vars
