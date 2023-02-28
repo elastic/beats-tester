@@ -22,13 +22,23 @@
     - 'vars/{{ ansible_system | lower }}.yml'
     - default.yml
 
+- name: finding files
+  find:
+    paths:            '{{ beat_logs_path }}'
+    patterns:         "*.ndjson"
+    recurse:          "yes"
+    file_type:        "file"
+  register: find_result
+
+
 - name: Set config/output/log file vars
   set_fact:
     beat_config_file: '{{ beat_config_path}}/{{ beat_name }}.yml'
-    beat_output_file: '{{ beat_logs_path }}/output.json'
+    beat_output_file: '{{ beat_logs_path }}/{{ item.path }}.json'
     beat_log_file: '{{ beat_logs_path }}/{{ beat_name }}.json'
     beat_registry_file: '{{ beat_data_path }}/{{ registry_file }}'
     beat_metrics_file: '{{ beat_logs_path }}/metrics.json'
+  with_items: "{{ find_result.files }}"
 
 - name: 'Display vars for testing {{ beat_name }}'
   debug:
