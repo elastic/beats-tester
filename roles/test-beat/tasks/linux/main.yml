@@ -59,17 +59,13 @@
     file_type:        "file"
   register: find_result
 
-- name: Set config/output/log file vars
-  set_fact:
-    beat_output_file: '{{ item.path }}'
-  with_items: '{{ find_result.files }}'
-   
 - name: 'Wait for {{ beat_name }} to produce output.json'
   wait_for:
-    path: '{{ beat_output_file }}'
+    path: '{{ item.path }}'
     search_regex: '"version"'
     timeout: 20
-
+  with_items: '{{ find_result.files }}'
+  
 - name: 'Fetch metrics from {{ beat_name }} over HTTP'
   get_url:
     url: http://localhost:5066/stats
