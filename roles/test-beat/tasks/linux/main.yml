@@ -52,12 +52,12 @@
     loop_var: post_run_item
 
 - name: finding files
-    find:
-      paths:            '{{ beat_logs_path }}'
-      patterns:         "output*.ndjson"
-      recurse:          "yes"
-      file_type:        "file"
-    register: find_result
+  find:
+    paths:            '{{ beat_logs_path }}'
+    patterns:         "output*.ndjson"
+    recurse:          "yes"
+    file_type:        "file"
+  register: find_result
 
 - name: Set config/output/log file vars
   set_fact:
