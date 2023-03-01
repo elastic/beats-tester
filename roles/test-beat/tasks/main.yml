@@ -57,15 +57,24 @@
       file_type:        "file"
     register: find_result
 
-  - name: debugging files finder
-    debug:
-      var: find_result
-      
   - name: Set config/output/log file vars
     set_fact:
       beat_output_file: '{{ item.path }}'
-    with_items: '{{ find_result.files }}'    
-
+    with_items: '{{ find_result.files }}'
+    
+  - name: finding files beatname
+    find:
+      paths:            '{{ beat_logs_path }}'
+      patterns:         "{{ beat_name }}*.ndjson"
+      recurse:          "yes"
+      file_type:        "file"
+    register: find_result_beat
+    
+  - name: Set config/output/log file vars for beatnamed file
+    set_fact:
+      beat_log_file: '{{ item.path }}'
+    with_items: '{{ find_result_beat.files }}'
+    
   - name: Save output to host
     fetch:
       src: '{{ beat_output_file }}'
