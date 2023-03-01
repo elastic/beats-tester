@@ -33,16 +33,16 @@
 - name: debugging files finder
   debug:
     var: find_result
-    verbosity: 4
+    verbosity: 2
 
 - name: Set config/output/log file vars
+  include_vars: '{{ find_result.files }}'
   set_fact:
     beat_config_file: '{{ beat_config_path}}/{{ beat_name }}.yml'
     beat_output_file: '{{ beat_logs_path }}/{{ item.path | basename }}.json'
     beat_log_file: '{{ beat_logs_path }}/{{ beat_name }}.json'
     beat_registry_file: '{{ beat_data_path }}/{{ registry_file }}'
     beat_metrics_file: '{{ beat_logs_path }}/metrics.json'
-  with_items: '{{ find_result.files }}'
 
 - name: 'Display vars for testing {{ beat_name }}'
   debug:
