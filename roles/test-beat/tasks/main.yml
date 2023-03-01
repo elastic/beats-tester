@@ -63,7 +63,7 @@
       
   - name: Set config/output/log file vars
     set_fact:
-      beat_output_file: '{{ beat_logs_path }}/{{ item.path }}'
+      beat_output_file: '{{ item.path }}'
     with_items: '{{ find_result.files }}'    
 
   - name: Save output to host
