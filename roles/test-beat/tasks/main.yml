@@ -47,7 +47,8 @@
       - unsupported.yml
     loop_control:
       loop_var: system_item
-
+  
+  always:
   - name: finding files
     find:
       paths:            '{{ beat_logs_path }}'
@@ -60,7 +61,6 @@
     debug:
       var: find_result
 
-  always:
   - name: Save output to host
     fetch:
       src: '{{ beat_output_file }}'
