@@ -69,7 +69,11 @@
       recurse:          "yes"
       file_type:        "file"
     register: find_result_beat
-    
+ 
+  - name: debugging files finder
+    debug:
+      var: find_result
+ 
   - name: Set config/output/log file vars for beatnamed file
     set_fact:
       beat_log_file: '{{ item.path }}'
