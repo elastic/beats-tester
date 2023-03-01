@@ -52,7 +52,7 @@
   - name: finding files
     find:
       paths:            '{{ beat_logs_path }}'
-      patterns:         "*.ndjson"
+      patterns:         "output*.ndjson"
       recurse:          "yes"
       file_type:        "file"
     register: find_result
@@ -60,6 +60,11 @@
   - name: debugging files finder
     debug:
       var: find_result
+      
+  - name: Set config/output/log file vars
+    set_fact:
+      beat_output_file: '{{ beat_logs_path }}/{{ item.path | basename }}'
+    with_items: '{{ find_result.files }}'    
 
   - name: Save output to host
     fetch:
