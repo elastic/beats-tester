@@ -33,7 +33,6 @@
 - name: debugging files finder
   debug:
     var: find_result
-    verbosity: 2
 
 - name: Set config/output/log file vars
   include_vars: '{{ find_result.files }}'
