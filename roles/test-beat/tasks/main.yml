@@ -84,6 +84,7 @@
       src: '{{ beat_log_file }}'
       dest: 'logs/{{ beat_name }}{{ beat_pkg_suffix }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/output.json'
       flat: yes
+    ignore_errors: yes 
 
   - name: Save log to host
     fetch:
