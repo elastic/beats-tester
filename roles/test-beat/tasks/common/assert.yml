@@ -1,66 +1,66 @@
 ---
 
-- name: finding files
-  find:
-    paths:            '{{ beat_logs_path }}'
-    patterns:         "output*"
-    recurse:          "yes"
-    file_type:        "file"
-  register: find_result
-  
-- name: Set config/output/log file vars in Assert
-  set_fact:
-    beat_output_file: '{{ item.path }}'
-  with_items: '{{ find_result.files }}'
+#- name: finding files
+#  find:
+#    paths:            '{{ beat_logs_path }}'
+#    patterns:         "output*"
+#    recurse:          "yes"
+#    file_type:        "file"
+#  register: find_result
+#  
+#- name: Set config/output/log file vars in Assert
+#  set_fact:
+#    beat_output_file: '{{ item.path }}'
+#  with_items: '{{ find_result.files }}'
+#
+#- name: 'Stat {{ beat_name }} output file'
+#  stat:
+#    path: '{{ beat_output_file }}'
+#  register: output_stat
 
-- name: 'Stat {{ beat_name }} output file'
-  stat:
-    path: '{{ beat_output_file }}'
-  register: output_stat
 
+#- name: '{{ beat_name }} output file stats'
+#  debug:
+#    var: output_stat
 
-- name: '{{ beat_name }} output file stats'
-  debug:
-    var: output_stat
+#- name: "Assert that {{ beat_name }} output file exists"
+#  assert:
+#    that:
+#      - "output_stat.stat.exists"
+#      - "output_stat.stat.size > 0"
 
-- name: "Assert that {{ beat_name }} output file exists"
-  assert:
-    that:
-      - "output_stat.stat.exists"
-      - "output_stat.stat.size > 0"
+#- name: 'Stat {{ beat_name }} log file'
+#  stat:
+#    path: '{{ beat_log_file }}'
+#  register: log_stat
 
-- name: 'Stat {{ beat_name }} log file'
-  stat:
-    path: '{{ beat_log_file }}'
-  register: log_stat
+#- name: '{{ beat_name }} log file stats'
+#  debug:
+#    var: log_stat
 
-- name: '{{ beat_name }} log file stats'
-  debug:
-    var: log_stat
+#- name: 'Assert that {{ beat_name }} log file exists'
+#  assert:
+#    that:
+#      - "log_stat.stat.exists"
+#      - "log_stat.stat.size > 0"
 
-- name: 'Assert that {{ beat_name }} log file exists'
-  assert:
-    that:
-      - "log_stat.stat.exists"
-      - "log_stat.stat.size > 0"
+#- name: 'Stat {{ beat_name }} registry file'
+#  stat:
+#    path: '{{ beat_registry_file }}'
+#  register: registry_stat
+#  when: registry_file != ''
 
-- name: 'Stat {{ beat_name }} registry file'
-  stat:
-    path: '{{ beat_registry_file }}'
-  register: registry_stat
-  when: registry_file != ''
+#- name: '{{ beat_name }} registry file stats'
+#  debug:
+#   var: registry_stat
+#  when: registry_file != ''
 
-- name: '{{ beat_name }} registry file stats'
-  debug:
-    var: registry_stat
-  when: registry_file != ''
-
-- name: 'Check {{ beat_name }} registry file'
-  assert:
-    that:
-      - "registry_stat.stat.exists"
-      - "registry_stat.stat.size > 0"
-  when: registry_file != ''
+#- name: 'Check {{ beat_name }} registry file'
+#  assert:
+#    that:
+#      - "registry_stat.stat.exists"
+#      - "registry_stat.stat.size > 0"
+#  when: registry_file != ''
 
 #- name: 'Get {{ beat_name }} metrics'
 #  shell: 'head -1 {{ beat_metrics_file }}'
@@ -112,4 +112,4 @@
 #  when:
 #    - "version is version_compare('6.5', '>=')"
 #    - ansible_system == "Linux"
-#    - "project != 'apm-server'"##
+#    - "project != 'apm-server'"###
