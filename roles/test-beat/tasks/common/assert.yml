@@ -3,7 +3,7 @@
 - name: finding files
   find:
     paths:            '{{ beat_logs_path }}'
-    patterns:         "output*.ndjson"
+    patterns:         "output*"
     recurse:          "yes"
     file_type:        "file"
   register: find_result
