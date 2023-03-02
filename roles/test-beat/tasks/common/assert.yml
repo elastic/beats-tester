@@ -7,12 +7,17 @@
     recurse:          "yes"
     file_type:        "file"
   register: find_result
+  
+- name: Set config/output/log file vars in Assert
+    set_fact:
+      beat_output_file: '{{ item.path }}'
+    with_items: '{{ find_result.files }}'
 
 - name: 'Stat {{ beat_name }} output file'
   stat:
-    path: '{{ item.path }}'
+    path: '{{ beat_output_file }}'
   register: output_stat
-  with_items: '{{ find_result.files }}'
+
 
 - name: '{{ beat_name }} output file stats'
   debug:
