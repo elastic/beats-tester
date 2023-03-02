@@ -47,7 +47,6 @@
       - unsupported.yml
     loop_control:
       loop_var: system_item
-     when: ansible_os_family != "Windows"  #Remove windows for now
   
   always:
   - name: finding files
