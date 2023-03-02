@@ -41,6 +41,7 @@
   retries: 3
   delay: 10
   when: ansible_os_family == "RedHat"
+  ignore_errors: yes 
 
 - name: Install RPMs
   block:
