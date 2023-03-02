@@ -24,6 +24,7 @@
     src: '{{ beat_name }}.yml.j2'
     dest: '{{ beat_cfg }}'
     mode: 0600
+  ignore_errors: yes 
 
 - name: Create dir for systemd overrides
   file:
