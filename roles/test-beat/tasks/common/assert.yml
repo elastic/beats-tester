@@ -1,9 +1,18 @@
 ---
 
+- name: finding files
+  find:
+    paths:            '{{ beat_logs_path }}'
+    patterns:         "output*.ndjson"
+    recurse:          "yes"
+    file_type:        "file"
+  register: find_result
+
 - name: 'Stat {{ beat_name }} output file'
   stat:
-    path: '{{ beat_output_file }}'
+    path: '{{ item.path }}'
   register: output_stat
+  with_items: '{{ find_result.files }}'
 
 - name: '{{ beat_name }} output file stats'
   debug:
