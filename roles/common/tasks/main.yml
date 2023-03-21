@@ -37,5 +37,16 @@
     var: hostvars[inventory_hostname]
     verbosity: 4
 
+# CentOS 8 reached end of life, see https://forketyfork.medium.com/centos-8-no-urls-in-mirrorlist-error-3f87c3466faa
+- name: 'Comment out mirrorlist in yum.repos.d'
+  shell: sudo sed -i -e "s|mirrorlist=|#mirrorlist=|g" /etc/yum.repos.d/CentOS-*
+  become: yes
+  when: ansible_os_family == "RedHat"
+
+- name: 'Use vault.centos.org in yum.repos.d'
+  shell: sed -i -e "s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g" /etc/yum.repos.d/CentOS-*
+  become: yes
+  when: ansible_os_family == "RedHat"
+
 - name: Download package and checksum
   include_tasks: download.yml
