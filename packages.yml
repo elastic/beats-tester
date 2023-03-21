@@ -2,6 +2,7 @@
 - name: Packaging tests Packetbeat
   hosts:
     - debian
+    - centos
     - sles
     - darwin
   become: yes
