@@ -39,7 +39,7 @@
 
 # CentOS 8 reached end of life, see https://forketyfork.medium.com/centos-8-no-urls-in-mirrorlist-error-3f87c3466faa
 - name: 'Comment out mirrorlist in yum.repos.d'
-  shell: sudo sed -i -e "s|mirrorlist=|#mirrorlist=|g" /etc/yum.repos.d/CentOS-*
+  shell: sed -i -e "s|mirrorlist=|#mirrorlist=|g" /etc/yum.repos.d/CentOS-*
   become: yes
   when: ansible_os_family == "RedHat"
 
