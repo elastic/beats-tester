@@ -64,6 +64,7 @@ pipeline {
                   script: """#!/bin/bash
                     ## Skip BEATS if no params.
                     if [[ "${env.BEATS_URL_BASE}" != "null" && -n "${env.BEATS_URL_BASE?.trim()}" ]] ; then
+                      ANSIBLE_EXTRA_FLAGS="--skip-tags packetbeat"
                       echo "beats_url_base: ${env.BEATS_URL_BASE}" > run-settings-jenkins.yml
                     else
                       ANSIBLE_EXTRA_FLAGS="--skip-tags beats"
