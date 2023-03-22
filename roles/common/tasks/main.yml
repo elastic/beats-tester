@@ -59,5 +59,18 @@
   when: ansible_distribution == "CentOS"
 # End Fix for CentOS
 
+# Start Fix for Windows since python is required to use the find ansible tasks
+# See https://github.com/elastic/beats-tester/pull/219/
+- name: install the python3 package via chocolatey
+  win_chocolatey:
+    name: python3
+    state: present
+  register: python3_install
+  retries: 3
+  delay: 10
+  until: python3_install is successful
+  when: ansible_os_family == "Windows"
+# End Fix for Windows
+
 - name: Download package and checksum
   include_tasks: download.yml
