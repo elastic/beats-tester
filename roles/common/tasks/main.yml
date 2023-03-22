@@ -61,14 +61,14 @@
 
 # Start Fix for Windows since python is required to use the find ansible tasks
 # See https://github.com/elastic/beats-tester/pull/219/
-- name: install the python3 package via chocolatey
+- name: install the python2 package via chocolatey
   win_chocolatey:
-    name: python3
+    name: python2
     state: present
-  register: python3_install
+  register: python2_install
   retries: 3
   delay: 10
-  until: python3_install is successful
+  until: python2_install is successful
   when: ansible_os_family == "Windows"
 # End Fix for Windows
 
