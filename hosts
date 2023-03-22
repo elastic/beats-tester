@@ -12,7 +12,6 @@ tester-ubuntu2004-64
 tester-awslinux
 tester-awslinux2
 tester-centos7-64
-tester-centos8-64
 
 [sles]
 tester-sles12-64
