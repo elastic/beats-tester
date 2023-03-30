@@ -64,17 +64,28 @@
       patterns:         "output*.ndjson"
       recurse:          "yes"
       file_type:        "file"
-    register: find_result
+    register: find_result_windows
     when: ansible_os_family == 'Windows'
 
   - name: debugging files finder
     debug:
       var: find_result
+      
+  - name: debugging files finder
+    debug:
+      var: find_result_windows
     
   - name: Set config/output/log file vars
     set_fact:
       beat_output_file: '{{ item.path }}'
     with_items: '{{ find_result.files }}'
+    when: ansible_os_family == 'Windows'
+    
+  - name: Set config/output/log file vars windows
+    set_fact:
+      beat_output_file: '{{ item.path }}'
+    with_items: '{{ find_result_windows.files }}'
+    when: ansible_os_family != 'Windows'
     
   - name: finding files beatname
     find:
@@ -91,18 +102,29 @@
       patterns:         "{{ beat_name }}*.ndjson"
       recurse:          "yes"
       file_type:        "file"
-    register: find_result_beat
+    register: find_result_beat_windows
     when: ansible_os_family == 'Windows'
 
  
-  - name: debugging files finder
+  - name: debugging files finder beat
     debug:
-      var: find_result
+      var: find_result_beat
+  
+  - name: debugging files finder beat windows
+    debug:
+      var: find_result_beat_windows
  
   - name: Set config/output/log file vars for beatnamed file
     set_fact:
       beat_log_file: '{{ item.path }}'
     with_items: '{{ find_result_beat.files }}'
+    when: ansible_os_family != 'Windows'
+    
+  - name: Set config/output/log file vars for beatnamed file windows
+    set_fact:
+      beat_log_file: '{{ item.path }}'
+    with_items: '{{ find_result_beat_windows.files }}'
+    when: ansible_os_family == 'Windows'
     
   - name: Save output to host
     fetch:
