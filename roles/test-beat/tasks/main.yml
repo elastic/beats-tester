@@ -67,6 +67,10 @@
     register: find_result
     when: ansible_os_family == 'Windows'
 
+  - name: debugging files finder
+    debug:
+      var: find_result
+    
   - name: Set config/output/log file vars
     set_fact:
       beat_output_file: '{{ item.path }}'
