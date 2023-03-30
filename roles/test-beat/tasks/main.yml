@@ -56,6 +56,17 @@
       recurse:          "yes"
       file_type:        "file"
     register: find_result
+  when: ansible_os_family != "Windows"
+  
+  - name: finding files for windows
+    win_find:
+      paths:            '{{ beat_logs_path }}'
+      patterns:         "output*.ndjson"
+      recurse:          "yes"
+      file_type:        "file"
+    register: find_result
+  when: ansible_os_family == "Windows"
+
 
   - name: Set config/output/log file vars
     set_fact:
@@ -69,6 +80,17 @@
       recurse:          "yes"
       file_type:        "file"
     register: find_result_beat
+  when: ansible_os_family != "Windows"
+  
+  - name: finding files beatname for Windows
+    win_find:
+      paths:            '{{ beat_logs_path }}'
+      patterns:         "{{ beat_name }}*.ndjson"
+      recurse:          "yes"
+      file_type:        "file"
+    register: find_result_beat
+  when: ansible_os_family == "Windows"
+
  
   - name: debugging files finder
     debug:
