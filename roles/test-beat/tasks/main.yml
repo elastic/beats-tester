@@ -79,13 +79,13 @@
     set_fact:
       beat_output_file: '{{ item.path }}'
     with_items: '{{ find_result.files }}'
-    when: ansible_os_family == 'Windows'
+    when: ansible_os_family != 'Windows'
     
   - name: Set config/output/log file vars windows
     set_fact:
       beat_output_file: '{{ item.path }}'
     with_items: '{{ find_result_windows.files }}'
-    when: ansible_os_family != 'Windows'
+    when: ansible_os_family == 'Windows'
     
   - name: finding files beatname
     find:
