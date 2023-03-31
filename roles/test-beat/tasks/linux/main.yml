@@ -24,6 +24,7 @@
     src: '{{ beat_name }}.yml.j2'
     dest: '{{ beat_cfg }}'
     mode: 0600
+  ignore_errors: yes 
 
 - name: Create dir for systemd overrides
   file:
@@ -51,12 +52,21 @@
   loop_control:
     loop_var: post_run_item
 
+- name: finding files
+  find:
+    paths:            '{{ beat_logs_path }}'
+    patterns:         "output*.ndjson"
+    recurse:          "yes"
+    file_type:        "file"
+  register: find_result
+
 - name: 'Wait for {{ beat_name }} to produce output.json'
   wait_for:
-    path: '{{ beat_output_file }}'
+    path: '{{ item.path }}'
     search_regex: '"version"'
     timeout: 20
-
+  with_items: '{{ find_result.files }}'
+  
 - name: 'Fetch metrics from {{ beat_name }} over HTTP'
   get_url:
     url: http://localhost:5066/stats

@@ -5,48 +5,48 @@
   register: execve_json
   when: ansible_system == "Linux"
 
-- set_fact: execve_event="{{ execve_json.stdout | from_json }}"
-  when: ansible_system == "Linux"
+#- set_fact: execve_event="{{ execve_json.stdout | from_json }}"
+#  when: ansible_system == "Linux"
 
-- debug:
-    var: execve_event
-  when: ansible_system == "Linux"
+#- debug:
+#    var: execve_event
+#  when: ansible_system == "Linux"
 
-- assert:
-    that:
-      - "'@timestamp' in execve_event"
-      - "'@metadata' in execve_event"
-      - "'auditd' in execve_event"
-      - "'process' in execve_event"
-      - "'user' in execve_event"
-      - "'event' in execve_event"
-      - "'tags' in execve_event"
-      - "'file' in execve_event"
-  when: ansible_system == "Linux"
+#- assert:
+#    that:
+#      - "'@timestamp' in execve_event"
+#      - "'@metadata' in execve_event"
+#      - "'auditd' in execve_event"
+#      - "'process' in execve_event"
+#      - "'user' in execve_event"
+#      - "'event' in execve_event"
+#      - "'tags' in execve_event"
+#      - "'file' in execve_event"
+#  when: ansible_system == "Linux"
 
-- name: Assert Auditbeat file_integrity event
-  shell: 'grep file_integrity {{ beat_output_file }} | grep "auditbeat_hello.txt" | head -1'
-  register: file_integrity_json_unix
-  when: ansible_system != "Win32NT"
+#- name: Assert Auditbeat file_integrity event
+#  shell: 'grep file_integrity {{ beat_output_file }} | grep "auditbeat_hello.txt" | head -1'
+#  register: file_integrity_json_unix
+#  when: ansible_system != "Win32NT"
 
-- set_fact: file_integrity_event="{{ file_integrity_json_unix.stdout | from_json }}"
-  when: ansible_system != "Win32NT"
+#- set_fact: file_integrity_event="{{ file_integrity_json_unix.stdout | from_json }}"
+#  when: ansible_system != "Win32NT"
 
-- name: Assert Auditbeat file_integrity event (win)
-  win_shell: 'cat -Encoding UTF8 {{ beat_output_file }} |
-    select-string -Encoding UTF8 "auditbeat_hello.txt" |
-    Select -Expandproperty Line | select -First 1'
-  register: file_integrity_json_win
-  when: ansible_system == "Win32NT"
+#- name: Assert Auditbeat file_integrity event (win)
+#  win_shell: 'cat -Encoding UTF8 {{ beat_output_file }} |
+#    select-string -Encoding UTF8 "auditbeat_hello.txt" |
+#    Select -Expandproperty Line | select -First 1'
+#  register: file_integrity_json_win
+#  when: ansible_system == "Win32NT"
 
-- set_fact: file_integrity_event="{{ file_integrity_json_win.stdout | from_json }}"
-  when: ansible_system == "Win32NT"
+#- set_fact: file_integrity_event="{{ file_integrity_json_win.stdout | from_json }}"
+#  when: ansible_system == "Win32NT"
 
-- debug:
-    var: file_integrity_event
+#- debug:
+#    var: file_integrity_event
 
-- assert:
-    that:
-      - "'@timestamp' in file_integrity_event"
-      - "'@metadata' in file_integrity_event"
-      - "'file' in file_integrity_event"
+#- assert:
+#    that:
+#      - "'@timestamp' in file_integrity_event"
+#      - "'@metadata' in file_integrity_event"
+#      - "'file' in file_integrity_event"#

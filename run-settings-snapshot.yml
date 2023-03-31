@@ -1,5 +1,4 @@
 # Snapshot builds.
 # Published by: https://internal-ci.elastic.co/job/elastic+release-manager+master+unified-snapshot/
 beats_url_base: https://snapshots.elastic.co/downloads/beats
-apm_url_base: https://snapshots.elastic.co/downloads/apm-server
 version: 8.0.0-SNAPSHOT

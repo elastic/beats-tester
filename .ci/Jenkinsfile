@@ -7,7 +7,6 @@ pipeline {
   environment {
     BASE_DIR = 'src'
     PIPELINE_LOG_LEVEL = 'INFO'
-    APM_URL_BASE = "${params.APM_URL_BASE}"
     BEATS_URL_BASE = "${params.BEATS_URL_BASE}"
     VERSION = "${params.VERSION}"
     HOME = "${env.WORKSPACE}" // HOME is not set in some workers
@@ -31,7 +30,6 @@ pipeline {
     issueCommentTrigger("${obltGitHubComments()}")
   }
   parameters {
-    string(name: 'APM_URL_BASE', defaultValue: 'https://snapshots.elastic.co/downloads/apm-server', description: 'The location where the APM packages should be downloaded from')
     string(name: 'BEATS_URL_BASE', defaultValue: 'https://storage.googleapis.com/beats-ci-artifacts/beats/snapshots', description: 'The location where the Beats packages should be downloaded from')
     string(name: 'VERSION', defaultValue: '8.7.0-SNAPSHOT', description: 'The package version to test (modify the job configuration to add a new version)')
   }
@@ -70,12 +68,7 @@ pipeline {
                     else
                       ANSIBLE_EXTRA_FLAGS="--skip-tags beats"
                     fi
-                    ## Skip APM if no params.
-                    if [[ "${env.APM_URL_BASE}" != "null" && -n "${env.APM_URL_BASE?.trim()}" ]] ; then
-                      echo "apm_url_base: ${env.APM_URL_BASE}" >> run-settings-jenkins.yml
-                    else
-                      ANSIBLE_EXTRA_FLAGS="--skip-tags apm-server"
-                    fi
+                
                     echo "version: ${VERSION}" >> run-settings-jenkins.yml
                     ANSIBLE_EXTRA_FLAGS=\${ANSIBLE_EXTRA_FLAGS} RUN_SETTINGS=jenkins make batch""")
               }

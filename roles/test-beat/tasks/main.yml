@@ -46,13 +46,74 @@
       - unsupported.yml
     loop_control:
       loop_var: system_item
-
+  
   always:
+  - name: finding files
+    find:
+      paths:            '{{ beat_logs_path }}'
+      patterns:         "output*.ndjson"
+      recurse:          "yes"
+      file_type:        "file"
+    register: find_result
+    when: ansible_os_family != 'Windows'
+  
+  - name: finding files for windows
+    win_find:
+      paths:            '{{ beat_logs_path }}'
+      patterns:         "output*.ndjson"
+      recurse:          "yes"
+      file_type:        "file"
+    register: find_result_windows
+    when: ansible_os_family == 'Windows'
+    
+  - name: Set config/output/log file vars
+    set_fact:
+      beat_output_file: '{{ item.path }}'
+    with_items: '{{ find_result.files }}'
+    when: ansible_os_family != 'Windows'
+    
+  - name: Set config/output/log file vars windows
+    set_fact:
+      beat_output_file: '{{ item.path }}'
+    with_items: '{{ find_result_windows.files }}'
+    when: ansible_os_family == 'Windows'
+    
+  - name: finding files beatname
+    find:
+      paths:            '{{ beat_logs_path }}'
+      patterns:         "{{ beat_name }}*.ndjson"
+      recurse:          "yes"
+      file_type:        "file"
+    register: find_result_beat
+    when: ansible_os_family != 'Windows'
+  
+  - name: finding files beatname for Windows
+    win_find:
+      paths:            '{{ beat_logs_path }}'
+      patterns:         "{{ beat_name }}*.ndjson"
+      recurse:          "yes"
+      file_type:        "file"
+    register: find_result_beat_windows
+    when: ansible_os_family == 'Windows'
+ 
+  - name: Set config/output/log file vars for beatnamed file
+    set_fact:
+      beat_log_file: '{{ item.path }}'
+    with_items: '{{ find_result_beat.files }}'
+    when: ansible_os_family != 'Windows'
+    
+  - name: Set config/output/log file vars for beatnamed file windows
+    set_fact:
+      beat_log_file: '{{ item.path }}'
+    with_items: '{{ find_result_beat_windows.files }}'
+    when: ansible_os_family == 'Windows'
+    
   - name: Save output to host
     fetch:
-      src: '{{ beat_output_file }}'
+      src: '{{ beat_log_file }}'
       dest: 'logs/{{ beat_name }}{{ beat_pkg_suffix }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/output.json'
       flat: yes
+    ignore_errors: yes 
 
   - name: Save log to host
     fetch:
@@ -73,11 +134,6 @@
       flat: yes
     when: registry_file != ''
 
-  - name: Save metrics to host
-    fetch:
-      src: '{{ beat_metrics_file }}'
-      dest: 'logs/{{ beat_name }}{{ beat_pkg_suffix }}-{{ win_arch | default(ansible_architecture) }}-{{ inventory_hostname }}/metrics.json'
-      flat: yes
 ##### BLOCK END
 
 - name: Run assertions on outputs

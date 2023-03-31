@@ -2,7 +2,6 @@
 tester-es
 
 [debian]
-tester-debian8-64
 tester-debian9-64
 tester-debian10-64
 tester-ubuntu1804-64
@@ -12,7 +11,6 @@ tester-ubuntu2004-64
 tester-awslinux
 tester-awslinux2
 tester-centos7-64
-tester-centos8-64
 
 [sles]
 tester-sles12-64

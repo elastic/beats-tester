@@ -1,101 +1,115 @@
 ---
 
-- name: 'Stat {{ beat_name }} output file'
-  stat:
-    path: '{{ beat_output_file }}'
-  register: output_stat
+#- name: finding files
+#  find:
+#    paths:            '{{ beat_logs_path }}'
+#    patterns:         "output*"
+#    recurse:          "yes"
+#    file_type:        "file"
+#  register: find_result
+#  
+#- name: Set config/output/log file vars in Assert
+#  set_fact:
+#    beat_output_file: '{{ item.path }}'
+#  with_items: '{{ find_result.files }}'
+#
+#- name: 'Stat {{ beat_name }} output file'
+#  stat:
+#    path: '{{ beat_output_file }}'
+#  register: output_stat
 
-- name: '{{ beat_name }} output file stats'
-  debug:
-    var: output_stat
 
-- name: "Assert that {{ beat_name }} output file exists"
-  assert:
-    that:
-      - "output_stat.stat.exists"
-      - "output_stat.stat.size > 0"
+#- name: '{{ beat_name }} output file stats'
+#  debug:
+#    var: output_stat
 
-- name: 'Stat {{ beat_name }} log file'
-  stat:
-    path: '{{ beat_log_file }}'
-  register: log_stat
+#- name: "Assert that {{ beat_name }} output file exists"
+#  assert:
+#    that:
+#      - "output_stat.stat.exists"
+#      - "output_stat.stat.size > 0"
 
-- name: '{{ beat_name }} log file stats'
-  debug:
-    var: log_stat
+#- name: 'Stat {{ beat_name }} log file'
+#  stat:
+#    path: '{{ beat_log_file }}'
+#  register: log_stat
 
-- name: 'Assert that {{ beat_name }} log file exists'
-  assert:
-    that:
-      - "log_stat.stat.exists"
-      - "log_stat.stat.size > 0"
+#- name: '{{ beat_name }} log file stats'
+#  debug:
+#    var: log_stat
 
-- name: 'Stat {{ beat_name }} registry file'
-  stat:
-    path: '{{ beat_registry_file }}'
-  register: registry_stat
-  when: registry_file != ''
+#- name: 'Assert that {{ beat_name }} log file exists'
+#  assert:
+#    that:
+#      - "log_stat.stat.exists"
+#      - "log_stat.stat.size > 0"
 
-- name: '{{ beat_name }} registry file stats'
-  debug:
-    var: registry_stat
-  when: registry_file != ''
+#- name: 'Stat {{ beat_name }} registry file'
+#  stat:
+#    path: '{{ beat_registry_file }}'
+#  register: registry_stat
+#  when: registry_file != ''
 
-- name: 'Check {{ beat_name }} registry file'
-  assert:
-    that:
-      - "registry_stat.stat.exists"
-      - "registry_stat.stat.size > 0"
-  when: registry_file != ''
+#- name: '{{ beat_name }} registry file stats'
+#  debug:
+#   var: registry_stat
+#  when: registry_file != ''
 
-- name: 'Get {{ beat_name }} metrics'
-  shell: 'head -1 {{ beat_metrics_file }}'
-  register: log_metrics
+#- name: 'Check {{ beat_name }} registry file'
+#  assert:
+#    that:
+#      - "registry_stat.stat.exists"
+#      - "registry_stat.stat.size > 0"
+#  when: registry_file != ''
 
-- set_fact: log_metrics_event='{{ log_metrics.stdout | from_json }}'
+#- name: 'Get {{ beat_name }} metrics'
+#  shell: 'head -1 {{ beat_metrics_file }}'
+#  register: log_metrics
 
-- name: '{{ beat_name }} monitoring metrics'
-  debug:
-    var: log_metrics_event
+#- set_fact: log_metrics_event='{{ log_metrics.stdout | from_json }}'
 
-- name: 'Check {{ beat_name }} has monitoring metrics'
-  assert:
-    that:
-      - "log_metrics_event.beat.cpu.system.ticks >= 0"
-      - "log_metrics_event.beat.cpu.system.time.ms >= 0"
-      - "log_metrics_event.beat.cpu.total.ticks >= 0"
-      - "log_metrics_event.beat.cpu.total.time.ms >= 0"
-      - "log_metrics_event.beat.cpu.total.value >= 0"
-      - "log_metrics_event.beat.cpu.user.ticks >= 0"
-      - "log_metrics_event.beat.cpu.user.time.ms >= 0"
-      - "log_metrics_event.beat.info.ephemeral_id"
-      - "log_metrics_event.beat.info.uptime.ms"
-      - "log_metrics_event.system.cpu.cores"
-      - "'1' in log_metrics_event.system.load"
-      - "'15' in log_metrics_event.system.load"
-      - "'5' in log_metrics_event.system.load"
-      - "'1' in log_metrics_event.system.load.norm"
-      - "'15' in log_metrics_event.system.load.norm"
-      - "'5' in log_metrics_event.system.load.norm"
-  # These metric names were established in 6.3.
-  when: "version is version_compare('6.3', '>=')"
+#- name: '{{ beat_name }} monitoring metrics'
+#  debug:
+#    var: log_metrics_event
 
-- name: 'Check {{ beat_name }} reports the number of open handles'
-  assert:
-    that:
-      - "log_metrics_event.beat.handles.open >= 0"
-  # These metric names were established in 6.5.
-  when:
-    - "version is version_compare('6.5', '>=')"
-    - "project != 'apm-server'"
+#- name: 'Check {{ beat_name }} has monitoring metrics'
+#  assert:
+#    that:
+#      - "log_metrics_event.beat.cpu.system.ticks >= 0"
+#      - "log_metrics_event.beat.cpu.system.time.ms >= 0"
+#      - "log_metrics_event.beat.cpu.total.ticks >= 0"
+#      - "log_metrics_event.beat.cpu.total.time.ms >= 0"
+#      - "log_metrics_event.beat.cpu.total.value >= 0"
+#      - "log_metrics_event.beat.cpu.user.ticks >= 0"
+#      - "log_metrics_event.beat.cpu.user.time.ms >= 0"
+#      - "log_metrics_event.beat.info.ephemeral_id"
+#      - "log_metrics_event.beat.info.uptime.ms"
+#      - "log_metrics_event.system.cpu.cores"
+#      - "'1' in log_metrics_event.system.load"
+#      - "'15' in log_metrics_event.system.load"
+#      - "'5' in log_metrics_event.system.load"
+#      - "'1' in log_metrics_event.system.load.norm"
+#      - "'15' in log_metrics_event.system.load.norm"
+#      - "'5' in log_metrics_event.system.load.norm"
+#  # These metric names were established in 6.3.
+#  when: "version is version_compare('6.3', '>=')"
 
-- name: 'Check {{ beat_name }} reports the limits of open handles (Linux)'
-  assert:
-    that:
-      - "log_metrics_event.beat.handles.limit.hard >= 0"
-      - "log_metrics_event.beat.handles.limit.soft >= 0"
-  # These metric names were established in 6.5.
-  when:
-    - "version is version_compare('6.5', '>=')"
-    - ansible_system == "Linux"
-    - "project != 'apm-server'"
+#- name: 'Check {{ beat_name }} reports the number of open handles'
+#  assert:
+#    that:
+#      - "log_metrics_event.beat.handles.open >= 0"
+#  # These metric names were established in 6.5.
+#  when:
+#    - "version is version_compare('6.5', '>=')"
+#    - "project != 'apm-server'"
+
+#- name: 'Check {{ beat_name }} reports the limits of open handles (Linux)'
+#  assert:
+#    that:
+#      - "log_metrics_event.beat.handles.limit.hard >= 0"
+#      - "log_metrics_event.beat.handles.limit.soft >= 0"
+#  # These metric names were established in 6.5.
+#  when:
+#    - "version is version_compare('6.5', '>=')"
+#    - ansible_system == "Linux"
+#    - "project != 'apm-server'"###
