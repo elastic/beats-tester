@@ -37,40 +37,5 @@
     var: hostvars[inventory_hostname]
     verbosity: 4
 
-# Start Fix for CentOS since it reached EoL
-# see https://forketyfork.medium.com/centos-8-no-urls-in-mirrorlist-error-3f87c3466faa
-- name: 'Comment out mirrorlist in yum.repos.d'
-  shell: sed -i -e "s|mirrorlist=|#mirrorlist=|g" /etc/yum.repos.d/CentOS-*
-  become: yes
-  when: ansible_distribution == "CentOS"
-
-- name: 'Use vault.centos.org in yum.repos.d if mirror.centos.org'
-  shell: sed -i -e "s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g" /etc/yum.repos.d/CentOS-*
-  become: yes
-  when: ansible_distribution == "CentOS"
-
-- name: 'Use vault.centos.org in yum.repos.d if mirrors.linode.com'
-  shell: sed -i -e "s|#baseurl=http://mirrors.linode.com|baseurl=http://vault.centos.org|g" /etc/yum.repos.d/CentOS-*
-  become: yes
-  when: ansible_distribution == "CentOS"
-
-- name: 'Update yum cache'
-  yum: update_cache=yes
-  when: ansible_distribution == "CentOS"
-# End Fix for CentOS
-
-# Start Fix for Windows since python is required to use the find ansible tasks
-# See https://github.com/elastic/beats-tester/pull/219/
-- name: install the python2 package via chocolatey
-  win_chocolatey:
-    name: python2
-    state: present
-  register: python2_install
-  retries: 3
-  delay: 10
-  until: python2_install is successful
-  when: ansible_os_family == "Windows"
-# End Fix for Windows
-
 - name: Download package and checksum
   include_tasks: download.yml
