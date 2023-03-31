@@ -12,7 +12,6 @@ awslinux2 | :white_check_mark:
 centos7-64 | :white_check_mark:
 centos8-64 | :white_check_mark:
 debian10-64 | :white_check_mark:
-debian8-64 | :white_check_mark:
 debian9-64 | :white_check_mark:
 sles12-64 | :white_check_mark:
 ubuntu1804-64 | :white_check_mark:
