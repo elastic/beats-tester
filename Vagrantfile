@@ -61,7 +61,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "tester-debian9-64" do |testvm|
-    testvm.vm.box = "debian/stretch64"
+    testvm.vm.box = "generic/debian9"
 
     testvm.ssh.port = 2410
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
