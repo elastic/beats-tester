@@ -61,11 +61,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "tester-debian9-64" do |testvm|
-    testvm.vm.box = "debian/stretch64"
+    testvm.vm.box = "generic/debian9"
 
     testvm.ssh.port = 2410
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.79"
+    testvm.vm.provision "fix9", type: "shell", inline: fix_debian_9()
     testvm.vm.provision "python", type: "shell", inline: ubuntu_provision_python()
     testvm.vm.provider "virtualbox" do |v|
       v.destroy_unused_network_interfaces = true
@@ -169,5 +170,14 @@ def ubuntu_provision_python()
   export DEBIAN_FRONTEND=noninteractive
   apt-get update
   apt-get install -y aptitude python-apt python2.7
+  SHELL
+end
+
+def fix_debian_9()
+  return <<-SHELL
+  set -e
+  sed -i s/deb.debian.org/archive.debian.org/g /etc/apt/sources.list \
+    && sed -i 's|security.debian.org|archive.debian.org/|g' /etc/apt/sources.list \
+    && sed -i '/stretch-updates/d' /etc/apt/sources.list 
   SHELL
 end
