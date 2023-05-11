@@ -66,8 +66,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     testvm.ssh.port = 2410
     testvm.vm.network "forwarded_port", guest: 22, host: testvm.ssh.port, host_ip: "127.0.0.1"
     testvm.vm.network "private_network", ip: "192.168.33.79"
-    testvm.vm.provision "python", type: "shell", inline: ubuntu_provision_python()
     testvm.vm.provision "fix9", type: "shell", inline: fix_debian_9()
+    testvm.vm.provision "python", type: "shell", inline: ubuntu_provision_python()
     testvm.vm.provider "virtualbox" do |v|
       v.destroy_unused_network_interfaces = true
     end
