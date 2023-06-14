@@ -50,7 +50,7 @@ pipeline {
         axes {
           axis {
             name 'GROUPS'
-            values 'centos', 'debian', 'sles', 'windows'
+            values 'centos', 'debian', 'sles'
           }
         }
         stages {
