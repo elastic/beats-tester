@@ -18,6 +18,6 @@ tester-sles12-64
 [darwin]
 localhost
 
-[windows]
-tester-win12-64 ansible_ssh_host=localhost ansible_ssh_user=administrator ansible_ssh_port=5985 ansible_connection=winrm ansible_ssh_pass=vagrant
+#[windows]
+#tester-win12-64 ansible_ssh_host=localhost ansible_ssh_user=administrator ansible_ssh_port=5985 ansible_connection=winrm ansible_ssh_pass=vagrant
 #tester-win19-64 ansible_ssh_host=localhost ansible_ssh_user=vagrant ansible_ssh_port=5985 ansible_connection=winrm ansible_ssh_pass=vagrant
