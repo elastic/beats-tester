@@ -25,6 +25,7 @@ pipeline {
     durabilityHint('PERFORMANCE_OPTIMIZED')
     quietPeriod(10)
     rateLimitBuilds(throttle: [count: 8, durationName: 'hour', userBoost: true])
+    disableConcurrentBuilds()
   }
   triggers {
     issueCommentTrigger("${obltGitHubComments()}")
