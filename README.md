@@ -27,8 +27,16 @@ win12-64 | :white_check_mark:
 Those versions are defined in the `requirements.txt`.
 
 ## Execute
+First, for Linux and macOS, you need to enable some IP address range
+for the host-only network. To do so, create (or edit)
+`/etc/vbox/networks.conf` and add the following range there:
+```
+192.168.33.0/24
+```
+For more information, check [the official
+documentation](https://www.virtualbox.org/manual/ch06.html#network_hostonly)
 
-First, you need to bring the machines up:
+Second, you need to bring the machines up:
 
     make setup
 
